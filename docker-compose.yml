@@ -1,0 +1,5 @@
+services:
+  mongodb:
+    image: mongo:6.0.4
+    ports:
+      - 27018:27017
