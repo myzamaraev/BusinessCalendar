@@ -11,7 +11,7 @@ namespace BusinessCalendar.Domain.Providers
     {
         public static IEnumerable<CalendarDate> DefaultCalendar(int year)
         {
-            var date = new DateTime(year,1,1);
+            var date = new DateOnly(year,1,1);
             while (date.Year == year)
             {
                 yield return new CalendarDate { 

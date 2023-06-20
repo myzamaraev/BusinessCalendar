@@ -10,8 +10,9 @@ namespace BusinessCalendar.Domain.Dto
 {
     public class Calendar
     {
-        public CalendarId Id { get; set; }
-        public List<CalendarDate> Dates { get; set; } = new List<CalendarDate>();
+        public CalendarId Id { get; }
+
+        public List<CalendarDate> Dates { get; private set; } = new List<CalendarDate>();
 
         public Calendar(CalendarType type, string key, int year)
         {

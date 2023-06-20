@@ -6,6 +6,7 @@ using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Providers;
+using BusinessCalendar.Domain.Extensions;
 
 namespace BusinessCalendar.Domain.Services
 {
@@ -18,27 +19,52 @@ namespace BusinessCalendar.Domain.Services
             this.calendarStorageService = calendarStorageService;
         }
 
-        public async Task<Calendar> GetCalendar(CalendarType type, string key, int year) 
+        public async Task<Calendar> GetCalendar(CalendarType type, string key, int year)
         {
             var customCalendar = await calendarStorageService.FindOne(type, key, year);
-            return customCalendar != null 
+            return customCalendar != null
                 ? new Calendar(customCalendar)
                 : new Calendar(type, key, year);
         }
 
-        public async Task<CompactCalendar> GetCompactCalendarAsync(CalendarType type, string key, int year) 
+        public async Task<CompactCalendar> GetCompactCalendarAsync(CalendarType type, string key, int year)
         {
             var customCalendar = await calendarStorageService.FindOne(type, key, year);
-            return customCalendar != null 
+            return customCalendar != null
                 ? customCalendar
-                : new CompactCalendar(new Calendar(type, key, year));
-            //todo: replace constructor to ToCompact extention?
+                : new Calendar(type, key, year).ToCompact();
         }
 
         public async Task SaveCalendar(Calendar calendar)
         {
-            var customCalendar = new CompactCalendar(calendar);
-            await calendarStorageService.Upsert(customCalendar);
+            await calendarStorageService.Upsert(calendar.ToCompact());
+        }
+
+        public async Task SaveCalendar(CompactCalendar compactCalendar)
+        {
+            //todo: make validation through FluentValidation
+            if (compactCalendar.Holidays.Any(holiday => holiday.Year != compactCalendar.Id.Year))
+            {
+                throw new Exception("Every date in Holidays array must be part of the year");
+            };
+
+            if (compactCalendar.ExtraWorkDays.Any(extraWorkDay => extraWorkDay.Year != compactCalendar.Id.Year))
+            {
+                throw new Exception("Every date in ExtraWorkDays array must be part of the year");
+            };
+
+            if (compactCalendar.Holidays.Distinct().Count() != compactCalendar.Holidays.Count())
+            {
+                throw new Exception("Holidays array has duplicate dates");
+            }
+
+            if (compactCalendar.ExtraWorkDays.Distinct().Count() != compactCalendar.ExtraWorkDays.Count())
+            {
+                throw new Exception("ExtraWorkDays array has duplicate dates");
+            }
+
+
+            await calendarStorageService.Upsert(compactCalendar);
         }
     }
 }

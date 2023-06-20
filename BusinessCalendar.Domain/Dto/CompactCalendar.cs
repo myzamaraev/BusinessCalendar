@@ -2,37 +2,50 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
+using System.Text.Json;
 using BusinessCalendar.Domain.Extensions;
+using BusinessCalendar.Domain.Enums;
 
 namespace BusinessCalendar.Domain.Dto
 {
     public class CompactCalendar
     {
         public CalendarId Id { get; set; }
-        public List<DateTime> Holidays { get; set; } = new List<DateTime>();
-        public List<DateTime> ExtraWorkDays { get; set; } = new List<DateTime>();
+
+        private List<DateOnly> _holidays = new List<DateOnly>();
+        public List<DateOnly> Holidays { get; private set; } = new List<DateOnly>();
+        public List<DateOnly> ExtraWorkDays { get; private set; } = new List<DateOnly>();
+
+        public CompactCalendar(CalendarId id, List<DateOnly> holidays, List<DateOnly> extraWorkDays)
+        {
+            Id = id;
+            _holidays = holidays;
+            ExtraWorkDays = extraWorkDays;
+        }
 
         public CompactCalendar(Calendar calendar)
         {
             Id = calendar.Id;
-            foreach (var date in calendar.Dates)
+            foreach (var calendarDate in calendar.Dates)
             {
-                switch (date.IsWorkday)
+                switch (calendarDate.IsWorkday)
                 {
-                    case true when date.Date.IsWeekend():
-                        ExtraWorkDays.Add(date.Date);
+                    case true when calendarDate.Date.IsWeekend():
+                        ExtraWorkDays.Add(calendarDate.Date);
                         break;
-                    case false when !date.Date.IsWeekend(): 
-                        Holidays.Add(date.Date);
+                    case false when !calendarDate.Date.IsWeekend(): 
+                        Holidays.Add(calendarDate.Date);
                         break;
                 }
             }
         }
 
-        public bool IsWorkDay(DateTime date)
+        public bool IsWorkDay(DateOnly date)
         {
-            var isNotWeekend = !date.IsWeekend() || ExtraWorkDays.Any(x => x.DateEquals(date));
-            return isNotWeekend && !Holidays.Any(x => x.DateEquals(date));
+            var isNotWeekend = !date.IsWeekend() || ExtraWorkDays.Any(x => x.Equals(date));
+            return isNotWeekend && !Holidays.Any(x => x.Equals(date));
         }
     }
 }

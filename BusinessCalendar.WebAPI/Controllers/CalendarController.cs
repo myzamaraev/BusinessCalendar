@@ -3,32 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using BusinessCalendar.Domain.Services;
+using BusinessCalendar.Domain.Dto;
+using BusinessCalendar.Domain.Enums;
 
 namespace BusinessCalendar.WebAPI.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/v1/[controller]")]
     public class CalendarController : ControllerBase
     {
-        [HttpGet]
-        public JsonResult Get(int year, string type, string key)
+        private readonly ICalendarManagementService _calendarManagementService;
+
+        public CalendarController(ICalendarManagementService calendarManagementService)
         {
-            var calendar  = new {
-                    holidays = new[] {
-                        new DateTime(2023,1,1),
-                        new DateTime(2023,1,2)
-                    },
-                    workdays = new DateTime[] {}
-                };
+            _calendarManagementService = calendarManagementService;
+        }
 
-            var result = new {
-                year,
-                type,
-                key,
-                calendar
-            };
+        [HttpGet]
+        [ProducesResponseType(typeof(CompactCalendar), 200)]
+        public async Task<JsonResult> Get(CalendarType type, string key, int year)
+        {
+            var calendar = await _calendarManagementService.GetCompactCalendarAsync(type, key, year);
+            return new JsonResult(calendar);
+        }
 
-            return new JsonResult(result);
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<JsonResult> GetDate(CalendarType type, string key, DateOnly date)
+        {
+            var calendar = await _calendarManagementService.GetCalendar(type, key, date.Year);
+            return new JsonResult(calendar.Dates.Single(x => x.Date.Equals(date)));
         }
     }
 }

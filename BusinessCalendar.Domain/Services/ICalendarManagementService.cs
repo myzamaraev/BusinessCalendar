@@ -14,5 +14,7 @@ namespace BusinessCalendar.Domain.Services
         public Task<CompactCalendar> GetCompactCalendarAsync(CalendarType type, string key, int year);
 
         public Task SaveCalendar(Calendar calendar);
+        
+        public Task SaveCalendar(CompactCalendar compactCalendar);
     }
 }
