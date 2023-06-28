@@ -32,7 +32,7 @@ namespace BusinessCalendar.WebAPI.Controllers
         [Route("[action]")]
         public async Task<JsonResult> GetDate(CalendarType type, string key, DateOnly date)
         {
-            var calendar = await _calendarManagementService.GetCalendar(type, key, date.Year);
+            var calendar = await _calendarManagementService.GetCalendarAsync(type, key, date.Year);
             return new JsonResult(calendar.Dates.Single(x => x.Date.Equals(date)));
         }
     }

@@ -16,6 +16,7 @@ namespace BusinessCalendar.MongoDb.Extensions
         {
             services.Configure<MongoDBSettings>(mongoDBConfiguration);
             services.AddSingleton<ICalendarStorageService, CalendarStorageService>();
+            services.AddSingleton<ICalendarIdentifierStorageService, CalendarIdentifierStorageService>();
         }
     }
 }

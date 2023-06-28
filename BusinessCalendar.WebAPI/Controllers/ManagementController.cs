@@ -27,7 +27,7 @@ namespace BusinessCalendar.WebAPI.Controllers
         [ProducesResponseType(typeof(Calendar), 200)]
         public async Task<JsonResult> GetCalendar(CalendarType type, string key, int year)
         {
-            var calendar = await _calendarManagementService.GetCalendar(type, key, year);
+            var calendar = await _calendarManagementService.GetCalendarAsync(type, key, year);
 
             return new JsonResult(calendar);
         }
@@ -40,7 +40,7 @@ namespace BusinessCalendar.WebAPI.Controllers
             calendar.Dates.Clear();
             calendar.Dates.AddRange(request.Dates);
 
-            await _calendarManagementService.SaveCalendar(calendar);   
+            await _calendarManagementService.SaveCalendarAsync(calendar);   
         }
 
         [HttpPut]
@@ -57,8 +57,9 @@ namespace BusinessCalendar.WebAPI.Controllers
                 request.Holidays,
                 request.ExtraWorkDays);
 
-            await _calendarManagementService.SaveCalendar(compactCalendar);   
+            await _calendarManagementService.SaveCalendarAsync(compactCalendar);   
         }
+
 
         [HttpPost]
         [Route("[action]")]
@@ -79,7 +80,7 @@ namespace BusinessCalendar.WebAPI.Controllers
             //     date.IsWorkday = false;
             // }
 
-            await _calendarManagementService.SaveCalendar(calendar);
+            await _calendarManagementService.SaveCalendarAsync(calendar);
 
             return new JsonResult(calendar);
         }

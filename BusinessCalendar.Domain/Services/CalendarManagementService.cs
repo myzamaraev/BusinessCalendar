@@ -12,16 +12,37 @@ namespace BusinessCalendar.Domain.Services
 {
     public class CalendarManagementService : ICalendarManagementService
     {
-        private readonly ICalendarStorageService calendarStorageService;
+        private readonly ICalendarStorageService _calendarStorageService;
+        private readonly ICalendarIdentifierStorageService _calendarIdentifierStorageService;
 
-        public CalendarManagementService(ICalendarStorageService calendarStorageService)
+        public CalendarManagementService(
+            ICalendarStorageService calendarStorageService, 
+            ICalendarIdentifierStorageService calendarIdentifierStorageService)
         {
-            this.calendarStorageService = calendarStorageService;
+            _calendarStorageService = calendarStorageService;
+            _calendarIdentifierStorageService = calendarIdentifierStorageService;
         }
 
-        public async Task<Calendar> GetCalendar(CalendarType type, string key, int year)
+        public async Task AddCalendarIdentifierAsync(CalendarType type, string key)
         {
-            var customCalendar = await calendarStorageService.FindOne(type, key, year);
+            var calendarIdentifier = new CalendarIdentifier(type, key);
+            await _calendarIdentifierStorageService.InsertAsync(calendarIdentifier);
+        }
+
+        public Task<List<CalendarIdentifier>> GetCalendarIdentifiersAsync(int page, int pageSize)
+        {
+            if (pageSize <= 0)
+            {
+                return Task.FromResult(new List<CalendarIdentifier>());
+            }
+
+            var limitedPageSize = pageSize > 100 ? 100 : pageSize;
+            return _calendarIdentifierStorageService.GetAllAsync(page, limitedPageSize);
+        }
+
+        public async Task<Calendar> GetCalendarAsync(CalendarType type, string key, int year)
+        {
+            var customCalendar = await _calendarStorageService.FindOne(type, key, year);
             return customCalendar != null
                 ? new Calendar(customCalendar)
                 : new Calendar(type, key, year);
@@ -29,18 +50,18 @@ namespace BusinessCalendar.Domain.Services
 
         public async Task<CompactCalendar> GetCompactCalendarAsync(CalendarType type, string key, int year)
         {
-            var customCalendar = await calendarStorageService.FindOne(type, key, year);
+            var customCalendar = await _calendarStorageService.FindOne(type, key, year);
             return customCalendar != null
                 ? customCalendar
                 : new Calendar(type, key, year).ToCompact();
         }
 
-        public async Task SaveCalendar(Calendar calendar)
+        public async Task SaveCalendarAsync(Calendar calendar)
         {
-            await calendarStorageService.Upsert(calendar.ToCompact());
+            await SaveCalendarAsync(calendar.ToCompact());
         }
 
-        public async Task SaveCalendar(CompactCalendar compactCalendar)
+        public async Task SaveCalendarAsync(CompactCalendar compactCalendar)
         {
             //todo: make validation through FluentValidation
             if (compactCalendar.Holidays.Any(holiday => holiday.Year != compactCalendar.Id.Year))
@@ -64,7 +85,7 @@ namespace BusinessCalendar.Domain.Services
             }
 
 
-            await calendarStorageService.Upsert(compactCalendar);
+            await _calendarStorageService.Upsert(compactCalendar);
         }
     }
 }
