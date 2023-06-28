@@ -1,0 +1,1469 @@
+{
+    "id": {
+      "type": "State",
+      "key": "US",
+      "year": 2023
+    },
+    "dates": [
+      {
+        "date": "2023-01-01",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-02",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-03",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-04",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-05",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-06",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-07",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-08",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-09",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-11",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-12",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-14",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-15",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-16",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-18",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-19",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-21",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-22",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-23",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-25",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-26",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-28",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-29",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-01-30",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-01-31",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-01",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-02",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-03",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-04",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-02-05",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-02-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-08",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-09",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-11",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-02-12",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-02-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-15",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-16",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-18",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-02-19",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-02-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-22",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-23",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-25",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-02-26",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-02-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-02-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-01",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-02",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-03",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-04",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-03-05",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-03-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-08",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-09",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-11",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-03-12",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-03-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-15",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-16",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-18",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-03-19",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-03-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-22",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-23",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-25",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-03-26",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-03-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-29",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-30",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-03-31",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-01",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-02",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-03",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-04",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-05",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-08",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-09",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-11",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-12",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-15",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-16",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-18",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-19",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-22",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-23",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-25",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-26",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-04-29",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-04-30",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-01",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-02",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-03",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-04",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-05",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-06",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-07",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-08",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-09",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-11",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-12",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-13",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-14",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-15",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-16",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-18",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-19",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-20",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-21",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-22",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-23",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-25",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-26",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-27",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-28",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-05-29",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-30",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-05-31",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-01",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-02",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-03",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-06-04",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-06-05",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-08",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-09",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-10",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-06-11",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-06-12",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-15",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-16",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-17",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-06-18",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-06-19",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-22",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-23",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-24",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-06-25",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-06-26",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-29",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-06-30",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-01",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-02",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-03",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-04",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-05",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-08",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-09",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-11",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-12",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-15",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-16",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-18",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-19",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-22",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-23",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-25",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-26",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-07-29",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-30",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-07-31",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-01",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-02",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-03",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-04",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-05",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-08-06",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-08-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-08",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-09",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-11",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-12",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-08-13",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-08-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-15",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-16",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-18",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-19",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-08-20",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-08-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-22",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-23",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-25",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-26",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-08-27",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-08-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-29",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-30",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-08-31",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-01",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-02",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-09-03",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-09-04",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-05",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-08",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-09",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-09-10",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-09-11",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-12",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-15",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-16",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-09-17",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-09-18",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-19",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-22",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-23",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-09-24",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-09-25",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-26",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-29",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-09-30",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-01",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-02",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-03",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-04",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-05",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-07",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-08",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-09",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-11",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-12",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-14",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-15",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-16",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-18",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-19",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-21",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-22",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-23",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-25",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-26",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-28",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-29",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-10-30",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-10-31",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-01",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-02",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-03",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-04",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-11-05",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-11-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-08",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-09",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-10",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-11",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-11-12",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-11-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-15",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-16",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-17",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-18",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-11-19",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-11-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-22",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-23",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-24",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-25",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-11-26",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-11-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-29",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-11-30",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-01",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-02",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-03",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-04",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-05",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-06",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-07",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-08",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-09",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-10",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-11",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-12",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-13",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-14",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-15",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-16",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-17",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-18",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-19",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-20",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-21",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-22",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-23",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-24",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-25",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-26",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-27",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-28",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-29",
+        "isWorkday": true
+      },
+      {
+        "date": "2023-12-30",
+        "isWorkday": false
+      },
+      {
+        "date": "2023-12-31",
+        "isWorkday": false
+      }
+    ]
+  }
