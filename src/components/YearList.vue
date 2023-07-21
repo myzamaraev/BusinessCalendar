@@ -1,16 +1,22 @@
 <template>
-  <div>
-    <button @click="prevFive">&#8592;</button>
+  <div class="btn-group">
+    <button @click="prevFive" class="btn btn-secondary">&#8592;</button>
     <button
       v-for="year in availableYears"
       v-bind:key="year"
       :id="year"
       @click="setYear"
-      :class="{ selected: isYearSelected(year) }"
+      :class="[
+        'btn', 
+        { 
+          'btn-dark': isYearSelected(year),
+          'btn-secondary': !isYearSelected(year)
+       }
+      ]"
     >
       {{ year }}
     </button>
-    <button @click="nextFive">&#8594;</button>
+    <button @click="nextFive"  class="btn btn-secondary">&#8594;</button>
   </div>
 </template>
 
@@ -70,27 +76,5 @@ export default {
 </script>
 
 <style scoped>
-button {
-  border-width: 1px;
-  border-radius: 0;
-  background-color: rgb(228, 228, 228);
-  width: 80px;
-  -webkit-appearance: none;
-}
 
-.selected {
-  background-color: aquamarine;
-}
-
-ul {
-  list-style-type: none;
-}
-
-li {
-  display: inline;
-}
-
-div {
-  display: block;
-}
 </style>
