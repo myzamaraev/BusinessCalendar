@@ -10,6 +10,22 @@ export default {
       year: null,
       months: [],
       hasUnsavedChanges: false,
+      isLoading: false,
+      
+      localization: {
+        firstDayOfWeek: "Monday",
+        weekdays: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ],
+        weekdaysShort: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        weekdaysSymbol: ['M', "T", "W", "T", "F", "S", "S"]
+      }
     };
   },
   getters: {
@@ -19,6 +35,9 @@ export default {
     hasUnsavedChanges(state) {
         return state.hasUnsavedChanges;
     },
+    isLoading(state) {
+      return state.isLoading;
+    },
     id(state) {
       return {
         type: state.type,
@@ -26,6 +45,9 @@ export default {
         year: state.year,
       };
     },
+    localization(state) {
+      return state.localization;
+    }
   },
   actions,
   mutations,

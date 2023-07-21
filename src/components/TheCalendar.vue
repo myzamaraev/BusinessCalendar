@@ -17,13 +17,14 @@
         @mouseup="onMouseUp"
         @mouseleave="onMouseLeave"
       >
-        <div class="flex">
+        <div class="flex"  v-if="!isLoading">
           <calendar-month
             v-for="month in months"
             v-bind="month"
             :key="month.monthName"
           ></calendar-month>
         </div>
+        <b-loader v-else></b-loader>
       </div>
       <save-panel v-if="hasUnsavedChanges" @save="submitData" @cancel="cancelChanges"></save-panel>
     </form>
@@ -64,27 +65,13 @@ export default {
       activeEvents: {
         mouseDown: false,
       },
-      localization: {
-        firstDayOfWeek: "Monday",
-        weekdays: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        weekdaysShort: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        weekdaysSymbol: ['M', "T", "W", "T", "F", "S", "S"]
-      },
     };
   },
   computed: {
     isStateCalendar() {
       return this.calendarType === "State";
     },
-    ...mapGetters("calendar", ["months", "hasUnsavedChanges"])
+    ...mapGetters("calendar", ["months", "hasUnsavedChanges", "isLoading"])
   },
   methods: {
     onMouseDown() {

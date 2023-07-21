@@ -57,5 +57,9 @@ export default {
   applyChanges(state)
   {
     state.hasUnsavedChanges = false;
+  },
+  setLoadingState(state, isLoading)
+  {
+    state.isLoading = isLoading;
   }
 };

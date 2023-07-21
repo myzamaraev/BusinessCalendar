@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import CalendarDate from "./CalendarDate.vue";
 
 export default {
@@ -61,6 +62,7 @@ export default {
     stubsAfter() {
       return 7 - this.localization.weekdays.indexOf(this.lastWeekday) - 1;
     },
+    ...mapGetters("calendar", ["localization"])
   },
   methods: {
     toggleDate(id) {
@@ -69,8 +71,7 @@ export default {
         dayOfMonth: id
       })
     },
-  },
-  inject: ["localization"],
+  }
 };
 </script>
 

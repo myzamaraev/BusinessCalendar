@@ -15,15 +15,6 @@ export default {
 </script>
 
 <style>
-.years-list {
-  width: 10%;
-  float: left;
-}
-
-.the-calendar {
-  width: 90%;
-  float: right;
-}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
