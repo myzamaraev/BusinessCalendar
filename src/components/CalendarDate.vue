@@ -4,7 +4,7 @@
     @mousedown="toggleDay"
     @[isMultiToggable&&`mouseenter`]="toggleDay"
   >
-    <span>{{ dayOfMonth }}</span>
+    {{ dayOfMonth }}
   </div>
 </template>
 
@@ -53,16 +53,21 @@ export default {
 
 <style scoped>
 .calendar-date {
-  display: block;
-  margin: 3px;
-  text-align: center;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  margin: auto;
   border-radius: 50%;
-  border: 1px solid #000;
-  font: 12px Arial, sans-serif;
-  padding: 2px 0 2px 0;
-  -webkit-user-select: none; /* Safari */
-  -ms-user-select: none; /* IE 10 and IE 11 */
-  user-select: none; /* Standard syntax */
+  background-color: rgb(239, 239, 239);
+  position: relative;
+  -webkit-transition: background-color 0.1s linear;
+  transition: background-color 0.1s linear;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 10px;
+  font-weight: 520;
 }
 
 .calendar-date.hidden {
@@ -70,22 +75,15 @@ export default {
 }
 
 .calendar-date:hover {
-  background-color: #e6e6e6;
+  background-color: #d8d8d8;
 }
 
 .calendar-date.holiday {
   background-color: red;
+  color: white;
 }
 
 .calendar-date.holiday:hover {
-  background-color: #ff6666;
-}
-
-.custom-hours {
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  background-color: blue;
-  margin-top: -10px;
+  background-color: #ff5959;
 }
 </style>

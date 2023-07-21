@@ -1,30 +1,26 @@
 <template>
   <div class="calendar-month">
-    <h3>{{ monthName }}</h3>
-    <div class="days-header flex">
-      <span
-        v-for="weekday in this.localization.weekdaysShort"
+    <h5>{{ monthName }}</h5>
+    <div class="flex-month">
+      <div
+        v-for="weekday in this.localization.weekdaysSymbol"
         :key="weekday"
-        class="flex-item"
+        class="days-header"
       >
-        {{ weekday }}
-      </span>
-    </div>
-    <div class="flex">
-      <calendar-date
-        v-for="stub in numberOfStubs"
-        :key="-stub"
-        :dayOfMonth="-stub"
-        class="flex-item"
-      ></calendar-date>
-      <calendar-date
-        v-for="date in dates"
-        :key="date.dayOfMonth"
+       <span>{{ weekday }}</span>
+      </div>
+
+      <div v-for="stub in stubsBefore" :key="-stub"></div>
+
+      <div v-for="date in dates" :key="date.dayOfMonth">
+        <calendar-date
         :dayOfMonth="date.dayOfMonth"
         :isWorkday="date.isWorkday"
         @state-change="toggleDate"
-        class="flex-item"
       ></calendar-date>
+      </div>
+
+      <div v-for="stub in stubsAfter" :key="-stub"></div>
     </div>
   </div>
 </template>
@@ -50,19 +46,28 @@ export default {
       type: String,
       required: true,
     },
+    lastWeekday: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {};
   },
   computed: {
-    numberOfStubs() {
+    stubsBefore() {
       return this.localization.weekdays.indexOf(this.firstWeekday);
+    },
+    stubsAfter() {
+      return 7 - this.localization.weekdays.indexOf(this.lastWeekday) - 1;
     },
   },
   methods: {
     toggleDate(id) {
-      const date = this.dates.find((x) => x.dayOfMonth == id);
-      date.isWorkday = !date.isWorkday;
+      this.$store.dispatch("calendar/toggleDay", {
+        monthName: this.monthName,
+        dayOfMonth: id
+      })
     },
   },
   inject: ["localization"],
@@ -70,28 +75,34 @@ export default {
 </script>
 
 <style scoped>
-.flex {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  min-width: 200px;
-  width: 200px;
-}
-
-.flex-item {
-  flex-basis: 10%;
-  justify-content: space-between;
-  margin: 3px;
-}
 
 .calendar-month {
-  width: 200px;
-  display: block;
   margin: 10px;
 }
 
-.days-header {
-  font-size: 0.7em;
-  text-align: center;
+.flex-month {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 200px;
 }
+
+.flex-month>* {
+  flex: 0 0 13%;
+  text-align: center;
+  padding: 0;
+  height: 13%;
+  margin: 2px 0 2px 0;
+  /* border: 1px solid black; */
+}
+
+.days-header {
+  overflow: hidden;    
+  font-size: 0.8rem;
+}
+
+
 </style>
