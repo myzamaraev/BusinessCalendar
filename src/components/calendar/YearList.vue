@@ -1,22 +1,26 @@
 <template>
-  <div class="btn-group">
-    <button @click="prevFive" class="btn btn-secondary">&#8592;</button>
+
+
+  <div :class="[btnGroupType,'btn-group-sm']">
+  <!-- <div class="nav nav-tabs flex-column"> -->
+    <!-- <button @click="prevFive" class="btn btn-light">&#8592;</button> -->
+    <button @click="prevFive" class="btn btn-light">&#8592;</button>
     <button
       v-for="year in availableYears"
       v-bind:key="year"
       :id="year"
       @click="setYear"
       :class="[
-        'btn', 
-        { 
-          'btn-dark': isYearSelected(year),
-          'btn-secondary': !isYearSelected(year)
-       }
+        'btn',
+        {
+          'btn-primary': isYearSelected(year),
+          'btn-light': !isYearSelected(year),
+        },
       ]"
     >
       {{ year }}
     </button>
-    <button @click="nextFive"  class="btn btn-secondary">&#8594;</button>
+    <button @click="nextFive" class="btn btn-light">&#8594;</button>
   </div>
 </template>
 
@@ -24,18 +28,20 @@
 export default {
   name: "year-list",
   props: {
-    calendarType: {
-      type: String,
-      required: true,
-    },
-    calendarKey: {
-      type: String,
-      required: true,
-    },
     selectedYear: {
       type: Number,
       required: true,
     },
+    isVertical: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+  },
+  computed: {
+    btnGroupType() {
+      return this.isVertical ? 'btn-group-vertical' : 'btn-group';
+    }
   },
   emits: ["year-change"],
   data() {
@@ -76,5 +82,8 @@ export default {
 </script>
 
 <style scoped>
-
+button, .nav-item {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
 </style>

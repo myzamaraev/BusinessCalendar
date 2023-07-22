@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import CalendarIdentifiers from "./components/CalendarIdentifiers.vue";
-import TheCalendar from "./components/TheCalendar.vue";
+import TheCalendar from "./components/calendar/TheCalendar.vue";
 
 const router = createRouter({
     history: createWebHistory(),
