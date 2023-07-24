@@ -81,8 +81,7 @@ section {
 .menu {
   padding: 1rem;
   display: flex;
-  justify-content: flex-end;
-  margin: 0;
+  justify-content: center;
 }
 
 @media (min-width: 768px) {
