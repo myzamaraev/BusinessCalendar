@@ -36,6 +36,8 @@ nav {
     height: 100%;
     position: fixed;
     max-width: 1000px;
+    overflow: hidden;
+    overflow-y: auto;
   }
 }
 

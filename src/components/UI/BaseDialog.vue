@@ -39,13 +39,14 @@ export default {
   width: 100%;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 10;
+  overflow-y: auto;
 }
 
 dialog {
-  position: fixed;
-  top: 20vh;
-  left: 25%;
-  width: 50%;
+  position: absolute;
+  top: 5vh;
+  left: 5%;
+  width: 90%;
   z-index: 100;
   border-radius: 12px;
   border: none;
@@ -54,16 +55,6 @@ dialog {
   margin: 0;
   overflow: hidden;
 }
-
-/* dialog {
-    position: fixed;
-    top: 20vh;
-    margin: auto;
-    width: 40%;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.26);
-    border: 1px solid;
-} */
 
 header {
   padding: 1rem;
@@ -88,6 +79,12 @@ section {
   dialog {
     left: calc(50% - 20rem);
     width: 40rem;
+  }
+}
+
+@media (min-height: 500px) {
+  dialog {
+    top: 20vh;
   }
 }
 </style>

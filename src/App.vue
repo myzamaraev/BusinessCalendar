@@ -1,8 +1,8 @@
 <template>
   <section>
     <TheNavbar></TheNavbar>
-    <div class="main row">
-      <div class="mx-auto col-11 col-sm-10 col-lg-10">
+    <div class="">
+      <div class="main mx-auto col-11 col-sm-10 col-lg-10">
         <router-view></router-view>
       </div>
     </div>
@@ -45,9 +45,5 @@ body {
   .main {
     padding-left: 250px;
   }
-}
-
-.page {
-  margin: 10px
 }
 </style>

@@ -48,15 +48,14 @@ export default {
     return {
       type: "State",
       key: "",
-      keyError: false
+      keyError: false,
     };
   },
   emits: ["submitted", "cancelled"],
   methods: {
     onSubmit() {
       this.keyError = false;
-      if (this.key === "")
-      {
+      if (this.key === "") {
         this.keyError = true;
         return;
       }
@@ -73,5 +72,4 @@ export default {
 .btn {
   margin: 2px;
 }
-
 </style>
