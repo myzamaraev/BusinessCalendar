@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import NavItem from "./UI/NavItem.vue";
-import NavGroup from "./UI/NavGroup.vue";
+import NavItem from "../UI/NavItem.vue";
+import NavGroup from "../UI/NavGroup.vue";
 import NavIdentifiersSection from "./NavIdentifiersSection.vue";
 export default {
   name: "the-navbar",

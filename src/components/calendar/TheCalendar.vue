@@ -2,27 +2,33 @@
   <section>
     <div class="header">
       <h2>
-        {{ calendarKey }}
-        <span v-if="isStateCalendar">{{ calendarType.toLowerCase() }}</span>
+        
+        <span v-if="isStateCalendar">{{ countryName(calendarKey) }} {{ calendarType.toLowerCase() }}</span>
+        <span v-else>{{ calendarKey }}</span>
         calendar
       </h2>
-      <year-picker :year="selectedYear" @year-change="setYear"></year-picker>
+      <YearPicker :year="selectedYear" @year-change="setYear" />
+      
+      <InputCopy name="API Idntifier" :value="identifier" />
     </div>
-    <year-layout v-if="!isLoading"></year-layout>
+    <YearLayout v-if="!isLoading"></YearLayout>
     <b-loader v-else></b-loader>
-    <save-panel
+
+
+    <SavePanel
       v-if="hasUnsavedChanges"
       @save="submitData"
       @cancel="cancelChanges"
-    ></save-panel>
+    ></SavePanel>
   </section>
 </template>
 
 <script>
 import YearLayout from "./YearLayout.vue";
-import YearPicker from "./YearPicker.vue";
+import YearPicker from "../UI/YearPicker.vue";
 import SavePanel from "../UI/SavePanel.vue";
 import { mapGetters } from "vuex";
+import InputCopy from "../UI/InputCopy.vue";
 
 export default {
   name: "the-calendar",
@@ -30,6 +36,7 @@ export default {
     YearLayout,
     YearPicker,
     SavePanel,
+    InputCopy,
   },
   props: {
     calendarType: {
@@ -58,7 +65,8 @@ export default {
     isStateCalendar() {
       return this.calendarType === "State";
     },
-    ...mapGetters("calendar", ["hasUnsavedChanges", "isLoading"]),
+    ...mapGetters("calendar", ["hasUnsavedChanges", "isLoading", "identifier"]),
+    ...mapGetters("localization", ["countries"]),
   },
   methods: {
     setYear(year) {
@@ -77,6 +85,10 @@ export default {
     },
     cancelChanges() {
       this.$store.dispatch("calendar/cancelChanges");
+    },
+    countryName(countryCode) {
+      const country = this.countries.find((x) => x.code === countryCode);
+      return country ? country.name : countryCode;
     },
   },
   created() {

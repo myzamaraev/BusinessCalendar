@@ -1,12 +1,14 @@
 <template>
-  <router-link class="nav-group-item"
-    :to="to"
-    :class="[{ active: isActive }]"
-  >
-  <div class="content">
-    <slot></slot>
+  <div>
+    <router-link class="nav-group-item"
+      :to="to"
+      :class="[{ active: isActive }]"
+    >
+    <div class="content">
+      <slot></slot>
+    </div>
+    </router-link>
   </div>
-  </router-link>
 </template>
 
 <script>
@@ -44,6 +46,10 @@ export default {
     text-decoration: none;
     background-color: #fff;
     border: 1px solid rgba(0,0,0,.125);
+    transform: translateX(-2px);
+    transition: all 0.2s ease-out;
+    transform: translateX(-2px);
+    transition: all 0.5s ease;
 }
 
 .content {
@@ -64,4 +70,5 @@ export default {
 .nav-group-item:hover {
   background-color: gainsboro;
 }
+
 </style>

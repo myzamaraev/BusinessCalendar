@@ -48,11 +48,6 @@ export default {
     };
   },
   emits: ["year-change"],
-  //   watch: {
-  //     selectedYear() {
-  //       this.yearChange();
-  //     },
-  //   },
   methods: {
     changeYear() {
       console.log("Year change: " + this.selectedYear);
@@ -79,9 +74,6 @@ export default {
       this.selectedYear = Number(event.target.value);
       this.changeYear();
     },
-    onFocus() {
-      //event.target.select();
-    },
     onInput(event) {
       var enteredValue = event.target.value;
       this.value = event.target.value = enteredValue.substring(0, 4);
@@ -89,9 +81,6 @@ export default {
     onEnter(event) {
       event.target.blur();
     },
-    // selectText(event) {
-    //   event.target.select();
-    // },
   },
 };
 </script>

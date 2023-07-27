@@ -45,6 +45,10 @@ export default {
         year: state.year,
       };
     },
+    identifier(state)
+    {
+      return `${state.type}_${state.key}`
+    },
     localization(state) {
       return state.localization;
     }

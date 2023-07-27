@@ -12,12 +12,17 @@
         </div>
         <div class="mb-3">
           <label for="key" class="form-label">Key</label>
-          <input
+          <CountryPicker v-if="type==='State'"
+          id="key"
+          class="form-control"
+          @select="setCountryKey"
+          ></CountryPicker>
+          <input v-else
             type="text"
             class="form-control"
             id="key"
             v-model="key"
-            placeholder="Enter unique identifier"
+            @keydown="onKeyFieldKeydown"
           />
           <div v-if="keyError" class="text-danger">
             <small>Please provide unique key</small>
@@ -40,10 +45,11 @@
 
 <script>
 import BaseDialog from "./UI/BaseDialog.vue";
+import CountryPicker from "./UI/CountryPicker.vue";
 
 export default {
   name: "create-calendar-dialog",
-  components: { BaseDialog },
+  components: { BaseDialog, CountryPicker },
   data() {
     return {
       type: "State",
@@ -52,6 +58,11 @@ export default {
     };
   },
   emits: ["submitted", "cancelled"],
+  watch: {
+    type() {
+      this.key = "";
+    }
+  },
   methods: {
     onSubmit() {
       this.keyError = false;
@@ -64,6 +75,15 @@ export default {
     onCancel() {
       this.$emit("cancelled");
     },
+    setCountryKey(country) {
+      this.key = country;
+      console.log(this.key);
+    },
+    onKeyFieldKeydown(event) {
+      if (/^\W$/.test(event.key)) {
+        event.preventDefault();
+      }
+    }
   },
 };
 </script>
