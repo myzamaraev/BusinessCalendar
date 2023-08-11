@@ -34,10 +34,10 @@
     <template v-slot:actions>
       <div class="d-grid gap-2 d-sm-block">
         <button type="submit" class="btn btn-success" @click="onSubmit">
-          Add
+          &#10004; Add
         </button>
         <button type="button" class="btn btn-secondary" @click="onCancel">
-          Cancel
+          &#x274C; Cancel
         </button>
       </div>
     </template>

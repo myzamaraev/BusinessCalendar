@@ -4,7 +4,7 @@
       <form @submit.prevent="onSubmit">
         <p class="text-danger">
           <b>Are you sure about deleting the calendar? Deletion can't be undone, all data related to this calendar identifier will
-          be permamently lost! </b>
+          be permanently lost! </b>
         </p>
         <p class="text-danger text-sm">
          Be especially careful in production environment, as it can potentially cause issues with third-party services accessing this identifier through <b>Calendar API</b>. 
@@ -21,7 +21,7 @@
             @paste.prevent
           />
           <div v-if="keyError" class="text-danger">
-            <small>Please, enter the correct API identifier</small>
+            <small>Entered text doesn't match with API identifier</small>
           </div>
         </div>
       </form>
@@ -32,7 +32,7 @@
           &#128465; Delete
         </button>
         <button type="button" class="btn btn-secondary" @click="onCancel">
-          Cancel
+          &#x274C; Cancel
         </button>
       </div>
     </template>

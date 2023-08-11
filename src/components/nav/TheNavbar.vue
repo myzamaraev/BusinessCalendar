@@ -1,13 +1,16 @@
 <template>
-  
   <nav>
-    <h3>BusinessCalendar</h3>
-  <NavGroup name="">
-    <NavItem :to="{name: 'about'}">About</NavItem>
-  </NavGroup>
-  <NavIdentifiersSection></NavIdentifiersSection>
-
-  </nav> 
+    <router-link to="/" class="logo-link">
+      <div class="logo">
+        <img src="../../assets/logo.png" />
+        <h3>&nbsp;Calendar</h3>
+      </div></router-link
+    >
+    <NavGroup name="">
+      <NavItem :to="{ name: 'about' }">About</NavItem>
+    </NavGroup>
+    <NavIdentifiersSection></NavIdentifiersSection>
+  </nav>
 </template>
 
 <script>
@@ -19,15 +22,15 @@ export default {
   components: {
     NavItem,
     NavGroup,
-    NavIdentifiersSection
+    NavIdentifiersSection,
   },
-}
+};
 </script>
 
 <style scoped>
 nav {
-    color: #000!important;
-    background-color: #f1f1f1!important;
+  color: #000 !important;
+  background-color: #f1f1f1 !important;
 }
 
 @media screen and (min-width: 500px) {
@@ -41,5 +44,24 @@ nav {
   }
 }
 
+.logo {
+  width: 100%;
+  padding: 10px;
+}
 
+.logo-link {
+  text-decoration: none;
+}
+
+img {
+  width: 50px;
+  height: 50px;
+  float: left;
+}
+
+h3 {
+  padding: 12px;
+  color: #22294e;
+  font-weight: 1000;
+}
 </style>

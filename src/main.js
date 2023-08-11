@@ -17,7 +17,7 @@ const options = {
   toastDefaults: {
     // ToastOptions object for each type of toast
     'error': {
-      timeout: 10000,
+      timeout: 5000,
       hideProgressBar: true,
     },
     'warning': {
