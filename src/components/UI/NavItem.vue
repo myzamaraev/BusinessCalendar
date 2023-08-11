@@ -12,6 +12,7 @@
 </template>
 
 <script>
+
 export default {
   name: "nav-item",
   props: {
@@ -32,7 +33,8 @@ export default {
       }
 
       const navRoute = this.$router.resolve(this.to).fullPath;
-      return navRoute === this.$route.path;
+      const currentPath = this.$route.path;
+      return new RegExp("^"+navRoute).test(currentPath);
     }
   }
 };

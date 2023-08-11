@@ -2,18 +2,22 @@
   <section>
     <div class="header">
       <h2>
-        
-        <span v-if="isStateCalendar">{{ countryName(calendarKey) }} {{ calendarType.toLowerCase() }}</span>
+        <span v-if="isStateCalendar"
+          >{{ countryName(calendarKey) }} {{ calendarType.toLowerCase() }}</span
+        >
         <span v-else>{{ calendarKey }}</span>
         calendar
       </h2>
       <YearPicker :year="selectedYear" @year-change="setYear" />
-      
-      <InputCopy name="API Idntifier" :value="identifier" />
+      <router-link v-if="isSettingsView" :to="yearLayoutRoute">
+        <button class="btn btn-light btn-sm">&#128197;</button>
+      </router-link>
+      <router-link v-else :to="settingsRoute">
+        <button class="btn btn-light btn-sm">&#9881;</button>
+      </router-link>
     </div>
-    <YearLayout v-if="!isLoading"></YearLayout>
+    <router-view v-if="!isLoading"></router-view>
     <b-loader v-else></b-loader>
-
 
     <SavePanel
       v-if="hasUnsavedChanges"
@@ -24,19 +28,15 @@
 </template>
 
 <script>
-import YearLayout from "./YearLayout.vue";
 import YearPicker from "../UI/YearPicker.vue";
 import SavePanel from "../UI/SavePanel.vue";
 import { mapGetters } from "vuex";
-import InputCopy from "../UI/InputCopy.vue";
 
 export default {
   name: "the-calendar",
   components: {
-    YearLayout,
     YearPicker,
     SavePanel,
-    InputCopy,
   },
   props: {
     calendarType: {
@@ -65,8 +65,29 @@ export default {
     isStateCalendar() {
       return this.calendarType === "State";
     },
-    ...mapGetters("calendar", ["hasUnsavedChanges", "isLoading", "identifier"]),
+    ...mapGetters("calendar", ["hasUnsavedChanges", "isLoading"]),
     ...mapGetters("localization", ["countries"]),
+    settingsRoute() {
+      return {
+        name: "calendarSettings",
+        params: {
+          calendarType: this.calendarType,
+          calendarKey: this.calendarKey,
+        },
+      };
+    },
+    yearLayoutRoute() {
+      return {
+        name: "calendar",
+        params: {
+          calendarType: this.calendarType,
+          calendarKey: this.calendarKey,
+        },
+      };
+    },
+    isSettingsView() {
+      return this.$route.name === "calendarSettings";
+    },
   },
   methods: {
     setYear(year) {

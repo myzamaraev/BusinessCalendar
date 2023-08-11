@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import TheCalendar from "./components/calendar/TheCalendar.vue";
 import AboutPage from "./pages/About.vue";
+import CalendarSettings from "./components/calendar/CalendarSettings.vue";
+import YearLayout from "./components/calendar/YearLayout.vue";
 
 const router = createRouter({
     history: createWebHistory(),
@@ -12,11 +14,24 @@ const router = createRouter({
         component: AboutPage,
       },
       {
-        name: "calendar",
         path: "/:calendarType(state|custom)/:calendarKey",
         component: TheCalendar,
         props: true,
-      }
+        children: [
+          {
+            name: "calendar",
+            path: "",
+            props: true,
+            component: YearLayout,
+          },
+          {
+            name: "calendarSettings",
+            path: "settings",
+            component: CalendarSettings,
+            props: true,
+          }
+        ]
+      },
     ],
   });
 

@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog title="Let's create new calendar">
+  <BaseDialog title="Let's create new calendar!">
     <template v-slot:default>
       <form @submit.prevent>
         <div class="mb-3">
@@ -22,6 +22,7 @@
             class="form-control"
             id="key"
             v-model="key"
+            placeholder="Enter unique calendar key"
             @keydown="onKeyFieldKeydown"
           />
           <div v-if="keyError" class="text-danger">
@@ -48,7 +49,7 @@ import BaseDialog from "./UI/BaseDialog.vue";
 import CountryPicker from "./UI/CountryPicker.vue";
 
 export default {
-  name: "create-calendar-dialog",
+  name: "create-calendar-modal",
   components: { BaseDialog, CountryPicker },
   data() {
     return {

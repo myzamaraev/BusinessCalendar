@@ -61,10 +61,7 @@ export default {
       });
 
       if (!response.ok) {
-        console.error(
-          "An error occured while submitting data to the server, try again later.."
-        );
-        return;
+        throw new Error("request failed! Status: " + response.status);
       }
 
       context.commit("applyChanges");

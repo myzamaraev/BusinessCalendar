@@ -52,6 +52,7 @@ export default {
       }
       
       context.dispatch("init");
+      toast.success("New calendar created!");
       return true;
 
     } catch (error) {
@@ -60,4 +61,27 @@ export default {
       return false;
     }
   },
+  async delete(context, payload)
+  {
+    const url = new URL("/CalendarIdentifier/"+payload.identifier, window.location.origin);
+    
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        throw new Error("request failed! Status: " + response.status);
+      }
+
+      toast.success("Calendar identifier deleted!");
+      context.dispatch("init");
+      return true;
+
+    } catch (error) {
+      toast.error("Failed to delete calendar identifier..");
+      console.log(error);
+      return false;
+    }
+  }
 };
