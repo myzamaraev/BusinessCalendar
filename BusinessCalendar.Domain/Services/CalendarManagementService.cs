@@ -7,6 +7,7 @@ using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Providers;
 using BusinessCalendar.Domain.Extensions;
+using BusinessCalendar.Domain.Validators;
 
 namespace BusinessCalendar.Domain.Services
 {
@@ -14,17 +15,25 @@ namespace BusinessCalendar.Domain.Services
     {
         private readonly ICalendarStorageService _calendarStorageService;
         private readonly ICalendarIdentifierStorageService _calendarIdentifierStorageService;
+        private readonly CompactCalendarValidator _compactCalendarValidator;
 
         public CalendarManagementService(
             ICalendarStorageService calendarStorageService, 
-            ICalendarIdentifierStorageService calendarIdentifierStorageService)
+            ICalendarIdentifierStorageService calendarIdentifierStorageService,
+            CompactCalendarValidator compactCalendarValidator)
         {
             _calendarStorageService = calendarStorageService;
             _calendarIdentifierStorageService = calendarIdentifierStorageService;
+            _compactCalendarValidator = compactCalendarValidator;
         }
 
         public async Task AddCalendarIdentifierAsync(CalendarType type, string key)
         {
+            if (string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentOutOfRangeException(nameof(key));
+            }
+            
             var calendarIdentifier = new CalendarIdentifier(type, key);
             await _calendarIdentifierStorageService.InsertAsync(calendarIdentifier);
         }
@@ -43,6 +52,7 @@ namespace BusinessCalendar.Domain.Services
         public async Task<Calendar> GetCalendarAsync(CalendarType type, string key, int year)
         {
             var customCalendar = await _calendarStorageService.FindOne(type, key, year);
+            //todo: provide information about persistence of the calendar
             return customCalendar != null
                 ? new Calendar(customCalendar)
                 : new Calendar(type, key, year);
@@ -63,27 +73,13 @@ namespace BusinessCalendar.Domain.Services
 
         public async Task SaveCalendarAsync(CompactCalendar compactCalendar)
         {
-            //todo: make validation through FluentValidation
-            if (compactCalendar.Holidays.Any(holiday => holiday.Year != compactCalendar.Id.Year))
-            {
-                throw new Exception("Every date in Holidays array must be part of the year");
-            };
+            var validationResult = await _compactCalendarValidator.ValidateAsync(compactCalendar);
 
-            if (compactCalendar.ExtraWorkDays.Any(extraWorkDay => extraWorkDay.Year != compactCalendar.Id.Year))
+            //todo: return validation results
+            if (!validationResult.IsValid)
             {
-                throw new Exception("Every date in ExtraWorkDays array must be part of the year");
-            };
-
-            if (compactCalendar.Holidays.Distinct().Count() != compactCalendar.Holidays.Count())
-            {
-                throw new Exception("Holidays array has duplicate dates");
+                throw new Exception(string.Join(';', validationResult.Errors.Select(x => x.ErrorMessage)));
             }
-
-            if (compactCalendar.ExtraWorkDays.Distinct().Count() != compactCalendar.ExtraWorkDays.Count())
-            {
-                throw new Exception("ExtraWorkDays array has duplicate dates");
-            }
-
 
             await _calendarStorageService.Upsert(compactCalendar);
         }

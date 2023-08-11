@@ -13,15 +13,15 @@ namespace BusinessCalendar.Domain.Dto
     public class CompactCalendar
     {
         public CalendarId Id { get; set; }
+        public List<DateOnly> Holidays { get; private set; } = new (); //todo: private set for the sake of Mongo driver
+        public List<DateOnly> ExtraWorkDays { get; private set; } = new ();
 
-        private List<DateOnly> _holidays = new List<DateOnly>();
-        public List<DateOnly> Holidays { get; private set; } = new List<DateOnly>();
-        public List<DateOnly> ExtraWorkDays { get; private set; } = new List<DateOnly>();
+        public bool IsDefault => !Holidays.Any() && !ExtraWorkDays.Any();
 
         public CompactCalendar(CalendarId id, List<DateOnly> holidays, List<DateOnly> extraWorkDays)
         {
             Id = id;
-            _holidays = holidays;
+            Holidays = holidays;
             ExtraWorkDays = extraWorkDays;
         }
 

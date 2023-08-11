@@ -37,7 +37,8 @@ namespace BusinessCalendar.MongoDb.StorageServices
         public Task<List<CalendarIdentifier>> GetAllAsync(int page, int pageSize)
         {
             return _collection.AsQueryable()
-                .OrderBy(x => x.Id)
+                .OrderBy(x => x.Type)
+                .ThenBy(x => x.Key)
                 .Skip(page * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
