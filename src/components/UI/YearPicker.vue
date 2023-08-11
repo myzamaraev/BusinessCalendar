@@ -50,8 +50,6 @@ export default {
   emits: ["year-change"],
   methods: {
     changeYear() {
-      console.log("Year change: " + this.selectedYear);
-
       this.$emit("year-change", this.selectedYear);
     },
     delayedYearChange() {
