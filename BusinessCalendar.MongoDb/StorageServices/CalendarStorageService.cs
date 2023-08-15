@@ -46,5 +46,10 @@ namespace BusinessCalendar.MongoDb.StorageServices
 
             return result.SingleOrDefault();
         }
+
+        public async Task DeleteMany(CalendarType type, string key)
+        {
+            var result = await _calendarCollection.DeleteManyAsync(x => x.Id.Type == type && x.Id.Key == key);
+        }
     }
 }

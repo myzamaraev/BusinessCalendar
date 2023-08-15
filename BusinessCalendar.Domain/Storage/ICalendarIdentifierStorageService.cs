@@ -11,5 +11,9 @@ namespace BusinessCalendar.Domain.Storage
         public Task InsertAsync(CalendarIdentifier calendarIdentifier);
 
         public Task<List<CalendarIdentifier>> GetAllAsync(int page, int pageSize);
+
+        public Task<CalendarIdentifier> GetAsync(string id);
+        
+        public Task DeleteAsync(string id);
     }
 }

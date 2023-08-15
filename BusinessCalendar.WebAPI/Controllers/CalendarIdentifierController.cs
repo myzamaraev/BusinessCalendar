@@ -7,7 +7,7 @@ using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Dto;
 using System.Linq;
-using BusinessCalendar.WebAPI.ViewModels;
+using BusinessCalendar.Domain.Dto.Requests;
 
 namespace BusinessCalendar.WebAPI.Controllers
 {
@@ -15,17 +15,26 @@ namespace BusinessCalendar.WebAPI.Controllers
     [Route("api/v1/[controller]")]
     public class CalendarIdentifierController : ControllerBase
     {
-        private readonly ICalendarManagementService _calendarManagementService;
+        private readonly ICalendarIdentifierService _calendarIdentifierService;
 
-        public CalendarIdentifierController(ICalendarManagementService calendarManagementService)
+        public CalendarIdentifierController(ICalendarIdentifierService calendarIdentifierService)
         {
-            _calendarManagementService = calendarManagementService;
+            _calendarIdentifierService = calendarIdentifierService;
         }
 
         [HttpPost]
         public async Task CalendarIdentifier([FromBody]AddCalendarRequest request) 
         {
-            await _calendarManagementService.AddCalendarIdentifierAsync(request.Type, request.Key);
+            await _calendarIdentifierService.AddCalendarIdentifierAsync(request.Type, request.Key);
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(200)]
+        [Route("{id}")]
+        public async Task CalendarIdentifier(string id)
+        {
+            await _calendarIdentifierService.DeleteCalendarIdentifierAsync(id);
+            BadRequest(ModelState);
         }
 
         [HttpGet]
@@ -33,7 +42,7 @@ namespace BusinessCalendar.WebAPI.Controllers
         [ProducesResponseType(typeof(List<CalendarIdentifier>), 200)]
         public async Task<JsonResult> List(int page = 0, int pageSize = 20) 
         {
-            var calendarIdentifiers = await _calendarManagementService.GetCalendarIdentifiersAsync(page, pageSize);
+            var calendarIdentifiers = await _calendarIdentifierService.GetCalendarIdentifiersAsync(page, pageSize);
             return new JsonResult(calendarIdentifiers);
         }
     }

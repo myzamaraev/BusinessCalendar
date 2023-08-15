@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BusinessCalendar.Domain.Enums;
 
-namespace BusinessCalendar.WebAPI.ViewModels
+namespace BusinessCalendar.Domain.Dto.Requests
 {
     public class AddCalendarRequest
     {

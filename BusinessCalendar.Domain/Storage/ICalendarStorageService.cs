@@ -11,5 +11,6 @@ namespace BusinessCalendar.Domain.Storage
     {
         public Task Upsert(CompactCalendar compactCalendar);
         public Task<CompactCalendar> FindOne(CalendarType type, string key, int year);
+        public Task DeleteMany(CalendarType type, string key);
     }
 }

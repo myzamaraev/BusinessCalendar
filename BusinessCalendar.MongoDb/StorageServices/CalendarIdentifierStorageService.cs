@@ -34,6 +34,22 @@ namespace BusinessCalendar.MongoDb.StorageServices
             }
         }
 
+        public Task<CalendarIdentifier> GetAsync(string id)
+        {
+            return _collection.AsQueryable().SingleAsync(x => x.Id == id);
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+             var result = await _collection.DeleteOneAsync(x => x.Id == id);
+             
+             if (result.IsAcknowledged == false
+                 || result.DeletedCount == 0)
+             {
+                 throw new Exception($"No identifier with id: {id}");
+             }
+        }
+
         public Task<List<CalendarIdentifier>> GetAllAsync(int page, int pageSize)
         {
             return _collection.AsQueryable()

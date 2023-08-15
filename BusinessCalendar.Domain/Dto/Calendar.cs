@@ -24,6 +24,17 @@ namespace BusinessCalendar.Domain.Dto
 
             Dates.AddRange(DefaultCalendarProvider.DefaultCalendar(year).ToList());
         }
+        
+        public Calendar(CalendarType type, string key, int year, List<CalendarDate> dates)
+        {
+            Id = new CalendarId {
+                Type = type,
+                Key = key,
+                Year = year
+            };
+
+            Dates.AddRange(dates);
+        }
 
         public Calendar(CompactCalendar compactCalendar)
         {
