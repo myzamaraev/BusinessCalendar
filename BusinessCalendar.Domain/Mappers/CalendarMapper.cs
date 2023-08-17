@@ -7,17 +7,6 @@ namespace BusinessCalendar.Domain.Mappers;
 
 public class CalendarMapper : ICalendarMapper
 {
-    public Calendar Map(SaveCalendarRequest saveCalendarRequest)
-    {
-        var calendar = new Calendar(
-            saveCalendarRequest.Type, 
-            saveCalendarRequest.Key, 
-            saveCalendarRequest.Year, 
-            saveCalendarRequest.Dates);
-        
-        return calendar;
-    }
-    
     public Calendar Map(CompactCalendar compactCalendar)
     {
         var dates = DefaultCalendarProvider.DefaultCalendar(compactCalendar.Id.Year).ToList();
@@ -25,10 +14,14 @@ public class CalendarMapper : ICalendarMapper
 
         return new Calendar(compactCalendar.Id, dates);
     }
-    
+
     public CompactCalendar MapToCompact(SaveCalendarRequest saveCalendarRequest)
     {
-        var calendar = Map(saveCalendarRequest);
+        var calendar = new Calendar(
+            saveCalendarRequest.Type,
+            saveCalendarRequest.Key,
+            saveCalendarRequest.Year,
+            saveCalendarRequest.Dates);
         return calendar.ToCompact();
     }
 
@@ -40,11 +33,11 @@ public class CalendarMapper : ICalendarMapper
     public CompactCalendar MapToCompact(SaveCompactCalendarRequest request)
     {
         return new CompactCalendar(
-            new CalendarId 
-            { 
-                Type = request.Type, 
-                Key = request.Key, 
-                Year = request.Year 
+            new CalendarId
+            {
+                Type = request.Type,
+                Key = request.Key,
+                Year = request.Year
             },
             request.Holidays,
             request.ExtraWorkDays);

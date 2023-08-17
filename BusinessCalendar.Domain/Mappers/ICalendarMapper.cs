@@ -6,13 +6,6 @@ namespace BusinessCalendar.Domain.Mappers;
 public interface ICalendarMapper
 {
     /// <summary>
-    /// Maps SaveCalendarRequest to Calendar
-    /// </summary>
-    /// <param name="saveCalendarRequest"></param>
-    /// <returns>Calendar</returns>
-    public Calendar Map(SaveCalendarRequest saveCalendarRequest);
-
-    /// <summary>
     /// Maps CompactCalendar to full Calendar
     /// </summary>
     /// <param name="compactCalendar"></param>
@@ -36,7 +29,7 @@ public interface ICalendarMapper
     /// <summary>
     /// Maps SaveCompactCalendarRequest to CompactCalendar
     /// </summary>
-    /// <param name="request">SaveCompactCalendarRequest</param>
+    /// <param name="saveCompactCalendarRequest"></param>
     /// <returns>CompactCalendar</returns>
-    public CompactCalendar MapToCompact(SaveCompactCalendarRequest request);
+    public CompactCalendar MapToCompact(SaveCompactCalendarRequest saveCompactCalendarRequest);
 }
