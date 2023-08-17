@@ -1,14 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using BusinessCalendar.Domain.Services;
-using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
+using BusinessCalendar.Domain.Enums;
+using BusinessCalendar.Domain.Exceptions;
 
 namespace BusinessCalendar.WebAPI.Controllers
 {
-    [ApiController]
-    [Route("api/v1/[controller]")]
-    public class ManagementController : ControllerBase
+    public class ManagementController : ApiV1Controller
     {
         private readonly ICalendarManagementService _calendarManagementService;
 
@@ -19,12 +18,10 @@ namespace BusinessCalendar.WebAPI.Controllers
         
         [HttpGet]
         [Route("[action]")]
-        [ProducesResponseType(typeof(Calendar), 200)]
-        public async Task<JsonResult> GetCalendar(CalendarType type, string key, int year)
+        public async Task<ActionResult<Calendar>> GetCalendar([FromQuery]CalendarId calendarId)
         {
-            var calendar = await _calendarManagementService.GetCalendarAsync(type, key, year);
-
-            return new JsonResult(calendar);
+            var calendar = await _calendarManagementService.GetCalendarAsync(calendarId);
+            return Ok(calendar);
         }
 
         [HttpPut]

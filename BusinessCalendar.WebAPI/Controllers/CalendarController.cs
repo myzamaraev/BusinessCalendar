@@ -9,9 +9,7 @@ using BusinessCalendar.Domain.Enums;
 
 namespace BusinessCalendar.WebAPI.Controllers
 {
-    [ApiController]
-    [Route("api/v1/[controller]")]
-    public class CalendarController : ControllerBase
+    public class CalendarController : ApiV1Controller
     {
         private readonly ICalendarManagementService _calendarManagementService;
 
@@ -21,19 +19,26 @@ namespace BusinessCalendar.WebAPI.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(CompactCalendar), 200)]
-        public async Task<JsonResult> Get(CalendarType type, string key, int year)
+        [Route("{Type}/{Key}/{Year}")]
+        public async Task<ActionResult<CompactCalendar>> Get([FromRoute]CalendarId calendarId)
         {
-            var calendar = await _calendarManagementService.GetCompactCalendarAsync(type, key, year);
-            return new JsonResult(calendar);
+            var calendar = await _calendarManagementService.GetCompactCalendarAsync(calendarId);
+            return Ok(calendar);
         }
-
+        
         [HttpGet]
         [Route("[action]")]
-        public async Task<JsonResult> GetDate(CalendarType type, string key, DateOnly date)
+        public async Task<ActionResult<CalendarDate>> GetDate(CalendarType type, string key, DateOnly date)
         {
-            var calendar = await _calendarManagementService.GetCalendarAsync(type, key, date.Year);
-            return new JsonResult(calendar.Dates.Single(x => x.Date.Equals(date)));
+            var calendar = await _calendarManagementService.GetCalendarAsync(
+                new CalendarId()
+                {
+                    Type = type,
+                    Key = key,
+                    Year = date.Year
+                });
+            
+            return Ok(calendar.Dates.Single(x => x.Date.Equals(date)));
         }
     }
 }

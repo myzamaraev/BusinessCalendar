@@ -1,14 +1,11 @@
 using BusinessCalendar.Domain.Dto;
-using BusinessCalendar.Domain.Dto.Requests;
-using BusinessCalendar.Domain.Enums;
-using BusinessCalendar.Domain.Extensions;
 using BusinessCalendar.Domain.Mappers;
+using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Validators;
-using FluentValidation;
 using Moq;
 
-namespace BusinessCalendar.Tests.Domain.Services.CalendarManagementService;
+namespace BusinessCalendar.Tests.Domain.Services.CalendarManagement;
 
 [TestFixture]
 public partial class CalendarManagementServiceTests
@@ -18,6 +15,8 @@ public partial class CalendarManagementServiceTests
     private Mock<SaveCalendarRequestValidator> _saveCalendarRequestValidatorMock;
     private Mock<ICalendarMapper> _calendarMapper;
     
+    private readonly CalendarId DefaultCalendarId = new () { Year = Constants.CurrentYear };
+
     [SetUp]
     public void SetUp()
     {
@@ -26,16 +25,15 @@ public partial class CalendarManagementServiceTests
         _saveCalendarRequestValidatorMock = new Mock<SaveCalendarRequestValidator>();
         _calendarMapper = new Mock<ICalendarMapper>();
     }
-    
-    
 
-    private BusinessCalendar.Domain.Services.CalendarManagementService CreateCalendarManagementService()
+
+    private CalendarManagementService CreateCalendarManagementService()
     {
-        return new BusinessCalendar.Domain.Services.CalendarManagementService(
-                _calendarStorageServiceMock.Object,
-                _compactCalendarValidatorMock.Object,
-                _saveCalendarRequestValidatorMock.Object,
-                _calendarMapper.Object
-            );
-}
+        return new CalendarManagementService(
+            _calendarStorageServiceMock.Object,
+            _compactCalendarValidatorMock.Object,
+            _saveCalendarRequestValidatorMock.Object,
+            _calendarMapper.Object
+        );
+    }
 }

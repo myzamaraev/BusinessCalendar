@@ -37,12 +37,12 @@ namespace BusinessCalendar.MongoDb.StorageServices
                 throw new Exception("Error saving calendar to DB");
             }
         }
-        public async Task<CompactCalendar> FindOne(CalendarType type, string key, int year)
+        public async Task<CompactCalendar> FindOne(CalendarId id)
         {
             //todo: eqality operator + CalendarId as input?
-            var result = await _calendarCollection.FindAsync(x => x.Id.Type == type 
-                && x.Id.Key == key
-                && x.Id.Year == year);
+            var result = await _calendarCollection.FindAsync(x => x.Id.Type == id.Type 
+                && x.Id.Key == id.Key
+                && x.Id.Year == id.Year);
 
             return result.SingleOrDefault();
         }

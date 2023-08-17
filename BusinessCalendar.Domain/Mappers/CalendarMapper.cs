@@ -1,6 +1,7 @@
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Extensions;
+using BusinessCalendar.Domain.Providers;
 
 namespace BusinessCalendar.Domain.Mappers;
 
@@ -15,6 +16,14 @@ public class CalendarMapper : ICalendarMapper
             saveCalendarRequest.Dates);
         
         return calendar;
+    }
+    
+    public Calendar Map(CompactCalendar compactCalendar)
+    {
+        var dates = DefaultCalendarProvider.DefaultCalendar(compactCalendar.Id.Year).ToList();
+        dates.ForEach(x => x.IsWorkday = compactCalendar.IsWorkDay(x.Date));
+
+        return new Calendar(compactCalendar.Id, dates);
     }
     
     public CompactCalendar MapToCompact(SaveCalendarRequest saveCalendarRequest)

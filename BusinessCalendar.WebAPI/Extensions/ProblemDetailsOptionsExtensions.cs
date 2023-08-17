@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net;
 using BusinessCalendar.Domain.Exceptions;
+using BusinessCalendar.Domain.Extensions;
 using Hellang.Middleware.ProblemDetails;
 using ProblemDetailsOptions = Hellang.Middleware.ProblemDetails.ProblemDetailsOptions;
 
@@ -22,5 +23,18 @@ public static class ProblemDetailsOptionsExtensions
                     x => x.Select(x => x.ErrorMessage).ToArray());
     
             return factory.CreateValidationProblemDetails(ctx, errors, statusCode);
+        });
+    
+    public static void MapClientException(this ProblemDetailsOptions options, int? statusCode = null) =>
+        options.Map<ClientException>((ctx, ex) =>
+        {
+            var factory = ctx.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+            var problemDetails = factory.CreateProblemDetails(ctx, statusCode, title: ex.ErrorCode.GetDescription(), detail: ex.Message);
+            if (ex.Details != null)
+            {
+                problemDetails.Extensions.Add(nameof(ex.Details), ex.Details);
+            }
+
+            return problemDetails;
         });
 }

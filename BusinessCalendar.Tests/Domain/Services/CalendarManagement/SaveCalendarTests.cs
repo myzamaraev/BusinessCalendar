@@ -5,12 +5,12 @@ using BusinessCalendar.Domain.Extensions;
 using FluentValidation;
 using Moq;
 
-namespace BusinessCalendar.Tests.Domain.Services.CalendarManagementService;
+namespace BusinessCalendar.Tests.Domain.Services.CalendarManagement;
 
 public partial class CalendarManagementServiceTests
 {
     [Test]
-    public async Task Should_SaveCalendar_call_request_validator_once()
+    public async Task Should_SaveCalendarAsync_call_request_validator_once()
     {
         var request = new SaveCalendarRequest();
 
@@ -23,7 +23,7 @@ public partial class CalendarManagementServiceTests
     }
     
     [Test]
-    public async Task Should_SaveCalendar_call_CalendarMapper_once()
+    public async Task Should_SaveCalendarAsync_call_CalendarMapper_once()
     {
         var request = new SaveCalendarRequest();
 
@@ -34,11 +34,11 @@ public partial class CalendarManagementServiceTests
     }
     
     [Test]
-    public async Task Should_SaveCalendar_call_CompactCalendarValidator_once()
+    public async Task Should_SaveCalendarAsync_call_CompactCalendarValidator_once()
     {
         var request = new SaveCalendarRequest();
 
-        var compactCalendar = new Calendar(CalendarType.State, "US", DateTime.Today.Year).ToCompact();
+        var compactCalendar = new Calendar(CalendarType.State, "Test", DateTime.Today.Year).ToCompact();
         
         _calendarMapper.Setup(x => x.MapToCompact(It.IsAny<SaveCalendarRequest>()))
             .Returns(compactCalendar);
@@ -52,10 +52,10 @@ public partial class CalendarManagementServiceTests
     }
     
     [Test]
-    public async Task Should_SaveCalendar_call_storage_once()
+    public async Task Should_SaveCalendarAsync_call_storage_once()
     {
         var request = new SaveCalendarRequest();
-        var compactCalendar = new Calendar(CalendarType.State, "US", DateTime.Today.Year).ToCompact();
+        var compactCalendar = new Calendar(new CalendarId { Year = Constants.CurrentYear }).ToCompact();
         
         _calendarMapper.Setup(x => x.MapToCompact(It.IsAny<SaveCalendarRequest>()))
             .Returns(compactCalendar);

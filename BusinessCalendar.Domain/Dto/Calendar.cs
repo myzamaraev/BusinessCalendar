@@ -12,35 +12,28 @@ namespace BusinessCalendar.Domain.Dto
     {
         public CalendarId Id { get; }
 
-        public List<CalendarDate> Dates { get; private set; } = new (); //todo: private set for the sake of Mongo driver
+        public List<CalendarDate> Dates { get; private set; } = new(); //todo: private set for the sake of Mongo driver
 
         public Calendar(CalendarType type, string key, int year)
+            : this(new CalendarId { Type = type, Key = key, Year = year })
         {
-            Id = new CalendarId {
-                Type = type,
-                Key = key,
-                Year = year
-            };
-
-            Dates.AddRange(DefaultCalendarProvider.DefaultCalendar(year).ToList());
         }
-        
-        public Calendar(CalendarType type, string key, int year, List<CalendarDate> dates)
-        {
-            Id = new CalendarId {
-                Type = type,
-                Key = key,
-                Year = year
-            };
 
+        public Calendar(CalendarType type, string key, int year, IEnumerable<CalendarDate> dates)
+            : this(new CalendarId { Type = type, Key = key, Year = year }, dates)
+        {
+        }
+
+        public Calendar(CalendarId id)
+        {
+            Id = id;
+            Dates.AddRange(DefaultCalendarProvider.DefaultCalendar(id.Year).ToList());
+        }
+
+        public Calendar(CalendarId id, IEnumerable<CalendarDate> dates)
+        {
+            Id = id;
             Dates.AddRange(dates);
-        }
-
-        public Calendar(CompactCalendar compactCalendar)
-        {
-            Id = compactCalendar.Id;
-            Dates = DefaultCalendarProvider.DefaultCalendar(compactCalendar.Id.Year).ToList();
-            Dates.ForEach(x => x.IsWorkday = compactCalendar.IsWorkDay(x.Date));
         }
     }
 }

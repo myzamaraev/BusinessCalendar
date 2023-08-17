@@ -5,7 +5,7 @@ using BusinessCalendar.Domain.Extensions;
 using FluentValidation;
 using Moq;
 
-namespace BusinessCalendar.Tests.Domain.Services.CalendarManagementService;
+namespace BusinessCalendar.Tests.Domain.Services.CalendarManagement;
 
 public partial class CalendarManagementServiceTests
 {
@@ -26,7 +26,7 @@ public partial class CalendarManagementServiceTests
     {
         var request = new SaveCompactCalendarRequest();
 
-        var compactCalendar = new Calendar(CalendarType.State, "US", DateTime.Today.Year).ToCompact();
+        var compactCalendar = new Calendar(CalendarType.State, "Test", DateTime.Today.Year).ToCompact();
         
         _calendarMapper.Setup(x => x.MapToCompact(It.IsAny<SaveCompactCalendarRequest>()))
             .Returns(compactCalendar);
@@ -43,7 +43,7 @@ public partial class CalendarManagementServiceTests
     public async Task Should_SaveCompactCalendar_call_storage_once()
     {
         var request = new SaveCompactCalendarRequest();
-        var compactCalendar = new Calendar(CalendarType.State, "US", DateTime.Today.Year).ToCompact();
+        var compactCalendar = new Calendar(CalendarType.State, "Test", DateTime.Today.Year).ToCompact();
         
         _calendarMapper.Setup(x => x.MapToCompact(It.IsAny<SaveCompactCalendarRequest>()))
             .Returns(compactCalendar);

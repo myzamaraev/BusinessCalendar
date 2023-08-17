@@ -10,9 +10,9 @@ namespace BusinessCalendar.Domain.Services
 {
     public interface ICalendarManagementService
     {
-        public Task<Calendar> GetCalendarAsync(CalendarType type, string key, int year);
+        public Task<Calendar> GetCalendarAsync(CalendarId calendarId);
 
-        public Task<CompactCalendar> GetCompactCalendarAsync(CalendarType type, string key, int year);
+        public Task<CompactCalendar> GetCompactCalendarAsync(CalendarId calendarId);
 
         public Task SaveCalendarAsync(SaveCalendarRequest request);
         

@@ -7,6 +7,7 @@ using BusinessCalendar.MongoDb;
 using BusinessCalendar.WebAPI.Extensions;
 using Hellang.Middleware.ProblemDetails;
 using Hellang.Middleware.ProblemDetails.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 
 MongoClassMapper.Register();
@@ -16,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails(options =>
 {
     options.IncludeExceptionDetails = (ctx, ex) => false;//builder.Environment.IsDevelopment();
-    options.MapToStatusCode<ClientException>(StatusCodes.Status400BadRequest);
+    options.MapClientException(StatusCodes.Status400BadRequest);
     options.MapFluentValidationException(StatusCodes.Status400BadRequest); 
 });
 

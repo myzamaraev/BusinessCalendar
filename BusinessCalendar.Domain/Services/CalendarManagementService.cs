@@ -28,19 +28,19 @@ namespace BusinessCalendar.Domain.Services
             _calendarMapper = calendarMapper;
         }
         
-        public async Task<Calendar> GetCalendarAsync(CalendarType type, string key, int year)
+        public async Task<Calendar> GetCalendarAsync(CalendarId calendarId)
         {
-            var customCalendar = await _calendarStorageService.FindOne(type, key, year);
+            var compactCalendar = await _calendarStorageService.FindOne(calendarId);
             //todo: provide information about persistence of the calendar
-            return customCalendar != null
-                ? new Calendar(customCalendar)
-                : new Calendar(type, key, year);
+            return compactCalendar != null
+                ? _calendarMapper.Map(compactCalendar)
+                : new Calendar(calendarId);
         }
 
-        public async Task<CompactCalendar> GetCompactCalendarAsync(CalendarType type, string key, int year)
+        public async Task<CompactCalendar> GetCompactCalendarAsync(CalendarId calendarId)
         {
-            var customCalendar = await _calendarStorageService.FindOne(type, key, year);
-            return customCalendar ?? new Calendar(type, key, year).ToCompact();
+            var customCalendar = await _calendarStorageService.FindOne(calendarId);
+            return customCalendar ?? new Calendar(calendarId).ToCompact();
         }
 
         public async Task SaveCalendarAsync(SaveCalendarRequest request)

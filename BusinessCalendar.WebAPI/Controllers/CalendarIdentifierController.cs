@@ -11,9 +11,7 @@ using BusinessCalendar.Domain.Dto.Requests;
 
 namespace BusinessCalendar.WebAPI.Controllers
 {
-    [ApiController]
-    [Route("api/v1/[controller]")]
-    public class CalendarIdentifierController : ControllerBase
+    public class CalendarIdentifierController : ApiV1Controller
     {
         private readonly ICalendarIdentifierService _calendarIdentifierService;
 
@@ -23,27 +21,26 @@ namespace BusinessCalendar.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task CalendarIdentifier([FromBody]AddCalendarRequest request) 
+        public async Task<ActionResult> CalendarIdentifier([FromBody]AddCalendarRequest request) 
         {
             await _calendarIdentifierService.AddCalendarIdentifierAsync(request.Type, request.Key);
+            return Ok();
         }
 
         [HttpDelete]
-        [ProducesResponseType(200)]
         [Route("{id}")]
-        public async Task CalendarIdentifier(string id)
+        public async Task<ActionResult> CalendarIdentifier(string id)
         {
             await _calendarIdentifierService.DeleteCalendarIdentifierAsync(id);
-            BadRequest(ModelState);
+            return Ok();
         }
 
         [HttpGet]
         [Route("[action]")]
-        [ProducesResponseType(typeof(List<CalendarIdentifier>), 200)]
-        public async Task<JsonResult> List(int page = 0, int pageSize = 20) 
+        public async Task<ActionResult<List<CalendarIdentifier>>> List(int page = 0, int pageSize = 20) 
         {
             var calendarIdentifiers = await _calendarIdentifierService.GetCalendarIdentifiersAsync(page, pageSize);
-            return new JsonResult(calendarIdentifiers);
+            return Ok(calendarIdentifiers);
         }
     }
 }
