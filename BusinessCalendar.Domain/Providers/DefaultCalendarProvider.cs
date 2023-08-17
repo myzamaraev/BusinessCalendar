@@ -9,6 +9,11 @@ namespace BusinessCalendar.Domain.Providers
 {
     public static class DefaultCalendarProvider
     {
+        /// <summary>
+        /// Provides a collection of CalendarDate items inside a year
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
         public static IEnumerable<CalendarDate> DefaultCalendar(int year)
         {
             year.CheckYearValidity();
