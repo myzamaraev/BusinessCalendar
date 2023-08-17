@@ -34,7 +34,7 @@ namespace BusinessCalendar.WebAPI.Controllers
 
         [HttpPut]
         [Route("[action]")]
-        public async Task<ActionResult> SaveCompactCalendar(SaveCompactCalendarRequest request)
+        public async Task<ActionResult> SaveCompactCalendar([FromBody]SaveCompactCalendarRequest request)
         {
             await _calendarManagementService.SaveCalendarAsync(request);
             return Ok();

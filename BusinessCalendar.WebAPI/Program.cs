@@ -19,6 +19,7 @@ builder.Services.AddProblemDetails(options =>
     options.IncludeExceptionDetails = (ctx, ex) => false;//builder.Environment.IsDevelopment();
     options.MapClientException(StatusCodes.Status400BadRequest);
     options.MapFluentValidationException(StatusCodes.Status400BadRequest); 
+    options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
 });
 
 builder.Services.AddControllers()

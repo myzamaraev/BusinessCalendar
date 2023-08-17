@@ -14,17 +14,20 @@ namespace BusinessCalendar.Domain.Services
         private readonly ICalendarStorageService _calendarStorageService;
         private readonly CompactCalendarValidator _compactCalendarValidator;
         private readonly SaveCalendarRequestValidator _saveCalendarRequestValidator;
+        private readonly SaveCompactCalendarRequestValidator _saveCompactCalendarRequestValidator;
         private readonly ICalendarMapper _calendarMapper;
 
         public CalendarManagementService(
             ICalendarStorageService calendarStorageService, 
             CompactCalendarValidator compactCalendarValidator, 
             SaveCalendarRequestValidator saveCalendarRequestValidator,
+            SaveCompactCalendarRequestValidator saveCompactCalendarRequestValidator,
             ICalendarMapper calendarMapper)
         {
             _calendarStorageService = calendarStorageService;
             _compactCalendarValidator = compactCalendarValidator;
             _saveCalendarRequestValidator = saveCalendarRequestValidator;
+            _saveCompactCalendarRequestValidator = saveCompactCalendarRequestValidator;
             _calendarMapper = calendarMapper;
         }
         
@@ -53,6 +56,7 @@ namespace BusinessCalendar.Domain.Services
 
         public async Task SaveCalendarAsync(SaveCompactCalendarRequest request)
         {
+            await _saveCompactCalendarRequestValidator.ValidateAndThrowAsync(request);
             var compactCalendar = _calendarMapper.MapToCompact(request);
             await _compactCalendarValidator.ValidateAndThrowAsync(compactCalendar);
             await _calendarStorageService.Upsert(compactCalendar);

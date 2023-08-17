@@ -8,10 +8,15 @@ namespace BusinessCalendar.Domain.Validators;
 
 public class CompactCalendarValidator : AbstractValidator<CompactCalendar>
 {
-    public CompactCalendarValidator()
+    public CompactCalendarValidator(CalendarIdValidator calendarIdValidator)
     {
-        AddDateValidationRules(x => x.Holidays);
-        AddDateValidationRules(x => x.ExtraWorkDays);
+        RuleFor(x => x.Id)
+            .SetValidator(calendarIdValidator)
+            .DependentRules(() =>
+            {
+                AddDateValidationRules(x => x.Holidays);
+                AddDateValidationRules(x => x.ExtraWorkDays);
+            });
     }
     
     private void AddDateValidationRules(Expression<Func<CompactCalendar, IEnumerable<DateOnly>>> expression)
