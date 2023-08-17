@@ -18,6 +18,21 @@ namespace BusinessCalendar.Domain.Dto
 
         public bool IsDefault => !Holidays.Any() && !ExtraWorkDays.Any();
 
+        /// <summary>
+        /// Creates CompactCalendar with default workdays/weekends;
+        /// </summary>
+        /// <param name="id"></param>
+        public CompactCalendar(CalendarId id)
+        {
+            Id = id;
+        }
+
+        /// <summary>
+        /// Creates CompactCalendar with specified Holidays and extraworkdays
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="holidays"></param>
+        /// <param name="extraWorkDays"></param>
         public CompactCalendar(CalendarId id, List<DateOnly> holidays, List<DateOnly> extraWorkDays)
         {
             Id = id;
@@ -25,9 +40,14 @@ namespace BusinessCalendar.Domain.Dto
             ExtraWorkDays = extraWorkDays;
         }
 
+        /// <summary>
+        /// Creates CompactCalendar from full Calendar
+        /// </summary>
+        /// <param name="calendar"></param>
         public CompactCalendar(Calendar calendar)
         {
-            Id = calendar.Id;
+            Id = new CalendarId(calendar.Id);
+            
             foreach (var calendarDate in calendar.Dates)
             {
                 switch (calendarDate.IsWorkday)

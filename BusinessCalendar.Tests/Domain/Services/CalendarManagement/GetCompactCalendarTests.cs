@@ -35,17 +35,12 @@ public partial class CalendarManagementServiceTests
     public async Task Should_GetCompactCalendarAsync_return_DefaultCalendar_when_no_match_in_storage()
     {
         var calendarId = DefaultCalendarId;
+        var expected = new CompactCalendar(new Calendar(calendarId));
         
         var actual = await CreateCalendarManagementService().GetCompactCalendarAsync(calendarId);
         
         
         actual.Should().NotBeNull("we expect the default Calendar to be created");
-        
-        Assert.Multiple(() =>
-        {
-            Assert.That(actual, Is.Not.Null);
-            Assert.That(actual.Id, Is.SameAs(calendarId));
-            Assert.That(actual.IsDefault, Is.True);
-        });
+        actual.Should().BeEquivalentTo(expected);
     }
 }
