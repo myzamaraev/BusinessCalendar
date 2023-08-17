@@ -81,14 +81,14 @@ export default {
       console.log(this.key);
     },
     onKeyFieldKeydown(event) {
-      if (/^\W$/.test(event.key)) {
+      if (!/^[A-z_]*$/.test(event.key)) {
         event.preventDefault();
       }
     }
   },
 };
 </script>
-
+   
 <style scoped>
 .btn {
   margin: 2px;
