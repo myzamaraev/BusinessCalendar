@@ -73,8 +73,8 @@ public class CompactCalendarValidatorTests
         var result = validator.Validate(compactCalendar);
 
         result.Should().NotBeNull();
-        result.Errors.Should().Contain(failure => failure.ErrorMessage == "Holidays: Date 01.01.2024 has year different from 2023");
-        result.Errors.Should().Contain(failure => failure.ErrorMessage == "ExtraWorkDays: Date 31.12.2022 has year different from 2023");
+        result.Errors.Should().Contain(failure => failure.ErrorMessage == $"Holidays: Date 01.01.2024 has year different from {Constants.CurrentYear}");
+        result.Errors.Should().Contain(failure => failure.ErrorMessage == $"ExtraWorkDays: Date 31.12.2022 has year different from {Constants.CurrentYear}");
     }
     
     [Test]
@@ -95,9 +95,8 @@ public class CompactCalendarValidatorTests
         result.Errors.Should().Contain(failure => failure.ErrorMessage == "ExtraWorkDays: Date 02.01.2023 is workday by default.");
     }
     
-
     [Test]
-    public void Should_return_when_CalendarIdValidator_failed()
+    public void Should_fail_when_CalendarIdValidator_failed()
     {
         var compactCalendar = new CompactCalendar(new CalendarId())
         {

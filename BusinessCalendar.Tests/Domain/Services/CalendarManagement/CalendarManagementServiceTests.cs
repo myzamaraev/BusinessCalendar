@@ -13,7 +13,6 @@ public partial class CalendarManagementServiceTests
     private Mock<ICalendarStorageService> _calendarStorageServiceMock;
     private Mock<CompactCalendarValidator> _compactCalendarValidatorMock;
     private Mock<SaveCalendarRequestValidator> _saveCalendarRequestValidatorMock;
-    private Mock<SaveCompactCalendarRequestValidator> _saveCompactCalendarRequestValidatorMock;
     private Mock<ICalendarMapper> _calendarMapper;
     
     private readonly CalendarId DefaultCalendarId = new () { Year = Constants.CurrentYear };
@@ -21,10 +20,11 @@ public partial class CalendarManagementServiceTests
     [SetUp]
     public void SetUp()
     {
+        var calendarIdValidatorMock = new Mock<CalendarIdValidator>();
+        
         _calendarStorageServiceMock = new Mock<ICalendarStorageService>();
-        _compactCalendarValidatorMock = new Mock<CompactCalendarValidator>();
-        _saveCalendarRequestValidatorMock = new Mock<SaveCalendarRequestValidator>();
-        _saveCompactCalendarRequestValidatorMock = new Mock<SaveCompactCalendarRequestValidator>();
+        _compactCalendarValidatorMock = new Mock<CompactCalendarValidator>(calendarIdValidatorMock.Object);
+        _saveCalendarRequestValidatorMock = new Mock<SaveCalendarRequestValidator>(calendarIdValidatorMock.Object);
         _calendarMapper = new Mock<ICalendarMapper>();
     }
 
@@ -35,7 +35,6 @@ public partial class CalendarManagementServiceTests
             _calendarStorageServiceMock.Object,
             _compactCalendarValidatorMock.Object,
             _saveCalendarRequestValidatorMock.Object,
-            _saveCompactCalendarRequestValidatorMock.Object,
             _calendarMapper.Object
         );
     }
