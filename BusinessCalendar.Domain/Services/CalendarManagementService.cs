@@ -12,14 +12,14 @@ namespace BusinessCalendar.Domain.Services
     public class CalendarManagementService : ICalendarManagementService
     {
         private readonly ICalendarStorageService _calendarStorageService;
-        private readonly CompactCalendarValidator _compactCalendarValidator;
-        private readonly SaveCalendarRequestValidator _saveCalendarRequestValidator;
+        private readonly IValidator<CompactCalendar> _compactCalendarValidator;
+        private readonly IValidator<SaveCalendarRequest> _saveCalendarRequestValidator;
         private readonly ICalendarMapper _calendarMapper;
 
         public CalendarManagementService(
             ICalendarStorageService calendarStorageService, 
-            CompactCalendarValidator compactCalendarValidator, 
-            SaveCalendarRequestValidator saveCalendarRequestValidator,
+            IValidator<CompactCalendar> compactCalendarValidator, 
+            IValidator<SaveCalendarRequest> saveCalendarRequestValidator,
             ICalendarMapper calendarMapper)
         {
             _calendarStorageService = calendarStorageService;
