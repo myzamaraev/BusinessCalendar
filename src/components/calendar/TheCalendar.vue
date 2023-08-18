@@ -47,15 +47,14 @@ export default {
       type: String,
       required: true,
     },
-    initialYear: {
-      type: Number,
-      required: false,
-      default: new Date().getFullYear(),
+    year: {
+      type: String,
+      required: false
     },
   },
   data() {
     return {
-      selectedYear: this.initialYear,
+      selectedYear: null,
       activeEvents: {
         mouseDown: false,
       },
@@ -82,6 +81,7 @@ export default {
         params: {
           calendarType: this.calendarType,
           calendarKey: this.calendarKey,
+          year: this.selectedYear,
         },
       };
     },
@@ -113,7 +113,14 @@ export default {
     },
   },
   created() {
+    const year = parseInt(this.year);
+    this.selectedYear = year > 0 ? year : new Date().getFullYear();
     this.loadCalendar();
+  },
+  updated() {
+    if (!this.isSettingsView) {
+      this.$router.push(this.yearLayoutRoute);
+    }
   },
   watch: {
     calendarType() {

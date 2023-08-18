@@ -20,7 +20,7 @@ const router = createRouter({
         children: [
           {
             name: "calendar",
-            path: "",
+            path: ":year(\\d{1,4})?",
             props: true,
             component: YearLayout,
           },
