@@ -8,7 +8,8 @@ public class CalendarIdValidator : AbstractValidator<CalendarId>
     public CalendarIdValidator()
     {
         RuleFor(x => x.Key)
-                .Matches(@"^[A-z_]*$")
+            .NotEmpty()
+            .Matches(@"^[A-z_]*$")
             .WithMessage("{PropertyName} value must match regex {RegularExpression}");
 
         RuleFor(x => x.Year).InclusiveBetween(DateTime.MinValue.Year, DateTime.MaxValue.Year)
