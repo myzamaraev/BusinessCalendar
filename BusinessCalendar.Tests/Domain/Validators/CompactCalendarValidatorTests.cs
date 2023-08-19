@@ -108,12 +108,7 @@ public class CompactCalendarValidatorTests
             }
         };
 
-        var calendarIdValidator = new InlineValidator<CalendarId>()
-        {
-            v => v.RuleFor(x => x).Must(x => false).WithMessage("Failure")
-        };
-
-        var validator = new CompactCalendarValidator(calendarIdValidator);
+        var validator = new CompactCalendarValidator(Helpers.GetFakeFailureValidator<CalendarId>());
 
         var result = validator.Validate(compactCalendar);
 

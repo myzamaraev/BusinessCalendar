@@ -2,6 +2,8 @@ using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Extensions;
+using BusinessCalendar.Domain.Services;
+using FluentAssertions;
 using FluentValidation;
 using Moq;
 
@@ -15,7 +17,7 @@ public partial class CalendarManagementServiceTests
     {
         var request = new SaveCompactCalendarRequest();
 
-        await CreateCalendarManagementService().SaveCalendarAsync(request);
+        await CreateCalendarManagementService().SaveCompactCalendarAsync(request);
 
         _calendarMapper.Verify(x => 
             x.MapToCompact(It.Is<SaveCompactCalendarRequest>(r => r == request)), Times.Once);
@@ -31,7 +33,7 @@ public partial class CalendarManagementServiceTests
         _calendarMapper.Setup(x => x.MapToCompact(It.IsAny<SaveCompactCalendarRequest>()))
             .Returns(compactCalendar);
 
-        await CreateCalendarManagementService().SaveCalendarAsync(request);
+        await CreateCalendarManagementService().SaveCompactCalendarAsync(request);
         
         _compactCalendarValidatorMock.Verify(x => 
             x.ValidateAsync(
@@ -39,6 +41,26 @@ public partial class CalendarManagementServiceTests
                 It.IsAny<CancellationToken>()), Times.Once);
     }
     
+    [Test]
+    public async Task Should_SaveCompactCalendar_throw_when_CompactCalendarValidator_failed()
+    {
+        var fakeValidator = Helpers.GetFakeFailureValidator<CompactCalendar>();
+        var saveCompactCalendarRequest = new SaveCompactCalendarRequest()
+            {};
+        
+        _calendarMapper.Setup(x => x.MapToCompact(It.IsAny<SaveCompactCalendarRequest>()))
+            .Returns(new CompactCalendar(new CalendarId()));
+
+        var actual = await CreateCalendarManagementService(compactCalendarValidator: fakeValidator)
+            .Invoking(x => x.SaveCompactCalendarAsync(saveCompactCalendarRequest))
+            .Should()
+            .ThrowExactlyAsync<ValidationException>();
+
+        actual.Subject.Should().HaveCount(1);
+        actual.Subject.Single().Errors.Should().HaveCount(1);
+        actual.Subject.Single().Errors.Should().Contain(failure => failure.ErrorMessage == "Failure");
+    }
+
     [Test]
     public async Task Should_SaveCompactCalendar_call_storage_once()
     {
@@ -48,7 +70,7 @@ public partial class CalendarManagementServiceTests
         _calendarMapper.Setup(x => x.MapToCompact(It.IsAny<SaveCompactCalendarRequest>()))
             .Returns(compactCalendar);
 
-        await CreateCalendarManagementService().SaveCalendarAsync(request);
+        await CreateCalendarManagementService().SaveCompactCalendarAsync(request);
 
         _calendarStorageServiceMock.Verify(x => 
             x.Upsert(It.Is<CompactCalendar>(c => c == compactCalendar)), Times.Once);

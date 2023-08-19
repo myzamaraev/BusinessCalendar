@@ -16,7 +16,7 @@ namespace BusinessCalendar.Domain.Services
 
         public Task SaveCalendarAsync(SaveCalendarRequest request);
         
-        public Task SaveCalendarAsync(SaveCompactCalendarRequest request);
+        public Task SaveCompactCalendarAsync(SaveCompactCalendarRequest request);
         
     }
 }

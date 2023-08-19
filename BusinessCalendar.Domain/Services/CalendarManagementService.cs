@@ -51,7 +51,7 @@ namespace BusinessCalendar.Domain.Services
             await _calendarStorageService.Upsert(compactCalendar);
         }
 
-        public async Task SaveCalendarAsync(SaveCompactCalendarRequest request)
+        public async Task SaveCompactCalendarAsync(SaveCompactCalendarRequest request)
         { 
             var compactCalendar = _calendarMapper.MapToCompact(request);
             await _compactCalendarValidator.ValidateAndThrowAsync(compactCalendar);

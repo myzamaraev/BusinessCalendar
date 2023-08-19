@@ -90,12 +90,7 @@ public class SaveCalendarRequestValidatorTests
     {
         var saveCalendarRequest = new SaveCalendarRequest();
 
-        var calendarIdValidator = new InlineValidator<CalendarId>()
-        {
-            v => v.RuleFor(x => x).Must(x => false).WithMessage("Failure")
-        };
-
-        var validator = new SaveCalendarRequestValidator(calendarIdValidator);
+        var validator = new SaveCalendarRequestValidator(Helpers.GetFakeFailureValidator<CalendarId>());
 
         var result = validator.Validate(saveCalendarRequest);
 

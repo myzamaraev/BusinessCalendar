@@ -2,6 +2,9 @@ using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Extensions;
+using BusinessCalendar.Domain.Services;
+using BusinessCalendar.Domain.Validators;
+using FluentAssertions;
 using FluentValidation;
 using Moq;
 
@@ -10,7 +13,7 @@ namespace BusinessCalendar.Tests.Domain.Services.CalendarManagement;
 public partial class CalendarManagementServiceTests
 {
     [Test]
-    public async Task Should_SaveCalendarAsync_call_request_validator_once()
+    public async Task Should_SaveCalendarAsync_call_SaveCompactCalendarRequestValidator_once()
     {
         var request = new SaveCalendarRequest();
 
@@ -49,6 +52,39 @@ public partial class CalendarManagementServiceTests
             x.ValidateAsync(
                 It.Is<ValidationContext<CompactCalendar>>(context => context.InstanceToValidate == compactCalendar && context.ThrowOnFailures == true), 
                 It.IsAny<CancellationToken>()), Times.Once);
+    }
+
+    [Test]
+    public async Task Should_SaveCalendarAsync_throw_when_CompactCalendarValidator_failed()
+    {
+        var fakeValidator = Helpers.GetFakeFailureValidator<CompactCalendar>();
+        var service = CreateCalendarManagementService(compactCalendarValidator: fakeValidator);
+        await Should_SaveCalendarAsync_throw_on_fake_validator_failure(service);
+    }
+    
+    [Test]
+    public async Task Should_SaveCalendarAsync_throw_when_SaveCalendarRequestValidator_failed()
+    {
+        var fakeValidator = Helpers.GetFakeFailureValidator<SaveCalendarRequest>();
+        var service = CreateCalendarManagementService(saveCalendarRequestValidator: fakeValidator);
+        await Should_SaveCalendarAsync_throw_on_fake_validator_failure(service);
+    }
+
+    private async Task Should_SaveCalendarAsync_throw_on_fake_validator_failure(CalendarManagementService service)
+    {
+        var saveCalendarRequest = new SaveCalendarRequest();
+        
+        _calendarMapper.Setup(x => x.MapToCompact(It.IsAny<SaveCalendarRequest>()))
+            .Returns(new CompactCalendar(new CalendarId()));
+
+        var actual = await service
+            .Invoking(x => x.SaveCalendarAsync(saveCalendarRequest))
+            .Should()
+            .ThrowExactlyAsync<ValidationException>();
+
+        actual.Subject.Should().HaveCount(1);
+        actual.Subject.Single().Errors.Should().HaveCount(1);
+        actual.Subject.Single().Errors.Should().Contain(failure => failure.ErrorMessage == "Failure");
     }
     
     [Test]

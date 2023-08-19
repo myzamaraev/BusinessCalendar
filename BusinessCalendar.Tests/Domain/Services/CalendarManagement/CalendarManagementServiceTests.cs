@@ -1,8 +1,10 @@
 using BusinessCalendar.Domain.Dto;
+using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Mappers;
 using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Validators;
+using FluentValidation;
 using Moq;
 
 namespace BusinessCalendar.Tests.Domain.Services.CalendarManagement;
@@ -29,12 +31,14 @@ public partial class CalendarManagementServiceTests
     }
 
 
-    private CalendarManagementService CreateCalendarManagementService()
+    private CalendarManagementService CreateCalendarManagementService(
+        IValidator<SaveCalendarRequest>? saveCalendarRequestValidator = null,
+        IValidator<CompactCalendar>? compactCalendarValidator = null)
     {
         return new CalendarManagementService(
             _calendarStorageServiceMock.Object,
-            _compactCalendarValidatorMock.Object,
-            _saveCalendarRequestValidatorMock.Object,
+            compactCalendarValidator ?? _compactCalendarValidatorMock.Object,
+            saveCalendarRequestValidator ??_saveCalendarRequestValidatorMock.Object,
             _calendarMapper.Object
         );
     }
