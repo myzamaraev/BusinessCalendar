@@ -21,9 +21,9 @@ namespace BusinessCalendar.WebAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CalendarIdentifier([FromBody]AddCalendarRequest request) 
+        public async Task<ActionResult> CalendarIdentifier([FromBody]AddCalendarIdentifierRequest request) 
         {
-            await _calendarIdentifierService.AddCalendarIdentifierAsync(request.Type, request.Key);
+            await _calendarIdentifierService.AddCalendarIdentifierAsync(request);
             return Ok();
         }
 

@@ -1,30 +1,32 @@
 using BusinessCalendar.Domain.Dto;
+using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Enums;
+using BusinessCalendar.Domain.Exceptions;
 using BusinessCalendar.Domain.Storage;
+using FluentValidation;
 
 namespace BusinessCalendar.Domain.Services;
 
-public class CalendarIdentifierService
+public class CalendarIdentifierService : ICalendarIdentifierService
 {
     private readonly ICalendarIdentifierStorageService _calendarIdentifierStorageService;
     private readonly ICalendarStorageService _calendarStorageService;
+    private readonly IValidator<AddCalendarIdentifierRequest> _addCalendarIdentifierRequestValidator;
 
     public CalendarIdentifierService(
         ICalendarIdentifierStorageService calendarIdentifierStorageService, 
-        ICalendarStorageService calendarStorageService)
+        ICalendarStorageService calendarStorageService,
+        IValidator<AddCalendarIdentifierRequest> addCalendarIdentifierRequestValidator)
     {
         _calendarIdentifierStorageService = calendarIdentifierStorageService;
         _calendarStorageService = calendarStorageService;
+        _addCalendarIdentifierRequestValidator = addCalendarIdentifierRequestValidator;
     }
 
-    public async Task AddCalendarIdentifierAsync(CalendarType type, string key)
+    public async Task AddCalendarIdentifierAsync(AddCalendarIdentifierRequest request)
     {
-        if (string.IsNullOrWhiteSpace(key))
-        {
-            throw new ArgumentOutOfRangeException(nameof(key));
-        }
-            
-        var calendarIdentifier = new CalendarIdentifier(type, key);
+        await _addCalendarIdentifierRequestValidator.ValidateAndThrowAsync(request);
+        var calendarIdentifier = new CalendarIdentifier(request.Type, request.Key);
         await _calendarIdentifierStorageService.InsertAsync(calendarIdentifier);
     }
 
@@ -33,7 +35,7 @@ public class CalendarIdentifierService
         var calendarIdentifier = await _calendarIdentifierStorageService.GetAsync(id);
         if (calendarIdentifier == null)
         {
-            throw new Exception($"Calendar identifier {id} not found");
+            throw new DocumentNotFoundClientException($"Calendar identifier {id} not found");
         }
 
         await _calendarStorageService.DeleteMany(calendarIdentifier.Type, calendarIdentifier.Key);
@@ -42,10 +44,8 @@ public class CalendarIdentifierService
 
     public Task<List<CalendarIdentifier>> GetCalendarIdentifiersAsync(int page, int pageSize)
     {
-        if (pageSize <= 0)
-        {
-            return Task.FromResult(new List<CalendarIdentifier>());
-        }
+        if (page < 0) throw new ArgumentClientException(nameof(page), page.ToString());
+        if (pageSize <= 0) throw new ArgumentClientException(nameof(pageSize), pageSize.ToString());
 
         var limitedPageSize = pageSize > 100 ? 100 : pageSize;
         return _calendarIdentifierStorageService.GetAllAsync(page, limitedPageSize);
