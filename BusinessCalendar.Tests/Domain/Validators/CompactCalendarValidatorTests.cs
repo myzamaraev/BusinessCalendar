@@ -108,7 +108,7 @@ public class CompactCalendarValidatorTests
             }
         };
 
-        var validator = new CompactCalendarValidator(Helpers.GetFakeFailureValidator<CalendarId>());
+        var validator = new CompactCalendarValidator(TestValidator.Faulty<CalendarId>());
 
         var result = validator.Validate(compactCalendar);
 

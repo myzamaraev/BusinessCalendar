@@ -57,7 +57,7 @@ public partial class CalendarManagementServiceTests
     [Test]
     public async Task Should_SaveCalendarAsync_throw_when_CompactCalendarValidator_failed()
     {
-        var fakeValidator = Helpers.GetFakeFailureValidator<CompactCalendar>();
+        var fakeValidator = TestValidator.Faulty<CompactCalendar>();
         var service = CreateCalendarManagementService(compactCalendarValidator: fakeValidator);
         await Should_SaveCalendarAsync_throw_on_fake_validator_failure(service);
     }
@@ -65,7 +65,7 @@ public partial class CalendarManagementServiceTests
     [Test]
     public async Task Should_SaveCalendarAsync_throw_when_SaveCalendarRequestValidator_failed()
     {
-        var fakeValidator = Helpers.GetFakeFailureValidator<SaveCalendarRequest>();
+        var fakeValidator = TestValidator.Faulty<SaveCalendarRequest>();
         var service = CreateCalendarManagementService(saveCalendarRequestValidator: fakeValidator);
         await Should_SaveCalendarAsync_throw_on_fake_validator_failure(service);
     }

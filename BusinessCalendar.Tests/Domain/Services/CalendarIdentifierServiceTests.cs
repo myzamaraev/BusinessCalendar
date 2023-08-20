@@ -47,7 +47,7 @@ public class CalendarIdentifierServiceTests
     public async Task Should_AddCalendarIdentifierAsync_throw_when_AddCalendarIdentifierRequestValidator_failed()
     {
         var request = new AddCalendarIdentifierRequest();
-        var fakeValidator = Helpers.GetFakeFailureValidator<AddCalendarIdentifierRequest>();
+        var fakeValidator = TestValidator.Faulty<AddCalendarIdentifierRequest>();
         var actual = await CreateCalendarIdentifierService(fakeValidator)
             .Invoking(x => x.AddCalendarIdentifierAsync(request))
             .Should()

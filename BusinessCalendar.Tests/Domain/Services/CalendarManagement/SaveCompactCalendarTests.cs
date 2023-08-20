@@ -44,7 +44,7 @@ public partial class CalendarManagementServiceTests
     [Test]
     public async Task Should_SaveCompactCalendar_throw_when_CompactCalendarValidator_failed()
     {
-        var fakeValidator = Helpers.GetFakeFailureValidator<CompactCalendar>();
+        var fakeValidator = TestValidator.Faulty<CompactCalendar>();
         var saveCompactCalendarRequest = new SaveCompactCalendarRequest()
             {};
         

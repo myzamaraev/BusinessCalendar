@@ -21,6 +21,7 @@ namespace BusinessCalendar.Domain.Extensions
             services.AddSingleton<IValidator<CalendarId>, CalendarIdValidator>();
             services.AddSingleton<IValidator<CompactCalendar>, CompactCalendarValidator>();
             services.AddSingleton<IValidator<SaveCalendarRequest>, SaveCalendarRequestValidator>();
+            services.AddSingleton<IValidator<AddCalendarIdentifierRequest>, AddCalendarIdentifierRequestValidator>();
             services.AddSingleton<ICalendarMapper, CalendarMapper>();
         }
     }

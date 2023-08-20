@@ -7,9 +7,9 @@ public class AddCalendarIdentifierRequestValidator : AbstractValidator<AddCalend
 {
     public AddCalendarIdentifierRequestValidator()
     {
-        // if (string.IsNullOrWhiteSpace(request.Key))
-        // {
-        //     throw new ArgumentOutOfRangeException(nameof(request.Key), "must not be null, empty, or whitespace string");
-        // }
+        RuleFor(x => x.Key)
+            .NotEmpty()
+            .Matches(@"^[A-z_]*$")
+            .WithMessage("{PropertyName} value must match regex {RegularExpression}");
     }
 }
