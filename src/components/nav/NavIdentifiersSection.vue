@@ -23,8 +23,8 @@
       </Transition>
     </template>
   </NavGroup>
-  <CreateCalendarModal
-    v-if="isCreateModalVisible"
+  <CreateCalendarModal 
+    :show="isCreateModalVisible"
     @cancelled="isCreateModalVisible = false"
     @submitted="onCreateCalendarSubmitted"
   ></CreateCalendarModal>

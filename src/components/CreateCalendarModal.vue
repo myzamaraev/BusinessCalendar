@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog title="Let's create new calendar!">
+  <BaseDialog :show="show" title="Let's create new calendar!">
     <template v-slot:default>
       <form @submit.prevent>
         <div class="mb-3">
@@ -51,6 +51,12 @@ import CountryPicker from "./UI/CountryPicker.vue";
 export default {
   name: "create-calendar-modal",
   components: { BaseDialog, CountryPicker },
+  props: {
+    show: {
+      type: Boolean,
+      required: true
+    }
+  },
   data() {
     return {
       type: "State",

@@ -1,5 +1,5 @@
 <template>
-  <BaseDialog :title="'Delete calendar identifier '+calendarIdentifier">
+  <BaseDialog :show="show" :title="'Delete calendar identifier '+calendarIdentifier">
     <template v-slot:default>
       <form @submit.prevent="onSubmit">
         <p class="text-danger">
@@ -22,7 +22,7 @@
           />
           <div v-if="keyError" class="text-danger">
             <small>Entered text doesn't match with API identifier</small>
-          </div>
+          </div>  
         </div>
       </form>
     </template>
@@ -49,6 +49,10 @@ export default {
     calendarIdentifier: {
       type: String,
       required: true,
+    },
+    show: {
+      type: Boolean,
+      required: true
     },
   },
   data() {

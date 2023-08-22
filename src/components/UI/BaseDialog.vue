@@ -1,7 +1,10 @@
 <template>
   <teleport to="body">
-    <div class="backdrop">
-      <dialog open>
+    <transition name="backdrop">
+      <div v-if="show" class="backdrop"></div>
+    </transition>
+    <transition name="dialog">
+      <dialog v-if="show" open>
         <header>
           <slot name="header">
             <h2>{{ title }}</h2>
@@ -14,7 +17,7 @@
           <slot name="actions"></slot>
         </div>
       </dialog>
-    </div>
+    </transition>
   </teleport>
 </template>
 
@@ -25,6 +28,11 @@ export default {
     title: {
       type: String,
       required: false,
+    },
+    show: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
   },
 };
@@ -54,6 +62,38 @@ dialog {
   padding: 0;
   margin: 0;
   overflow: hidden;
+}
+
+.dialog-enter-from,
+.dialog-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.dialog-enter-active {
+  transition: all 0.2s ease-out;
+}
+
+.dialog-leave-active {
+  transition: all 0.2s ease-in;
+}
+
+.dialog-enter-to,
+.dialog-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.backdrop-enter-from, .backdrop-leave-to {
+  opacity: 0;
+}
+
+.backdrop-enter-active, .backdrop-leave-active {
+  transition: all 0.2s ease;
+}
+
+.backdrop-enter-to, .backdrop-leave-from {
+  opacity: 1;
 }
 
 header {

@@ -13,7 +13,7 @@
 
     <DeleteCalendarModal
       :calendarIdentifier="identifier"
-      v-if="isDeleteModalVisible"
+      :show="isDeleteModalVisible"
       @cancelled="isDeleteModalVisible = false"
       @submitted="onDeleteCalendarSubmitted"
     ></DeleteCalendarModal>
