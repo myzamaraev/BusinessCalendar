@@ -43,9 +43,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseProblemDetails();
 app.MapControllers();
+app.UseSpa(spa => { }); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
 
 app.Run();
