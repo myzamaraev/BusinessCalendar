@@ -3,3 +3,11 @@ services:
     image: mongo:6.0.4
     ports:
       - 27018:27017
+      
+  web-api:
+    image: ${DOCKER_REGISTRY-}businesscalendar-webapi
+    build:
+      context: .
+      dockerfile: BusinessCalendar.WebAPI/Dockerfile
+    ports:
+      - 4080:80
