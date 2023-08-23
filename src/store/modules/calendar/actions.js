@@ -10,7 +10,7 @@ export default {
   async loadCalendar(context, payload) {
     context.commit("setLoadingState", true);
 
-    var url = new URL("/Management/GetCalendar", window.location.origin);
+    var url = new URL("/api/v1/Management/GetCalendar", window.location.origin);
     url.searchParams.append("type", payload.type);
     url.searchParams.append("key", payload.key);
     url.searchParams.append("year", payload.year);
@@ -52,7 +52,7 @@ export default {
         dates: dates,
       };
 
-      const response = await fetch("/Management/SaveCalendar", {
+      const response = await fetch("/api/v1/Management/SaveCalendar", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

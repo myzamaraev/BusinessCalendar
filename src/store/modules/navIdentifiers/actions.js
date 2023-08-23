@@ -13,7 +13,7 @@ export default {
     context.dispatch("loadIdentifiers");
   },
   async loadIdentifiers(context) {
-    var url = new URL("/CalendarIdentifier/List", window.location.origin);
+    var url = new URL("/api/v1/CalendarIdentifier/List", window.location.origin);
     url.searchParams.append("page", context.state.page);
     url.searchParams.append("pageSize", context.state.pageSize);
 
@@ -36,7 +36,7 @@ export default {
     }
   },
   async create(context, payload) {
-    const url = new URL("/CalendarIdentifier", window.location.origin);
+    const url = new URL("/api/v1/CalendarIdentifier", window.location.origin);
 
     try {
       const response = await fetch(url, {
@@ -63,7 +63,7 @@ export default {
   },
   async delete(context, payload)
   {
-    const url = new URL("/CalendarIdentifier/"+payload.identifier, window.location.origin);
+    const url = new URL("/api/v1/CalendarIdentifier/"+payload.identifier, window.location.origin);
     
     try {
       const response = await fetch(url, {
