@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Enums;
+using BusinessCalendar.MongoDb.Options;
 using MongoDB.Driver;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson;
@@ -15,11 +16,9 @@ namespace BusinessCalendar.MongoDb.StorageServices
     public class CalendarStorageService : ICalendarStorageService
     {
         private readonly IMongoCollection<CompactCalendar> _calendarCollection;
-        public CalendarStorageService(IOptions<MongoDBSettings> mongoDbSettings)
+        public CalendarStorageService(IMongoClient mongoClient, IOptions<MongoDbOptions> mongoDbSettings)
         {
-            //todo: make client singletone?
-            var client = new MongoClient(mongoDbSettings.Value.ConnectionURI);
-            var database = client.GetDatabase(mongoDbSettings.Value.DatabaseName);
+            var database = mongoClient.GetDatabase(mongoDbSettings.Value.DatabaseName);
             _calendarCollection = database.GetCollection<CompactCalendar>("Calendar");
         }
 

@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using BusinessCalendar.Domain.Exceptions;
 using Microsoft.OpenApi.Models;
 using BusinessCalendar.MongoDb.Extensions;
 using BusinessCalendar.Domain.Extensions;
@@ -7,10 +6,6 @@ using BusinessCalendar.MongoDb;
 using BusinessCalendar.WebAPI.Extensions;
 using Hellang.Middleware.ProblemDetails;
 using Hellang.Middleware.ProblemDetails.Mvc;
-using Microsoft.AspNetCore.Mvc;
-
-
-MongoClassMapper.Register();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +26,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
     c.MapType<DateOnly>(() => new OpenApiSchema { Type = typeof(string).Name.ToLower(), Format = "date"});
 });
-builder.Services.AddMongoDbStorage(builder.Configuration.GetSection("MongoDB"));
-builder.Services.AddBusinessCalendarDomain();
+
+builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
 
@@ -45,9 +40,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
 app.UseAuthorization();
 app.UseProblemDetails();
 app.MapControllers();
+app.UseHealthcheckEndpoints();
 app.UseSpa(spa => { }); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
 
 app.Run();

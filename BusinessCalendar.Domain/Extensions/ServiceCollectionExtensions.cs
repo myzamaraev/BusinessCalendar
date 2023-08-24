@@ -14,7 +14,7 @@ namespace BusinessCalendar.Domain.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddBusinessCalendarDomain(this IServiceCollection services)
+        public static IServiceCollection AddBusinessCalendarDomain(this IServiceCollection services)
         {
             services.AddSingleton<ICalendarIdentifierService, CalendarIdentifierService>();
             services.AddSingleton<ICalendarManagementService, CalendarManagementService>();
@@ -23,6 +23,8 @@ namespace BusinessCalendar.Domain.Extensions
             services.AddSingleton<IValidator<SaveCalendarRequest>, SaveCalendarRequestValidator>();
             services.AddSingleton<IValidator<AddCalendarIdentifierRequest>, AddCalendarIdentifierRequestValidator>();
             services.AddSingleton<ICalendarMapper, CalendarMapper>();
+
+            return services;
         }
     }
 }
