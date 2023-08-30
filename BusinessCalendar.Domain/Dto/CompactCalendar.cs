@@ -64,8 +64,12 @@ namespace BusinessCalendar.Domain.Dto
 
         public bool IsWorkDay(DateOnly date)
         {
-            var isNotWeekend = !date.IsWeekend() || ExtraWorkDays.Any(x => x.Equals(date));
-            return isNotWeekend && !Holidays.Any(x => x.Equals(date));
+            var isDayOff = date.IsWeekend() || Holidays.Any(holiday => holiday.Equals(date));
+            var isExtraWorkDay = ExtraWorkDays.Any(extraWorkDay => extraWorkDay.Equals(date));
+            
+            return isExtraWorkDay || !isDayOff;
         }
+        
+        
     }
 }

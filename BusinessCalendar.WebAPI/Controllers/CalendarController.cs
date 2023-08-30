@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BusinessCalendar.Contracts.ApiContracts;
 using Microsoft.AspNetCore.Mvc;
 using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Dto;
@@ -20,10 +21,23 @@ namespace BusinessCalendar.WebAPI.Controllers
 
         [HttpGet]
         [Route("{Type}/{Key}/{Year}")]
-        public async Task<ActionResult<CompactCalendar>> Get([FromRoute]CalendarId calendarId)
+        [ProducesResponseType(typeof(GetCalendarResponse), 200)]
+        public async Task<ActionResult<GetCalendarResponse>> Get([FromRoute]CalendarId calendarId)
         {
             var calendar = await _calendarManagementService.GetCompactCalendarAsync(calendarId);
-            return Ok(calendar);
+            var response = new GetCalendarResponse()
+            {
+                Type = calendar.Id.Type.ToString(),
+                Key = calendar.Id.Key,
+                Year = calendar.Id.Year,
+                Holidays = calendar.Holidays
+                    .Select(x => x.ToDateTime(new TimeOnly(), DateTimeKind.Utc))
+                    .ToList(),
+                ExtraWorkDays = calendar.ExtraWorkDays
+                    .Select(x => x.ToDateTime(new TimeOnly(), DateTimeKind.Utc))
+                    .ToList(),
+            };
+            return Ok(response);
         }
         
         [HttpGet]
@@ -38,7 +52,18 @@ namespace BusinessCalendar.WebAPI.Controllers
                     Year = date.Year
                 });
             
-            return Ok(calendar.Dates.Single(x => x.Date.Equals(date)));
+            var calendarDate = calendar.Dates.Single(x => x.Date.Equals(date));
+
+            var response = new GetCalendarDateResponse()
+            {
+                Type = calendar.Id.Type.ToString(),
+                Key = calendar.Id.Key,
+                Year = calendar.Id.Year,
+                Date = calendarDate.Date.ToDateTime(new TimeOnly(), DateTimeKind.Utc),
+                IsWorkday = calendarDate.IsWorkday
+            };
+            
+            return Ok(response);
         }
     }
 }

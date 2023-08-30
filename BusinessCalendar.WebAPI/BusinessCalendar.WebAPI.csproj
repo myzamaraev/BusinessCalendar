@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BusinessCalendar.Contracts\BusinessCalendar.Contracts.csproj" />
     <ProjectReference Include="..\BusinessCalendar.Domain\BusinessCalendar.Domain.csproj" />
     <ProjectReference Include="..\BusinessCalendar.MongoDb\BusinessCalendar.MongoDb.csproj" />
   </ItemGroup>
