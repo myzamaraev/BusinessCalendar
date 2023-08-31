@@ -3,6 +3,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using BusinessCalendar.Client.Dto;
 using BusinessCalendar.Contracts.ApiContracts;
 using Newtonsoft.Json;
 
@@ -18,7 +19,7 @@ namespace BusinessCalendar.Client
             _httpClient = httpClient;
         }
 
-        public async Task<GetCalendarResponse> GetCalendarAsync(string identifier, int year)
+        public async Task<CalendarModel> GetCalendarAsync(string identifier, int year)
         {
             //todo: replace type and key with identifier to move logic to backend?
             //or might it be reasonable to parse identifier in the client?
@@ -30,7 +31,14 @@ namespace BusinessCalendar.Client
             {
                 var responseStream = await response.Content.ReadAsStreamAsync();
                 var responseModel = Deserialize<GetCalendarResponse>(responseStream);
-                return responseModel;
+                var calendar = new CalendarModel()
+                {
+                    Year = responseModel.Year,
+                    Holidays = responseModel.Holidays,
+                    ExtraWorkDays = responseModel.ExtraWorkDays
+                };
+                
+                return calendar;
             }
 
             var content = await response.Content.ReadAsStringAsync();

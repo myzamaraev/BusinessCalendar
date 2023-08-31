@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using BusinessCalendar.Contracts.ApiContracts;
 
 namespace BusinessCalendar.Client.Extensions
 {
@@ -23,7 +25,7 @@ namespace BusinessCalendar.Client.Extensions
         /// </summary>
         /// <param name="date"></param>
         /// <returns>True if saturday or sunday, False otherwise</returns>
-        public static bool IsWeekend(this DateTime date)
+        internal static bool IsWeekend(this DateTime date)
         {
             return date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
         }

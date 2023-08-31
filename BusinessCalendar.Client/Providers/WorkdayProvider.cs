@@ -26,26 +26,18 @@ namespace BusinessCalendar.Client.Providers
         {
             if (_options.EnableFullCalendarCache)
             {
-                var getCalendarResponse = await ExecuteWithOptionalCachingAsync(
+                var calendar = await ExecuteWithOptionalCachingAsync(
                     $"{nameof(_businessCalendarClient.GetCalendarAsync)}_{identifier}_{date.Year}",
                     () => _businessCalendarClient.GetCalendarAsync(identifier, date.Year));
-                
-                return IsWorkdayByCalendar(date, getCalendarResponse);
+
+                return calendar.IsWorkday(date);
             }
             
             var getDateResponse = await ExecuteWithOptionalCachingAsync(
-                $"{nameof(_businessCalendarClient.GetDateAsync)}_{identifier}_{date:yy-MM-dd}",
+                $"{nameof(_businessCalendarClient.GetDateAsync)}_{identifier}_{date:yyyy-MM-dd}",
                 () => _businessCalendarClient.GetDateAsync(identifier, date));
 
             return getDateResponse.IsWorkday;
-        }
-        
-        private static bool IsWorkdayByCalendar(DateTime date, GetCalendarResponse response)
-        {
-            var isDayOff = date.IsWeekend() || response.Holidays.Any(holiday => holiday.DatePartEquals(date));
-            var isExtraWorkDay = response.ExtraWorkDays.Any(extraWorkDay => extraWorkDay.DatePartEquals(date));
-            
-            return isExtraWorkDay || !isDayOff;
         }
 
 
