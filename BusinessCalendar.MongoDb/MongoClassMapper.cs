@@ -12,7 +12,7 @@ namespace BusinessCalendar.MongoDb
     {
         public static void Register()
         {
-            BsonClassMap.RegisterClassMap<CompactCalendar>(cm =>
+            BsonClassMap.TryRegisterClassMap<CompactCalendar>(cm =>
                 {
                     cm.AutoMap();
                 });

@@ -50,3 +50,6 @@ app.UseHealthcheckEndpoints();
 app.UseSpa(spa => { }); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
 
 app.Run();
+
+
+public partial class Program { } //life hack to create WebApplicationFactory for integration tests

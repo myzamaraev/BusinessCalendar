@@ -1,4 +1,3 @@
-using System.Data.Common;
 using BusinessCalendar.Client.Dto;
 using BusinessCalendar.Client.Providers;
 using BusinessCalendar.Client.Providers.Dependencies;
