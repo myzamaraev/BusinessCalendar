@@ -7,6 +7,7 @@ using MongoDB.Driver.Linq;
 using Microsoft.Extensions.Options;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Dto;
+using BusinessCalendar.Domain.Exceptions;
 using BusinessCalendar.MongoDb.Options;
 
 namespace BusinessCalendar.MongoDb.StorageServices
@@ -28,8 +29,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
             }
             catch (MongoWriteException e) when(e.WriteError.Category == ServerErrorCategory.DuplicateKey)
             {
-                //todo: turn into client exception according to problem details pattern
-                throw new Exception("Calendar identifier already exists");
+                throw new DuplicateKeyClientException("Calendar identifier already exists");
             }
         }
 
