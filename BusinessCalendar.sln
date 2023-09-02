@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessCalendar.MongoDb", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessCalendar.Tests", "BusinessCalendar.Tests\BusinessCalendar.Tests.csproj", "{218886FD-9E2B-484B-ACD3-1BA67BC058B1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessCalendar.Contracts", "BusinessCalendar.Contracts\BusinessCalendar.Contracts.csproj", "{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessCalendar.Client", "BusinessCalendar.Client\BusinessCalendar.Client.csproj", "{24E6D88E-AAFC-4F88-BBAE-5ABCFF80652D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessCalendar.Client.Tests", "BusinessCalendar.Client.Tests\BusinessCalendar.Client.Tests.csproj", "{74D2D0D1-F20B-4975-92CC-97D3AFD51EB3}"
@@ -77,18 +75,6 @@ Global
 		{218886FD-9E2B-484B-ACD3-1BA67BC058B1}.Release|x64.Build.0 = Release|Any CPU
 		{218886FD-9E2B-484B-ACD3-1BA67BC058B1}.Release|x86.ActiveCfg = Release|Any CPU
 		{218886FD-9E2B-484B-ACD3-1BA67BC058B1}.Release|x86.Build.0 = Release|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Debug|x64.Build.0 = Debug|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Debug|x86.Build.0 = Debug|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Release|x64.ActiveCfg = Release|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Release|x64.Build.0 = Release|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Release|x86.ActiveCfg = Release|Any CPU
-		{93791DD0-258D-4EFA-9FEE-AFD4619D5B50}.Release|x86.Build.0 = Release|Any CPU
 		{24E6D88E-AAFC-4F88-BBAE-5ABCFF80652D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{24E6D88E-AAFC-4F88-BBAE-5ABCFF80652D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24E6D88E-AAFC-4F88-BBAE-5ABCFF80652D}.Debug|x64.ActiveCfg = Debug|Any CPU

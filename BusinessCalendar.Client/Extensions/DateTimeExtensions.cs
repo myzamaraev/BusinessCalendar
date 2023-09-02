@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using BusinessCalendar.Contracts.ApiContracts;
 
 namespace BusinessCalendar.Client.Extensions
 {

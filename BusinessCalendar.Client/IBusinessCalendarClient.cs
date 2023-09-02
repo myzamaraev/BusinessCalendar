@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using BusinessCalendar.Client.Dto;
-using BusinessCalendar.Contracts.ApiContracts;
 
 namespace BusinessCalendar.Client
 {
@@ -21,6 +20,6 @@ namespace BusinessCalendar.Client
         /// <param name="identifier">Calendar identifier, find it on the calendar settings page</param>
         /// <param name="date"></param>
         /// <returns></returns>
-        Task<GetCalendarDateResponse> GetDateAsync(string identifier, DateTime date);
+        Task<CalendarDateModel> GetDateAsync(string identifier, DateTime date);
     }
 }

@@ -1,8 +1,5 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
-using BusinessCalendar.Client.Extensions;
-using BusinessCalendar.Contracts.ApiContracts;
 namespace BusinessCalendar.Client.Providers
 {
     public class WorkdayProvider : IWorkdayProvider

@@ -1,7 +1,6 @@
 using BusinessCalendar.Client.Dto;
 using BusinessCalendar.Client.Providers;
 using BusinessCalendar.Client.Providers.Dependencies;
-using BusinessCalendar.Contracts.ApiContracts;
 
 namespace BusinessCalendar.Client.Tests;
 
@@ -24,7 +23,7 @@ public class WorkdayProviderTests
         //Arrange
         _businessCalendarClientMock
             .Setup(client => client.GetDateAsync(It.IsAny<string>(), It.IsAny<DateTime>()))
-            .ReturnsAsync(new GetCalendarDateResponse { IsWorkday = expected });
+            .ReturnsAsync(new CalendarDateModel { IsWorkday = expected });
 
         var sut = new WorkdayProvider(_businessCalendarClientMock.Object);
 
@@ -49,8 +48,8 @@ public class WorkdayProviderTests
         var today = DateTime.Today;
 
         _cacheProviderMock.Setup(cache =>
-                cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<GetCalendarDateResponse>>>()))
-            .ReturnsAsync(new GetCalendarDateResponse { IsWorkday = expected })
+                cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<CalendarDateModel>>>()))
+            .ReturnsAsync(new CalendarDateModel { IsWorkday = expected })
             ;
 
         var sut = new WorkdayProvider(_businessCalendarClientMock.Object,
@@ -70,7 +69,7 @@ public class WorkdayProviderTests
                 cache.GetOrCreateAsync(
                     It.Is<string>(cacheKey =>
                         cacheKey == $"WorkdayProvider_GetDateAsync_State_Test_{today:yyyy-MM-dd}"),
-                    It.IsAny<Func<Task<GetCalendarDateResponse>>>()),
+                    It.IsAny<Func<Task<CalendarDateModel>>>()),
             Times.Once());
 
         Assert.That(actual, Is.EqualTo(expected));
@@ -83,12 +82,12 @@ public class WorkdayProviderTests
         var today = DateTime.Today;
 
         _cacheProviderMock.Setup(cache =>
-                cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<GetCalendarDateResponse>>>()))
-            .Callback(async (string identifier, Func<Task<GetCalendarDateResponse>> createItemFunc) =>
+                cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<CalendarDateModel>>>()))
+            .Callback(async (string identifier, Func<Task<CalendarDateModel>> createItemFunc) =>
             {
                 await createItemFunc.Invoke();
             })
-            .ReturnsAsync(new GetCalendarDateResponse());
+            .ReturnsAsync(new CalendarDateModel());
 
         var sut = new WorkdayProvider(_businessCalendarClientMock.Object,
             options => options.UseCache(_cacheProviderMock.Object));
@@ -137,8 +136,8 @@ public class WorkdayProviderTests
     {
         //Arrange
         _cacheProviderMock.Setup(cache =>
-                cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<GetCalendarDateResponse>>>()))
-            .ReturnsAsync(new GetCalendarDateResponse());
+                cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<CalendarDateModel>>>()))
+            .ReturnsAsync(new CalendarDateModel());
 
         _cacheProviderMock.Setup(cache =>
                 cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<CalendarModel>>>()))
@@ -153,7 +152,7 @@ public class WorkdayProviderTests
         //Assert
         _cacheProviderMock.Verify(cache => cache.GetOrCreateAsync(
                 It.IsAny<string>(),
-                It.IsAny<Func<Task<GetCalendarDateResponse>>>()),
+                It.IsAny<Func<Task<CalendarDateModel>>>()),
             Times.Never);
         _businessCalendarClientMock.Verify(client =>
                 client.GetDateAsync(It.IsAny<string>(), It.IsAny<DateTime>()),

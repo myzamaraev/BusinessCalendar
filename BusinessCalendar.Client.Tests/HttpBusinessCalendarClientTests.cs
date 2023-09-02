@@ -1,5 +1,4 @@
 using BusinessCalendar.Client.Dto;
-using BusinessCalendar.Contracts.ApiContracts;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Storage;
@@ -42,7 +41,11 @@ public class HttpBusinessCalendarClientTests
             builder.ConfigureServices(services =>
             {
                 var storageDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ICalendarStorageService));
-                services.Remove(storageDescriptor);
+                if (storageDescriptor != null)
+                {
+                    services.Remove(storageDescriptor);
+                }
+                
                 services.AddSingleton<ICalendarStorageService, ICalendarStorageService>((sp) => _calendarStorageServiceMock.Object);
             });
         });
@@ -56,6 +59,8 @@ public class HttpBusinessCalendarClientTests
         var businessCalendarClient = new HttpBusinessCalendarClient(httpClient);
         var expected = new CalendarModel
         {
+            Type = "Custom",
+            Key = "ResponseKey",
             Year = 2023,
             Holidays = new List<DateTime>
             {
@@ -84,11 +89,10 @@ public class HttpBusinessCalendarClientTests
     {
         var httpClient = _webApplicationFactory.CreateClient();
         var businessCalendarClient = new HttpBusinessCalendarClient(httpClient);
-        var expected = new GetCalendarDateResponse()
+        var expected = new CalendarDateModel()
         {
             Type = "Custom",
             Key = "ResponseKey",
-            Year = 2023,
             Date = new DateTime(2023, 01, 01),
             IsWorkday = true
         };

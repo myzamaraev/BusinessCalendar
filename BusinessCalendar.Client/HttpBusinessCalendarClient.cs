@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using BusinessCalendar.Client.Dto;
-using BusinessCalendar.Contracts.ApiContracts;
 using Newtonsoft.Json;
 
 namespace BusinessCalendar.Client
@@ -30,22 +29,15 @@ namespace BusinessCalendar.Client
             if (response.IsSuccessStatusCode)
             {
                 var responseStream = await response.Content.ReadAsStreamAsync();
-                var responseModel = Deserialize<GetCalendarResponse>(responseStream);
-                var calendar = new CalendarModel()
-                {
-                    Year = responseModel.Year,
-                    Holidays = responseModel.Holidays,
-                    ExtraWorkDays = responseModel.ExtraWorkDays
-                };
-                
-                return calendar;
+                var calendarModel = Deserialize<CalendarModel>(responseStream);
+                return calendarModel;
             }
 
             var content = await response.Content.ReadAsStringAsync();
             throw new HttpRequestException(content);
         }
 
-        public async Task<GetCalendarDateResponse> GetDateAsync(string identifier, DateTime date)
+        public async Task<CalendarDateModel> GetDateAsync(string identifier, DateTime date)
         {
             var (type, key) = ParseIdentifier(identifier);
             
@@ -63,8 +55,8 @@ namespace BusinessCalendar.Client
             {
                 var responseStream = await response.Content.ReadAsStreamAsync();
                 
-                var responseModel = Deserialize<GetCalendarDateResponse>(responseStream);
-                return responseModel;
+                var calendarDate = Deserialize<CalendarDateModel>(responseStream);
+                return calendarDate;
             }
 
             var content = await response.Content.ReadAsStringAsync();

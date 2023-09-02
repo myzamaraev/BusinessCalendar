@@ -8,6 +8,16 @@ namespace BusinessCalendar.Client.Dto
     public class CalendarModel
     {
         /// <summary>
+        /// Calendar Type 
+        /// </summary>
+        public string Type { get; set; }
+        
+        /// <summary>
+        /// Calendar Key
+        /// </summary>
+        public string Key { get; set; }
+        
+        /// <summary>
         /// Calendar year
         /// </summary>
         public int Year { get; set; }

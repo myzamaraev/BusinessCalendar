@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BusinessCalendar.Contracts.ApiContracts;
 using Microsoft.AspNetCore.Mvc;
 using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Enums;
+using BusinessCalendar.WebAPI.Models;
 
 namespace BusinessCalendar.WebAPI.Controllers
 {
@@ -25,7 +25,8 @@ namespace BusinessCalendar.WebAPI.Controllers
         public async Task<ActionResult<GetCalendarResponse>> Get([FromRoute]CalendarId calendarId)
         {
             var calendar = await _calendarManagementService.GetCompactCalendarAsync(calendarId);
-            var response = new GetCalendarResponse()
+            
+            var response = new GetCalendarResponse
             {
                 Type = calendar.Id.Type.ToString(),
                 Key = calendar.Id.Key,
@@ -42,7 +43,8 @@ namespace BusinessCalendar.WebAPI.Controllers
         
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<CalendarDate>> GetDate(CalendarType type, string key, DateOnly date)
+        [ProducesResponseType(typeof(GetCalendarDateResponse), 200)]
+        public async Task<ActionResult<GetCalendarDateResponse>> GetDate(CalendarType type, string key, DateOnly date)
         {
             var calendar = await _calendarManagementService.GetCalendarAsync(
                 new CalendarId()
@@ -54,11 +56,10 @@ namespace BusinessCalendar.WebAPI.Controllers
             
             var calendarDate = calendar.Dates.Single(x => x.Date.Equals(date));
 
-            var response = new GetCalendarDateResponse()
+            var response = new GetCalendarDateResponse
             {
                 Type = calendar.Id.Type.ToString(),
                 Key = calendar.Id.Key,
-                Year = calendar.Id.Year,
                 Date = calendarDate.Date.ToDateTime(new TimeOnly(), DateTimeKind.Utc),
                 IsWorkday = calendarDate.IsWorkday
             };
