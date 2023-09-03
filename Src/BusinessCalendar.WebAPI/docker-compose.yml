@@ -9,8 +9,8 @@ services:
   web-api:
     image: ${DOCKER_REGISTRY-}businesscalendar-webapi
     build:
-      context: .
-      dockerfile: BusinessCalendar.WebAPI/Dockerfile
+      context: ..
+      dockerfile: Dockerfile
     environment:
       MongoDB__ConnectionURI: "mongodb://mongodb:27017"
     ports:
