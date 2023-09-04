@@ -8,16 +8,30 @@ using Newtonsoft.Json;
 
 namespace BusinessCalendar.Client
 {
+    /// <summary>
+    /// Client realization accessing BusinessCalendar API through HTTP protocol
+    /// </summary>
     public class HttpBusinessCalendarClient : IBusinessCalendarClient
     {
         private readonly HttpClient _httpClient;
         private const string ContentType = "application/json";
         
+        /// <summary>
+        /// Provide HttpClient to use this client
+        /// For .net Core 2.1 and higher it is recommended to use HttpClientFactory and Typed Clients (Service Agent pattern)
+        /// </summary>
+        /// <param name="httpClient"></param>
         public HttpBusinessCalendarClient(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
+        /// <summary>
+        /// Returns the calendar for provided identifier and year
+        /// </summary>
+        /// <param name="identifier">Calendar identifier, find it on the calendar settings page</param>
+        /// <param name="year">An integer value representing year</param>
+        /// <returns name="CalendarDateModel"></returns>
         public async Task<CalendarModel> GetCalendarAsync(string identifier, int year)
         {
             //todo: replace type and key with identifier to move logic to backend?
@@ -37,6 +51,12 @@ namespace BusinessCalendar.Client
             throw new HttpRequestException(content);
         }
 
+        /// <summary>
+        /// Returns the information about particular calendar date
+        /// </summary>
+        /// <param name="identifier">Calendar identifier, find it on the calendar settings page</param>
+        /// <param name="date"></param>
+        /// <returns name="CalendarDateModel"></returns>
         public async Task<CalendarDateModel> GetDateAsync(string identifier, DateTime date)
         {
             var (type, key) = ParseIdentifier(identifier);

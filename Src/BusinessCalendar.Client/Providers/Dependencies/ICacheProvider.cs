@@ -3,6 +3,10 @@ using System.Threading.Tasks;
 
 namespace BusinessCalendar.Client.Providers.Dependencies
 {
+    /// <summary>
+    /// An interface for caching mechanism abstraction
+    /// Should be implemented to enable caching
+    /// </summary>
     public interface ICacheProvider
     {
         /// <summary>

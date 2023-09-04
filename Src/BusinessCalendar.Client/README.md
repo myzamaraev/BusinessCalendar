@@ -1,0 +1,1 @@
+Check [usage](https://github.com/myzamaraev/BusinessCalendar#usage) section on github for details

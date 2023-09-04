@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 
 namespace BusinessCalendar.Client.Providers
 {
+    /// <summary>
+    /// WorkdayProvider interface
+    /// </summary>
     public interface IWorkdayProvider
     {
         /// <summary>

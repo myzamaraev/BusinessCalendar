@@ -2,6 +2,9 @@ using System;
 
 namespace BusinessCalendar.Client.Dto
 {
+    /// <summary>
+    /// Model to parse GetCalendar response
+    /// </summary>
     public class CalendarDateModel
     {
         /// <summary>

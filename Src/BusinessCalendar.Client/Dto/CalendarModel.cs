@@ -5,6 +5,9 @@ using BusinessCalendar.Client.Extensions;
 
 namespace BusinessCalendar.Client.Dto
 {
+    /// <summary>
+    /// Model to parse GetCalendarDate response
+    /// </summary>
     public class CalendarModel
     {
         /// <summary>
