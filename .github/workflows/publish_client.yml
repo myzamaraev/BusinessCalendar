@@ -1,0 +1,48 @@
+# This is a basic workflow that is manually triggered
+
+name: Publish Client
+
+# Controls when the action will run. Workflow runs when manually triggered using the UI
+# or API.
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'vrsion number'
+        default: '1.0.0'
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3.5.3
+
+    - name: list directory
+      run: ls
+
+    - name: Build
+      run: dotnet build --configuration Release /p:Version=${{inputs.version}}
+      working-directory: ./Src/BusinessCalendar.Client
+
+    - name: pack
+      run: dotnet pack --configuration Release /p:Version=${{inputs.version}}
+      working-directory: ./Src/BusinessCalendar.Client
+      
+    - name: push
+      run: |
+        echo "working directory"
+        ls
+        echo "./bin"
+        ls bin
+        echo "./bin/Release"
+        ls ./bin/Release
+        dotnet nuget push ./bin/Release/BusinessCalendar.Client.${{inputs.version}}.nupkg --source https://nuget.pkg.github.com/myzamaraev/index.json --api-key ${GITHUB_TOKEN}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      working-directory: ./Src/BusinessCalendar.Client
+
+      
+  
