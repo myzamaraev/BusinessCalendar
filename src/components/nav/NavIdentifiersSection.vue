@@ -1,9 +1,21 @@
 <template>
   <NavGroup name="Calendars">
     <template #header-right>
-      <button class="add-calendar-button btn btn-light" @click="openCreatePage">
-        <b>+</b>
-      </button>
+      <CubeButton @click="openCreatePage">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          width="16px"
+          height="16px"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M 11 2 L 11 11 L 2 11 L 2 13 L 11 13 L 11 22 L 13 22 L 13 13 L 22 13 L 22 11 L 13 11 L 13 2 Z"
+          ></path>
+        </svg>
+      </CubeButton>
     </template>
     <template #default>
       <transition-group name="list" mode="out-in" tag="div">
@@ -23,7 +35,7 @@
       </Transition>
     </template>
   </NavGroup>
-  <CreateCalendarModal 
+  <CreateCalendarModal
     :show="isCreateModalVisible"
     @cancelled="isCreateModalVisible = false"
     @submitted="onCreateCalendarSubmitted"
@@ -35,6 +47,7 @@ import { mapGetters } from "vuex";
 import NavGroup from "../UI/NavGroup.vue";
 import NavItem from "../UI/NavItem.vue";
 import CreateCalendarModal from "../CreateCalendarModal.vue";
+import CubeButton from "../UI/CubeButton.vue";
 
 export default {
   name: "nav-identifiers-section",
@@ -42,6 +55,7 @@ export default {
     NavGroup,
     NavItem,
     CreateCalendarModal,
+    CubeButton,
   },
   data() {
     return {
@@ -73,7 +87,6 @@ export default {
     },
     openCreatePage() {
       this.isCreateModalVisible = true;
-      //this.$router.push({ name: "createCalendar" });
     },
     async onCreateCalendarSubmitted(payload) {
       const isSuccess = await this.$store.dispatch(
@@ -96,13 +109,6 @@ export default {
 </script>
 
 <style scoped>
-.add-calendar-button {
-  width: 25px;
-  height: 25px;
-  padding: 0px;
-  margin-left: 5px;
-}
-
 .load-more-item-leave-from {
   transform: translateX(0);
   opacity: 100%;

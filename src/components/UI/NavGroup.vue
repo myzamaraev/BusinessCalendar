@@ -6,7 +6,7 @@
           <h5 v-if="name">{{ name }}</h5>
         </slot>
       </div>
-      <div>
+      <div class="header-right">
         <slot name="header-right"></slot>
       </div>
     </div>
@@ -32,7 +32,13 @@ h5 {
 }
 .group-header {
   display: flex;
-  padding: 3px;
+  padding: 5px 10px;
   justify-content: space-between;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  justify-content: cen;
 }
 </style>

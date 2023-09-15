@@ -6,23 +6,29 @@
         <h3>&nbsp;Calendar</h3>
       </div></router-link
     >
-    <NavGroup name="">
-      <NavItem :to="{ name: 'about' }">About</NavItem>
-    </NavGroup>
-    <NavIdentifiersSection></NavIdentifiersSection>
+
+    <UserInfo v-if="isAuthEnabled"></UserInfo>
+    <NavIdentifiersSection v-if="isAuthenticated"></NavIdentifiersSection>
   </nav>
 </template>
 
 <script>
-import NavItem from "../UI/NavItem.vue";
-import NavGroup from "../UI/NavGroup.vue";
 import NavIdentifiersSection from "./NavIdentifiersSection.vue";
+import UserInfo from "./UserInfo.vue";
+
 export default {
   name: "the-navbar",
   components: {
-    NavItem,
-    NavGroup,
     NavIdentifiersSection,
+    UserInfo,
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    isAuthEnabled() {
+      return this.$store.getters.isAuthEnabled;
+    },
   },
 };
 </script>
@@ -45,12 +51,19 @@ nav {
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   padding: 10px;
 }
 
 .logo-link {
   text-decoration: none;
+}
+
+.logo:hover {
+  background-color: gainsboro;
 }
 
 img {
@@ -60,7 +73,8 @@ img {
 }
 
 h3 {
-  padding: 12px;
+  margin: 0;
+  letter-spacing: 0.1em;
   color: #22294e;
   font-weight: 1000;
 }

@@ -32,10 +32,10 @@ export default {
       return accumulator;
     }, []);
 
-    mutatedData.forEach(month =>{
-        var dates = month.dates.map(x => x.date);
-        const maxDate = new Date(Math.max(...dates));
-        month.lastWeekday = getWeekday(maxDate);
+    mutatedData.forEach((month) => {
+      var dates = month.dates.map((x) => x.date);
+      const maxDate = new Date(Math.max(...dates));
+      month.lastWeekday = getWeekday(maxDate);
     });
 
     state.type = data.id.type;
@@ -49,17 +49,24 @@ export default {
       (month) => month.monthName === payload.monthName
     );
 
-    const day = month.dates.find((day) => day.dayOfMonth === payload.dayOfMonth);
+    const day = month.dates.find(
+      (day) => day.dayOfMonth === payload.dayOfMonth
+    );
     day.isWorkday = !day.isWorkday;
 
     state.hasUnsavedChanges = true;
   },
-  applyChanges(state)
-  {
+  applyChanges(state) {
     state.hasUnsavedChanges = false;
   },
-  setLoadingState(state, isLoading)
-  {
+  setLoadingState(state, isLoading) {
     state.isLoading = isLoading;
-  }
+  },
+  clearCalendar(state) {
+    state.type = null;
+    state.key = null;
+    state.year = null;
+    state.months = [];
+    state.hasUnsavedChanges = false;
+  },
 };

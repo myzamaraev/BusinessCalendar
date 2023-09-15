@@ -49,7 +49,7 @@ export default {
     },
     year: {
       type: String,
-      required: false
+      required: false,
     },
   },
   data() {
@@ -88,14 +88,19 @@ export default {
     isSettingsView() {
       return this.$route.name === "calendarSettings";
     },
+    calendarIdentifier() {
+      return `${this.calendarType}_${this.calendarKey}`;
+    },
   },
   methods: {
-    setYear(year) {
+    async setYear(year) {
       this.selectedYear = year;
-      this.loadCalendar();
+      await this.loadCalendar();
     },
-    loadCalendar() {
-      this.$store.dispatch("calendar/loadCalendar", {
+    async loadCalendar() {
+      await this.$router.push(this.yearLayoutRoute);
+
+      await this.$store.dispatch("calendar/loadCalendar", {
         type: this.calendarType,
         key: this.calendarKey,
         year: this.selectedYear,
@@ -112,22 +117,14 @@ export default {
       return country ? country.name : countryCode;
     },
   },
-  created() {
+  async created() {
     const year = parseInt(this.year);
     this.selectedYear = year > 0 ? year : new Date().getFullYear();
-    this.loadCalendar();
-  },
-  updated() {
-    if (!this.isSettingsView) {
-      this.$router.push(this.yearLayoutRoute);
-    }
+    await this.loadCalendar();
   },
   watch: {
-    calendarType() {
-      this.loadCalendar();
-    },
-    calendarKey() {
-      this.loadCalendar();
+    async calendarIdentifier() {
+      await this.loadCalendar();
     },
   },
   provide() {
@@ -142,6 +139,7 @@ export default {
 <style scoped>
 section {
   text-align: center;
+  padding: 10px;
 }
 
 .header {

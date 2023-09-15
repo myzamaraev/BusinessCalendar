@@ -1,9 +1,15 @@
 <template>
   <section>
     <TheNavbar></TheNavbar>
-    <div class="">
-      <div class="main mx-auto col-11 col-sm-10 col-lg-10">
+    <div class="main mx-auto col-11 col-sm-10 col-lg-10">
+      <div v-if="isAuthenticated">
         <router-view></router-view>
+      </div>
+      <div v-else class="content-page-center">
+        <h5>
+          Please <b class="text-danger">Log In</b> to start working with
+          calendars
+        </h5>
       </div>
     </div>
   </section>
@@ -19,6 +25,11 @@ export default {
   name: "App",
   data() {
     return {};
+  },
+  computed: {
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
   },
 };
 </script>
@@ -37,8 +48,12 @@ body {
   height: 100%;
 }
 
-.main {
-  padding: 10px;
+.content-page-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 70vh;
+  text-align: center;
 }
 
 @media screen and (min-width: 500px) {

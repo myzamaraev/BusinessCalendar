@@ -12,12 +12,14 @@
         </div>
         <div class="mb-3">
           <label for="key" class="form-label">Key</label>
-          <CountryPicker v-if="type==='State'"
-          id="key"
-          class="form-control"
-          @select="setCountryKey"
+          <CountryPicker
+            v-if="type === 'State'"
+            id="key"
+            class="form-control"
+            @select="setCountryKey"
           ></CountryPicker>
-          <input v-else
+          <input
+            v-else
             type="text"
             class="form-control"
             id="key"
@@ -54,8 +56,8 @@ export default {
   props: {
     show: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
@@ -68,7 +70,7 @@ export default {
   watch: {
     type() {
       this.key = "";
-    }
+    },
   },
   methods: {
     onSubmit() {
@@ -84,17 +86,16 @@ export default {
     },
     setCountryKey(country) {
       this.key = country;
-      console.log(this.key);
     },
     onKeyFieldKeydown(event) {
       if (!/^[A-z_]*$/.test(event.key)) {
         event.preventDefault();
       }
-    }
+    },
   },
 };
 </script>
-   
+
 <style scoped>
 .btn {
   margin: 2px;

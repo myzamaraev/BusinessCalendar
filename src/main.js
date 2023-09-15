@@ -10,25 +10,25 @@ import BootstrapAlert from "./components/UI/BootstrapAlert.vue";
 import BootstrapLoader from "./components/UI/BootstrapLoader.vue";
 
 const app = createApp(App);
+app.use(Store); //init store before the router to handle auth correctly
 app.use(Router);
-app.use(Store);
 
 const options = {
   toastDefaults: {
     // ToastOptions object for each type of toast
-    'error': {
+    error: {
       timeout: 5000,
       hideProgressBar: true,
     },
-    'warning': {
+    warning: {
       timeout: 5000,
       hideProgressBar: true,
     },
-    'success': {
+    success: {
       timeout: 2000,
       hideProgressBar: true,
     },
-    'info': {
+    info: {
       timeout: 2000,
       hideProgressBar: true,
     },
