@@ -1,13 +1,17 @@
-using Microsoft.AspNetCore.Mvc;
-using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Exceptions;
+using BusinessCalendar.Domain.Services;
+using BusinessCalendar.WebAPI.Attributes;
+using BusinessCalendar.WebAPI.Constants;
+using BusinessCalendar.WebAPI.Controllers.ApiV1;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace BusinessCalendar.WebAPI.Controllers
+namespace BusinessCalendar.WebAPI.Controllers.BffV1
 {
-    public class ManagementController : ApiV1Controller
+    public class ManagementController : BffV1Controller
     {
         private readonly ICalendarManagementService _calendarManagementService;
 
@@ -26,6 +30,7 @@ namespace BusinessCalendar.WebAPI.Controllers
 
         [HttpPut]
         [Route("[action]")]
+        [AuthorizeRole(BcRoles.Manager)]
         public async Task<ActionResult> SaveCalendar([FromBody]SaveCalendarRequest request)
         {
             await _calendarManagementService.SaveCalendarAsync(request);
@@ -34,6 +39,7 @@ namespace BusinessCalendar.WebAPI.Controllers
 
         [HttpPut]
         [Route("[action]")]
+        [AuthorizeRole(BcRoles.Manager)]
         public async Task<ActionResult> SaveCompactCalendar([FromBody]SaveCompactCalendarRequest request)
         {
             await _calendarManagementService.SaveCompactCalendarAsync(request);

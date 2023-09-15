@@ -1,15 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Enums;
+using BusinessCalendar.Domain.Services;
 using BusinessCalendar.WebAPI.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace BusinessCalendar.WebAPI.Controllers
+namespace BusinessCalendar.WebAPI.Controllers.ApiV1
 {
+    [AllowAnonymous]
     public class CalendarController : ApiV1Controller
     {
         private readonly ICalendarManagementService _calendarManagementService;

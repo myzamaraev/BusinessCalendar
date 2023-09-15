@@ -1,17 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using BusinessCalendar.Domain.Services;
-using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Dto;
-using System.Linq;
 using BusinessCalendar.Domain.Dto.Requests;
+using BusinessCalendar.Domain.Services;
+using BusinessCalendar.WebAPI.Attributes;
+using BusinessCalendar.WebAPI.Constants;
+using BusinessCalendar.WebAPI.Controllers.ApiV1;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
-namespace BusinessCalendar.WebAPI.Controllers
+namespace BusinessCalendar.WebAPI.Controllers.BffV1
 {
-    public class CalendarIdentifierController : ApiV1Controller
+    public class CalendarIdentifierController : BffV1Controller
     {
         private readonly ICalendarIdentifierService _calendarIdentifierService;
 
@@ -21,6 +19,7 @@ namespace BusinessCalendar.WebAPI.Controllers
         }
 
         [HttpPost]
+        [AuthorizeRole(BcRoles.Manager)]
         public async Task<ActionResult> CalendarIdentifier([FromBody]AddCalendarIdentifierRequest request) 
         {
             await _calendarIdentifierService.AddCalendarIdentifierAsync(request);
@@ -29,6 +28,7 @@ namespace BusinessCalendar.WebAPI.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [AuthorizeRole(BcRoles.Manager)]
         public async Task<ActionResult> CalendarIdentifier(string id)
         {
             await _calendarIdentifierService.DeleteCalendarIdentifierAsync(id);

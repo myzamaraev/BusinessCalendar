@@ -9,7 +9,7 @@ Requires MongoDB as external dependency
 ## installation (docker compose)
 1. Create `docker-compose.yml` file
     ```yaml
-    version: 3
+    version: "3.8"
     services:
       mongodb:
         image: mongo:6.0.4
@@ -18,7 +18,7 @@ Requires MongoDB as external dependency
         volumes:
           - mongo:/data/db
       business-calendar:
-        image: "ghcr.io/myzamaraev/businesscalendar:0.1"
+        image: "ghcr.io/myzamaraev/businesscalendar:latest"
         environment:
           MongoDB__ConnectionURI: "mongodb://mongodb:27017"
         ports:

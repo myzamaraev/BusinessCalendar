@@ -6,6 +6,7 @@ services:
     image: "ghcr.io/myzamaraev/businesscalendar:latest"
     environment:
       MongoDB__ConnectionURI: "mongodb://mongodb:27017"
+      OpenIdConnect__Authority: "keycloak:8080"
     ports:
       - "4081:80"
     depends_on:
