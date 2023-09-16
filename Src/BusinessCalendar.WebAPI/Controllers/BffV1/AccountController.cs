@@ -69,12 +69,26 @@ public class AccountController : BffV1Controller
     {
         var authenticationProperties = new AuthenticationProperties
         {
-            RedirectUri = "/" //after signing out redirect to root SPA content
+            RedirectUri = "/"
         };
 
         //sign out from an app without signing out from SSO session to not affect other apps
         return SignOut(authenticationProperties, CookieAuthenticationDefaults.AuthenticationScheme);
     }
+    
+    [HttpGet]
+    [Route("[action]")]
+    public IActionResult SingleLogOut()
+    {
+        var authenticationProperties = new AuthenticationProperties
+        {
+            RedirectUri = "/" //after signing out redirect to root SPA content
+        };
+
+        //sign out from an app without signing out from SSO session to not affect other apps
+        return SignOut(authenticationProperties, CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
+    }
+    
 
     private UserInfo GetUserInfo()
     {
