@@ -4,6 +4,7 @@ import AboutPage from "./pages/About.vue";
 import CalendarSettings from "./components/calendar/CalendarSettings.vue";
 import YearLayout from "./components/calendar/YearLayout.vue";
 import NotFound from "./pages/NotFound.vue";
+import LogoutPage from "./pages/Logout.vue";
 // import Store from "./store/index.js"
 
 const router = createRouter({
@@ -33,6 +34,11 @@ const router = createRouter({
           props: true,
         },
       ],
+    },
+    {
+      name: "logout",
+      path: "/logout",
+      component: LogoutPage,
     },
     // pathMatch is the name of the param, e.g., going to /not/found yields
     // { params: { pathMatch: ['not', 'found'] }}
