@@ -7,6 +7,7 @@ using BusinessCalendar.WebAPI.Swagger;
 using Hellang.Middleware.ProblemDetails;
 using Hellang.Middleware.ProblemDetails.Mvc;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -64,8 +65,8 @@ app.UseCookiePolicy(new CookiePolicyOptions()
 app.UseProblemDetails();
 
 var actionEndpointBuilder = app.MapControllers();
-var authSettings = builder.Configuration.GetSection(AuthOptions.Section).Get<AuthOptions>();
-if (authSettings is { UseOpenIdConnectAuth: false})
+var authSettings = app.Services.GetRequiredService<IOptions<AuthOptions>>().Value;
+if (authSettings is { UseOpenIdConnectAuth: false })
 {
     actionEndpointBuilder.AllowAnonymous(); //Bypassing Auth with AllowAnonymousAttribute according to https://stackoverflow.com/a/62193352
 }

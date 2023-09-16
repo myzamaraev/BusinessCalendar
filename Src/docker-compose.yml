@@ -1,31 +1,34 @@
 version: "3.8"
 name: business-calendar
 services:
-
   web-api-prod-image:
     image: "ghcr.io/myzamaraev/businesscalendar:latest"
     environment:
       MongoDB__ConnectionURI: "mongodb://mongodb:27017"
-      OpenIdConnect__Authority: "http://host.docker.internal:4082/realms/business-calendar-demo"
+      OpenIdConnect__Authority: ${OpenIdConnect_Authority}
+      OpenIdConnect__ClientId: ${OpenIdConnect_ClientId}
+      OpenIdConnect__ClientSecret: ${OpenIdConnect_ClientSecret}
     ports:
-      - "4081:80"
+      - "4080:80"
     depends_on:
       - mongodb
       - keycloak
         
-  web-api:
-    image: ${DOCKER_REGISTRY-}businesscalendar-webapi
-    build:
-      context: .
-      dockerfile: BusinessCalendar.WebAPI/Dockerfile
-    environment:
-      MongoDB__ConnectionURI: "mongodb://mongodb:27017"
-      OpenIdConnect__Authority: "http://host.docker.internal:4082/realms/business-calendar-demo"
-    ports:
-      - 4080:80
-    depends_on:
-      - mongodb
-      - keycloak
+#  web-api:
+#    image: ${DOCKER_REGISTRY-}businesscalendar-webapi
+#    build:
+#      context: .
+#      dockerfile: BusinessCalendar.WebAPI/Dockerfile
+#    environment:
+#      MongoDB__ConnectionURI: "mongodb://mongodb:27017"
+#      OpenIdConnect__Authority: ${OpenIdConnect_Authority}
+#      OpenIdConnect__ClientId: ${OpenIdConnect_ClientId}
+#      OpenIdConnect__ClientSecret: ${OpenIdConnect_ClientSecret}
+#    ports:
+#      - 4081:80
+#    depends_on:
+#      - mongodb
+#      - keycloak
         
   mongodb:
     image: mongo:6.0.4
