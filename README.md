@@ -33,20 +33,21 @@ Requires MongoDB as external dependency
    
    
 3. run services with `docker compose up` command
-4. access the UI by the following link http://localhost:4081
+4. access the UI by the following link http://localhost:4080
 
 ## usage
 
 ### .Net
-Install nuget with client.. (To be continued)
+Install nuget with client
 ```console
 dotnet add package BusinessCalendar.Client --version 1.0.1
 ```
 
-Check [demo](https://github.com/myzamaraev/BusinessCalendar/tree/master/BusinessCalendar.Demo) project for usage example
+Check [demo](Src/BusinessCalendar.Demo) project for usage example
 
 ### Other languages
-No client libraries provided yet, but you can port it from .Net using provided API
+No client libraries provided yet, feel free to contribute a port from .Net using provided API.
+Swagger API documentation is available in the container http://localhost:4080/swagger/index.html
 
 ## Authentication
 You can add authentication with the variety of identity providers through **OpenId Connect** protocol. 
