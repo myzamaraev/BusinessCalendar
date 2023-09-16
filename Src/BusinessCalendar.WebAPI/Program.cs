@@ -43,13 +43,6 @@ builder.Services.AddSwaggerGen(c => {
 builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    
-    IdentityModelEventSource.ShowPII = true; //meaningful personal information (claims) for identity debug purposes
-}
 
 app.UseStaticFiles();
 app.UseHttpsRedirection();
@@ -57,10 +50,7 @@ app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCookiePolicy(new CookiePolicyOptions()
-{
-    MinimumSameSitePolicy = SameSiteMode.Lax
-});
+app.UseCookiePolicy(new CookiePolicyOptions() { MinimumSameSitePolicy = SameSiteMode.Lax });
 
 app.UseProblemDetails();
 
@@ -71,10 +61,18 @@ if (authSettings is { UseOpenIdConnectAuth: false })
     actionEndpointBuilder.AllowAnonymous(); //Bypassing Auth with AllowAnonymousAttribute according to https://stackoverflow.com/a/62193352
 }
 
+//Swagger for public API endpoints is available in production by design.
+//in this case BFF endpoints are filtered by PublicApiDocumentFilter
+app.UseSwagger();
+app.UseSwaggerUI();
+
 app.UseHealthcheckEndpoints();
 app.UseSpa(spa => { }); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
 
 app.Run();
 
+if (app.Environment.IsDevelopment()) {
+    IdentityModelEventSource.ShowPII = true; //meaningful personal information (claims) for identity debug purposes
+}
 
 public partial class Program { } //life hack to create WebApplicationFactory for integration tests
