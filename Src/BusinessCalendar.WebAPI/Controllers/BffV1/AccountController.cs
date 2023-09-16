@@ -67,16 +67,13 @@ public class AccountController : BffV1Controller
     [Route("[action]")]
     public IActionResult LogOut()
     {
-        if (HttpContext.User.Identity is not { IsAuthenticated: true }) return RedirectToAction("LogIn");
-
         var authenticationProperties = new AuthenticationProperties
         {
-            RedirectUri = Url.Action("LogIn")
+            RedirectUri = "/" //after signing out redirect to root SPA content
         };
 
-        return SignOut(authenticationProperties,
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            OpenIdConnectDefaults.AuthenticationScheme);
+        //sign out from an app without signing out from SSO session to not affect other apps
+        return SignOut(authenticationProperties, CookieAuthenticationDefaults.AuthenticationScheme);
     }
 
     private UserInfo GetUserInfo()
