@@ -120,7 +120,7 @@ export default {
 .user-name {
   font-weight: 500;
   width: 160px;
-  color: #007fd4;
+  color: var(--blue);
   font-family: monospace, monospace;
   white-space: nowrap;
   overflow: hidden;

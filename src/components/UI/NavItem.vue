@@ -59,8 +59,8 @@ export default {
 }
 
 .nav-group-item.active {
-  border: 1px solid #007fd4;
-  border-left: 10px solid #007fd4;
+  border: 1px solid var(--blue);
+  border-left: 10px solid var(--blue);
   background-color: #e9f6ff;
 }
 

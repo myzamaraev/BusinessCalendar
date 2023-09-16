@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
 h2 {
-  color: #007fd4;
+  color: var(--blue);
 }
 
 div {
