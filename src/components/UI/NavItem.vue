@@ -2,7 +2,7 @@
   <div>
     <router-link
       class="nav-group-item"
-      :to="to"
+      :to="destination"
       :class="[{ active: isActive }]"
     >
       <div class="content">
@@ -24,6 +24,9 @@ export default {
   },
   methods: {},
   computed: {
+    destination() {
+      return this.isActive ? '' : this.to;
+    },
     isActive() {
       if (this.to === "") {
         return false;
@@ -31,7 +34,7 @@ export default {
 
       const navRoute = this.$router.resolve(this.to).fullPath;
       const currentPath = this.$route.path;
-      return new RegExp("^" + navRoute).test(currentPath);
+      return new RegExp("^" + navRoute + "/").test(currentPath);
     },
   },
 };

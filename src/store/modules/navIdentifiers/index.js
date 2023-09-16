@@ -7,7 +7,7 @@ export default {
     return {
       identifiers: [],
       page: 0,
-      pageSize: 5,
+      pageSize: 10,
       endOfList: false,
     };
   },

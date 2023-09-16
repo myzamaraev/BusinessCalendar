@@ -1,17 +1,18 @@
 import { useToast } from "vue-toastification";
 import restManager from "@/store/restManager";
+import router from "@/router";
 
 const toast = useToast();
 
 export default {
   async init(context) {
     context.commit("reset");
-    context.dispatch("loadIdentifiers");
+    await context.dispatch("loadIdentifiers");
   },
 
   async loadMore(context) {
     context.commit("nextPage");
-    context.dispatch("loadIdentifiers");
+    await context.dispatch("loadIdentifiers");
   },
   async loadIdentifiers(context) {
     var url = new URL(
@@ -38,7 +39,14 @@ export default {
     });
     if (result.isSuccess) {
       toast.success("New calendar created!");
-      context.dispatch("init");
+      await context.dispatch("init");
+      router.push({
+        name: "calendar",
+        params: {
+          calendarType: payload.type,
+          calendarKey:payload.key
+        },
+      })
     }
 
     return result.isSuccess;

@@ -80,6 +80,7 @@ export default {
         return;
       }
       this.$emit("submitted", { type: this.type, key: this.key });
+      this.key = "";
     },
     onCancel() {
       this.$emit("cancelled");

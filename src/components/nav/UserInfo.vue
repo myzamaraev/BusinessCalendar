@@ -119,6 +119,7 @@ export default {
 
 .user-name {
   font-weight: 500;
+  width: 160px;
   color: #007fd4;
   font-family: monospace, monospace;
   white-space: nowrap;
