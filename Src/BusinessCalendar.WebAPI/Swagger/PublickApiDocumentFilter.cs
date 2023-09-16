@@ -9,17 +9,20 @@ public class PublicApiDocumentFilter : IDocumentFilter
 {
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
-        //Remove all Paths except public api endpoints
-        var otherRoutes = swaggerDoc.Paths
+        var notPublicApiPaths = swaggerDoc.Paths
             .Where(x => !x.Key.ToLower().Contains("api"))
             .ToList();
         
-        otherRoutes.ForEach(x =>
+        notPublicApiPaths.ForEach(x =>
         {
             swaggerDoc.Paths.Remove(x.Key); 
         });
 
-        //Remove all schemas not referenced by remaining Paths
+        RemoveAbandonedSchemas(swaggerDoc);
+    }
+
+    private static void RemoveAbandonedSchemas(OpenApiDocument swaggerDoc)
+    {
         var requiredSchemas = new List<string>();
 
         requiredSchemas.AddRange(
@@ -35,7 +38,7 @@ public class PublicApiDocumentFilter : IDocumentFilter
                 .Where(x => x.Schema is { Reference: not null })
                 .Select(x => x.Schema.Reference.Id)
                 .Distinct()
-            );
+        );
 
         foreach (var schema in swaggerDoc.Components.Schemas)
         {
