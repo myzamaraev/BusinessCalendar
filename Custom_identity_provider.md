@@ -19,8 +19,8 @@ To grant write access to user you should provide `role` claim with `bc-manager` 
 
 ### Troubleshooting
 1. Check the authority address accessing it's configuration from browser,
-   e.g. for the authority address http://localhost:4082/realms/business-calendar-demo
-   configuration should be accessible through url http://localhost:4082/realms/business-calendar-demo/.well-known/openid-configuration.
+   e.g. for the authority address http://host.docker.internal:4082/realms/business-calendar-demo
+   configuration should be accessible through url http://host.docker.internal:4082/realms/business-calendar-demo/.well-known/openid-configuration.
    Check your identity provider settings in case you don't receive the json configuration.
 2. The authority address should be accessible from both inside the docker and from browser on client machine
 
