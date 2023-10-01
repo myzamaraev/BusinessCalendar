@@ -45,7 +45,6 @@ builder.Services.RegisterServices(builder.Configuration);
 var app = builder.Build();
 
 app.UseStaticFiles();
-app.UseHttpsRedirection();
 
 app.UseRouting();
 app.UseAuthentication();
