@@ -54,5 +54,15 @@ Swagger API documentation is available in the container http://localhost:4080/sw
 ## Authentication
 You can add authentication with the variety of identity providers through **OpenId Connect** protocol. 
 
-- Read [Configure Identity Provider](Custom_identity_provider.md) for further details and examples.
-- Or clone repo and use [docker-compose.yml](Src/docker-compose.yml) to run development configuration with [Keycloak](https://www.keycloak.org/)
+Read [Configure Identity Provider](Custom_identity_provider.md) for further details and examples.
+
+### Development configuration with Keycloak
+Clone repo and use [docker-compose.yml](Src/docker-compose.yml) to run development configuration with [Keycloak](https://www.keycloak.org/)
+
+#### preconfigured keycloak users
+| Login       | Password   | application access
+|-------------|------------|-------------------------
+| admin       | admin      | Keycloak admin
+| bc-user     | bc-user    | BusinessCalendar (read)
+| bc-manager  | bc-manager | BusinessCalendar (write)
+
