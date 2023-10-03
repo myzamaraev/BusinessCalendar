@@ -16,11 +16,10 @@ namespace BusinessCalendar.Domain.Dto
         {
         }
 
-        public CalendarId(CalendarId calendarId)
-        {
-            Type = calendarId.Type;
-            Key = calendarId.Key;
-            Year = calendarId.Year;
-        }
+        public CalendarId(CalendarType type, string key, int year) => 
+            (Type, Key, Year) = (type, key, year);
+
+        public CalendarId(CalendarId calendarId) =>
+            (Type, Key, Year) = (calendarId.Type, calendarId.Key, calendarId.Year);
     }
 }

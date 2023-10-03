@@ -1,4 +1,4 @@
-namespace BusinessCalendar.WebAPI.Models
+namespace BusinessCalendar.Domain.Dto.Responses
 {
     public class GetCalendarDateResponse
     {

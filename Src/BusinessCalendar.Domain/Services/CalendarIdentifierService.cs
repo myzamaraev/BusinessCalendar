@@ -38,7 +38,7 @@ public class CalendarIdentifierService : ICalendarIdentifierService
             throw new DocumentNotFoundClientException($"Calendar identifier {id} not found");
         }
 
-        await _calendarStorageService.DeleteMany(calendarIdentifier.Type, calendarIdentifier.Key, cancellationToken);
+        await _calendarStorageService.DeleteManyAsync(calendarIdentifier.Type, calendarIdentifier.Key, cancellationToken);
         await _calendarIdentifierStorageService.DeleteAsync(calendarIdentifier.Id, cancellationToken);
     }
 
@@ -50,4 +50,6 @@ public class CalendarIdentifierService : ICalendarIdentifierService
         var limitedPageSize = pageSize > 100 ? 100 : pageSize;
         return _calendarIdentifierStorageService.GetAllAsync(page, limitedPageSize, cancellationToken);
     }
+    
+    public Task<CalendarIdentifier> GetAsync(string id, CancellationToken cancellationToken = default) => _calendarIdentifierStorageService.GetAsync(id, cancellationToken);
 }

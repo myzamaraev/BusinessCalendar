@@ -22,7 +22,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
             _calendarCollection = database.GetCollection<CompactCalendar>("Calendar");
         }
 
-        public async Task Upsert(CompactCalendar compactCalendar, CancellationToken cancellationToken = default)
+        public async Task UpsertAsync(CompactCalendar compactCalendar, CancellationToken cancellationToken = default)
         {
             //todo: implement equality operator for CalendarId
             var result = await _calendarCollection.ReplaceOneAsync(
@@ -37,7 +37,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
                 throw new Exception("Error saving calendar to DB");
             }
         }
-        public async Task<CompactCalendar> FindOne(CalendarId id, CancellationToken cancellationToken = default)
+        public async Task<CompactCalendar> FindOneAsync(CalendarId id, CancellationToken cancellationToken = default)
         {
             //todo: eqality operator + CalendarId as input?
             var result = await _calendarCollection.FindAsync(x => 
@@ -49,7 +49,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
             return result.SingleOrDefault(cancellationToken: cancellationToken);
         }
 
-        public async Task DeleteMany(CalendarType type, string key, CancellationToken cancellationToken = default)
+        public async Task DeleteManyAsync(CalendarType type, string key, CancellationToken cancellationToken = default)
         {
             var result = await _calendarCollection.DeleteManyAsync(x => x.Id.Type == type && x.Id.Key == key, cancellationToken: cancellationToken);
         }

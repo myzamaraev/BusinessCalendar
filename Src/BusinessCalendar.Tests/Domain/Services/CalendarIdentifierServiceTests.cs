@@ -133,7 +133,7 @@ public class CalendarIdentifierServiceTests
         await CreateCalendarIdentifierService().DeleteCalendarIdentifierAsync("FakeTestId");
 
         _calendarStorageServiceMock.Verify(x =>
-                x.DeleteMany(
+                x.DeleteManyAsync(
                     It.Is<CalendarType>(type => type == CalendarType.State), 
                     It.Is<string>(key => key == "Test_FromIdentifier"),
                     It.IsAny<CancellationToken>()),

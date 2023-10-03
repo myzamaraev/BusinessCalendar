@@ -1,68 +1,90 @@
 using BusinessCalendar.Client.Dto;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Enums;
+using BusinessCalendar.Domain.Exceptions;
 using BusinessCalendar.Domain.Storage;
+using BusinessCalendar.MongoDb.Options;
 using FluentAssertions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Testcontainers.MongoDb;
 using DateTime = System.DateTime;
 
 namespace BusinessCalendar.Client.Tests;
 
 public class HttpBusinessCalendarClientTests
 {
+    private MongoDbContainer _mongoDbContainer;
     private WebApplicationFactory<Program> _webApplicationFactory;
-    private Mock<ICalendarStorageService> _calendarStorageServiceMock;
+    private HttpClient _httpClient;
+    private ICalendarIdentifierStorageService _calendarIdentifierStorageService;
+    private ICalendarStorageService _calendarStorageService;
+    
 
     [OneTimeSetUp]
-    public void OneTimeSetup()
+    public async Task OneTimeSetup()
     {
-        _webApplicationFactory = new WebApplicationFactory<Program>();
-    }
-
-    [SetUp]
-    public void SetUp()
-    {
-        _calendarStorageServiceMock = new Mock<ICalendarStorageService>();
-        _calendarStorageServiceMock.Setup(x => x.FindOne(
-                It.IsAny<CalendarId>(),
-                It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new CompactCalendar(
-                new CalendarId() { Year = 2023, Type = CalendarType.Custom, Key = "ResponseKey" },
-                new List<DateOnly>
-                {
-                    new DateOnly(2023, 01, 02)
-                },
-                new List<DateOnly>()
-                {
-                    new DateOnly(2023, 01, 01)
-                }));
+        _mongoDbContainer = new MongoDbBuilder().WithImage("mongo:6.0.4").Build();
+        await _mongoDbContainer.StartAsync().ConfigureAwait(false);
         
+        _webApplicationFactory = new WebApplicationFactory<Program>();
         _webApplicationFactory = _webApplicationFactory.WithWebHostBuilder(builder =>
         {
-            builder.ConfigureServices(services =>
+            builder.ConfigureTestServices(services =>
             {
-                var storageDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(ICalendarStorageService));
-                if (storageDescriptor != null)
+                services.Configure<MongoDbOptions>(options =>
                 {
-                    services.Remove(storageDescriptor);
-                }
-                
-                services.AddSingleton<ICalendarStorageService, ICalendarStorageService>((sp) => _calendarStorageServiceMock.Object);
+                    options.ConnectionUri = _mongoDbContainer.GetConnectionString();;
+                });
             });
         });
+
+        _httpClient = _webApplicationFactory.CreateClient();
+        _calendarIdentifierStorageService = _webApplicationFactory.Services.GetRequiredService<ICalendarIdentifierStorageService>();
+        _calendarStorageService = _webApplicationFactory.Services.GetRequiredService<ICalendarStorageService>();
+    }
+    
+
+    [SetUp]
+    public async Task SetUp()
+    {
+        await _calendarIdentifierStorageService.InsertAsync(new CalendarIdentifier(CalendarType.Custom, "Test"));
+        await _calendarStorageService.UpsertAsync(new CompactCalendar(
+            new CalendarId() { Year = 2023, Type = CalendarType.Custom, Key = "Test" },
+            new List<DateOnly>
+            {
+                new DateOnly(2023, 01, 02)
+            },
+            new List<DateOnly>()
+            {
+                new DateOnly(2023, 01, 01)
+            }));
     }
 
+    [TearDown]
+    public async Task TearDown()
+    {
+        await _calendarStorageService.DeleteManyAsync(CalendarType.Custom, "Test");
+        await _calendarIdentifierStorageService.DeleteAsync("Custom_Test");
+    }
+
+    [OneTimeTearDown]
+    public async Task OneTimeTearDown()
+    {
+        await _mongoDbContainer.StopAsync().ConfigureAwait(false);
+    }
 
     [Test]
     public async Task Should_GetCalendarAsync_use_api_and_get_calendar()
     {
-        var httpClient = _webApplicationFactory.CreateClient();
-        var businessCalendarClient = new HttpBusinessCalendarClient(httpClient);
+        var businessCalendarClient = new HttpBusinessCalendarClient(_httpClient);
         var expected = new CalendarModel
         {
             Type = "Custom",
-            Key = "ResponseKey",
+            Key = "Test",
             Year = 2023,
             Holidays = new List<DateTime>
             {
@@ -76,14 +98,25 @@ public class HttpBusinessCalendarClientTests
 
         var actual = await businessCalendarClient.GetCalendarAsync("Custom_Test", 2023);
 
+        actual.Should().BeEquivalentTo(expected);
+    }
+    
+    [Test]
+    public async Task Should_GetCalendarAsync_use_default_calendar_when_not_found_in_db()
+    {
+        var persistentCalendar = await _calendarStorageService.FindOneAsync(new CalendarId(CalendarType.Custom, "Test", 2025));
+        Assert.That(persistentCalendar, Is.Null); //Ensure no such calendar in DB before testing
+        
+        var businessCalendarClient = new HttpBusinessCalendarClient(_httpClient);
+        var expected = new CalendarModel
+        {
+            Type = "Custom",
+            Key = "Test",
+            Year = 2025
+            //expecting no extra workdays and holidays
+        };
 
-        _calendarStorageServiceMock.Verify(x => x.FindOne(
-                It.Is<CalendarId>(id =>
-                    id.Type == CalendarType.Custom
-                    && id.Key == "Test"
-                    && id.Year == 2023),
-                It.IsAny<CancellationToken>()),
-            Times.Once);
+        var actual = await businessCalendarClient.GetCalendarAsync("Custom_Test", 2025);
 
         actual.Should().BeEquivalentTo(expected);
     }
@@ -91,26 +124,57 @@ public class HttpBusinessCalendarClientTests
     [Test]
     public async Task Should_GetDateAsync_use_api_and_get_calendar_date()
     {
-        var httpClient = _webApplicationFactory.CreateClient();
-        var businessCalendarClient = new HttpBusinessCalendarClient(httpClient);
+        var businessCalendarClient = new HttpBusinessCalendarClient(_httpClient);
         var expected = new CalendarDateModel()
         {
             Type = "Custom",
-            Key = "ResponseKey",
+            Key = "Test",
             Date = new DateTime(2023, 01, 01),
             IsWorkday = true
         };
 
         var actual = await businessCalendarClient.GetDateAsync("Custom_Test", new DateTime(2023, 01, 01));
 
-        _calendarStorageServiceMock.Verify(x => x.FindOne(
-                It.Is<CalendarId>(id =>
-                    id.Type == CalendarType.Custom
-                    && id.Key == "Test"
-                    && id.Year == 2023), 
-                It.IsAny<CancellationToken>()),
-            Times.Once);
+        actual.Should().BeEquivalentTo(expected);
+    }
+    
+    [Test]
+    public async Task Should_GetDateAsync_use_default_calendar_when_not_found_in_db()
+    {
+        var persistentCalendar = await _calendarStorageService.FindOneAsync(new CalendarId(CalendarType.Custom, "Test", 2025));
+        Assert.That(persistentCalendar, Is.Null); //Ensure no such calendar in DB before testing
+        
+        var businessCalendarClient = new HttpBusinessCalendarClient(_httpClient);
+        var expected = new CalendarDateModel()
+        {
+            Type = "Custom",
+            Key = "Test",
+            Date = new DateTime(2025, 01, 01),
+            IsWorkday = true
+        };
+
+        var actual = await businessCalendarClient.GetDateAsync("Custom_Test", new DateTime(2025, 01, 01));
 
         actual.Should().BeEquivalentTo(expected);
+    }
+    
+    [Test]
+    public void ShouldGetCalendarAsync_throw_when_wrong_identifier()
+    {
+        new HttpBusinessCalendarClient(_httpClient)
+            .Invoking(x => x.GetCalendarAsync("InvalidIdentifier", 2023))
+            .Should()
+            .ThrowExactlyAsync<DocumentNotFoundClientException>()
+            .WithMessage("No such calendar identifier found: InvalidIdentifier");
+    }
+
+    [Test]
+    public void ShouldGetDateAsync_throw_when_wrong_identifier()
+    {
+        new HttpBusinessCalendarClient(_httpClient)
+            .Invoking(x => x.GetDateAsync("InvalidIdentifier", new DateTime(2023, 01, 01)))
+            .Should()
+            .ThrowExactlyAsync<DocumentNotFoundClientException>()
+            .WithMessage("No such calendar identifier found: InvalidIdentifier");
     }
 }

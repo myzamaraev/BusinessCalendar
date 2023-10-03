@@ -13,7 +13,7 @@ public partial class CalendarManagementServiceTests
 
         await CreateCalendarManagementService().GetCompactCalendarAsync(calendarId);
         
-        _calendarStorageServiceMock.Verify(x => x.FindOne(
+        _calendarStorageServiceMock.Verify(x => x.FindOneAsync(
             It.Is<CalendarId>(id => id == calendarId),
             It.IsAny<CancellationToken>()));
     }
@@ -24,7 +24,7 @@ public partial class CalendarManagementServiceTests
         var calendarId = DefaultCalendarId;
         var expected = new CompactCalendar(new Calendar(calendarId));
         
-        _calendarStorageServiceMock.Setup(x => x.FindOne(It.IsAny<CalendarId>(), It.IsAny<CancellationToken>()))
+        _calendarStorageServiceMock.Setup(x => x.FindOneAsync(It.IsAny<CalendarId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(expected);
         
         var actual = await CreateCalendarManagementService().GetCompactCalendarAsync(calendarId);

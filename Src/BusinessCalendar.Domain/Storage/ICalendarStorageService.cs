@@ -9,8 +9,8 @@ namespace BusinessCalendar.Domain.Storage
 {
     public interface ICalendarStorageService
     {
-        public Task Upsert(CompactCalendar compactCalendar, CancellationToken cancellationToken = default);
-        public Task<CompactCalendar> FindOne(CalendarId id, CancellationToken cancellationToken = default);
-        public Task DeleteMany(CalendarType type, string key, CancellationToken cancellationToken = default);
+        public Task UpsertAsync(CompactCalendar compactCalendar, CancellationToken cancellationToken = default);
+        public Task<CompactCalendar> FindOneAsync(CalendarId id, CancellationToken cancellationToken = default);
+        public Task DeleteManyAsync(CalendarType type, string key, CancellationToken cancellationToken = default);
     }
 }

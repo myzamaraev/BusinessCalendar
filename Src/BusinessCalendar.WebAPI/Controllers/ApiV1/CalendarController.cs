@@ -1,4 +1,5 @@
 using BusinessCalendar.Domain.Dto;
+using BusinessCalendar.Domain.Dto.Responses;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Services;
 using BusinessCalendar.WebAPI.Models;
@@ -10,58 +11,28 @@ namespace BusinessCalendar.WebAPI.Controllers.ApiV1
     [AllowAnonymous]
     public class CalendarController : ApiV1Controller
     {
-        private readonly ICalendarManagementService _calendarManagementService;
+        private readonly IClientCalendarService _clientCalendarService;
 
-        public CalendarController(ICalendarManagementService calendarManagementService)
+        public CalendarController(IClientCalendarService clientCalendarService)
         {
-            _calendarManagementService = calendarManagementService;
+            _clientCalendarService = clientCalendarService;
         }
 
         [HttpGet]
-        [Route("{Type}/{Key}/{Year}")]
+        [Route("{identifier}/{year}")]
         [ProducesResponseType(typeof(GetCalendarResponse), 200)]
-        public async Task<ActionResult<GetCalendarResponse>> Get([FromRoute]CalendarId calendarId)
+        public async Task<ActionResult<GetCalendarResponse>> Get([FromRoute]string identifier, [FromRoute]int year, CancellationToken cancellationToken)
         {
-            var calendar = await _calendarManagementService.GetCompactCalendarAsync(calendarId);
-            
-            var response = new GetCalendarResponse
-            {
-                Type = calendar.Id.Type.ToString(),
-                Key = calendar.Id.Key,
-                Year = calendar.Id.Year,
-                Holidays = calendar.Holidays
-                    .Select(x => x.ToDateTime(new TimeOnly(), DateTimeKind.Utc))
-                    .ToList(),
-                ExtraWorkDays = calendar.ExtraWorkDays
-                    .Select(x => x.ToDateTime(new TimeOnly(), DateTimeKind.Utc))
-                    .ToList(),
-            };
+            var response = await _clientCalendarService.GetCalendarAsync(identifier, year, cancellationToken);
             return Ok(response);
         }
         
         [HttpGet]
         [Route("[action]")]
         [ProducesResponseType(typeof(GetCalendarDateResponse), 200)]
-        public async Task<ActionResult<GetCalendarDateResponse>> GetDate(CalendarType type, string key, DateOnly date)
+        public async Task<ActionResult<GetCalendarDateResponse>> GetDate(string identifier, DateOnly date, CancellationToken cancellationToken)
         {
-            var calendar = await _calendarManagementService.GetCalendarAsync(
-                new CalendarId()
-                {
-                    Type = type,
-                    Key = key,
-                    Year = date.Year
-                });
-            
-            var calendarDate = calendar.Dates.Single(x => x.Date.Equals(date));
-
-            var response = new GetCalendarDateResponse
-            {
-                Type = calendar.Id.Type.ToString(),
-                Key = calendar.Id.Key,
-                Date = calendarDate.Date.ToDateTime(new TimeOnly(), DateTimeKind.Utc),
-                IsWorkday = calendarDate.IsWorkday
-            };
-            
+            var response = await _clientCalendarService.GetCalendarDateAsync(identifier, date, cancellationToken);
             return Ok(response);
         }
     }

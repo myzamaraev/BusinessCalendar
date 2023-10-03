@@ -14,4 +14,5 @@ public interface ICalendarIdentifierService
     public Task<List<CalendarIdentifier>> GetCalendarIdentifiersAsync(
         int page, int pageSize, CancellationToken cancellationToken = default);
 
+    public Task<CalendarIdentifier> GetAsync(string id, CancellationToken cancellationToken = default);
 }

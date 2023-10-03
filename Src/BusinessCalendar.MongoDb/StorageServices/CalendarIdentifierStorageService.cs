@@ -35,7 +35,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
 
         public Task<CalendarIdentifier> GetAsync(string id, CancellationToken cancellationToken = default)
         {
-            return _collection.AsQueryable().SingleAsync(x => x.Id == id, cancellationToken);
+            return _collection.AsQueryable().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)

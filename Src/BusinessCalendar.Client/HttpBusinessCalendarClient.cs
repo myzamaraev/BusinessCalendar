@@ -34,10 +34,7 @@ namespace BusinessCalendar.Client
         /// <returns name="CalendarDateModel"></returns>
         public async Task<CalendarModel> GetCalendarAsync(string identifier, int year)
         {
-            //todo: replace type and key with identifier to move logic to backend?
-            //or might it be reasonable to parse identifier in the client?
-            var (type, key) = ParseIdentifier(identifier);
-            var path = $"/api/v1/Calendar/{type}/{key}/{year}";
+            var path = $"/api/v1/Calendar/{HttpUtility.UrlEncode(identifier)}/{year}";
             var response = await _httpClient.GetAsync(path);
 
             if (response.IsSuccessStatusCode)
@@ -59,12 +56,9 @@ namespace BusinessCalendar.Client
         /// <returns name="CalendarDateModel"></returns>
         public async Task<CalendarDateModel> GetDateAsync(string identifier, DateTime date)
         {
-            var (type, key) = ParseIdentifier(identifier);
-            
-             const string path = "/api/v1/Calendar/GetDate";
+            const string path = "/api/v1/Calendar/GetDate";
              var uriParameters = string.Join("&" , 
-                 $"type={HttpUtility.UrlEncode(type)}",
-                 $"key={HttpUtility.UrlEncode(key)}",
+                 $"identifier={HttpUtility.UrlEncode(identifier)}",
                  $"{nameof(date)}={date:yyyy-MM-dd}");
             
              var pathWithParameters = string.Join("?", path, uriParameters);
@@ -83,17 +77,6 @@ namespace BusinessCalendar.Client
             throw new HttpRequestException(content);
         }
 
-        private static (string type, string key) ParseIdentifier(string identifier)
-        {
-            IdentifierRegex.EnsureMatch(identifier); 
-
-            var firstUnderscoreIndex = identifier.IndexOf('_');
-            var type = identifier.Substring(0, firstUnderscoreIndex);
-            var key = identifier.Substring(firstUnderscoreIndex + 1, identifier.Length-firstUnderscoreIndex-1);
-
-            return (type, key);
-        }
-        
         private static T Deserialize<T>(Stream stream)
         {
             using (var sr = new StreamReader(stream))
