@@ -6,7 +6,7 @@ namespace BusinessCalendar.WebAPI.Options;
 public class OpenIdConnectOptions
 {
     public const string Section = "OpenIdConnect";
-    public string Authority { get; set; }
-    public string ClientId { get; set; }
-    public string ClientSecret { get; set; }
+    public string? Authority { get; set; }
+    public string? ClientId { get; set; }
+    public string? ClientSecret { get; set; }
 }

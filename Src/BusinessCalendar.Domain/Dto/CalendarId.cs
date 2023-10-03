@@ -9,12 +9,11 @@ namespace BusinessCalendar.Domain.Dto
     public class CalendarId
     {
         public CalendarType Type { get; set; }
-        public string Key { get; set; }
+        public string Key { get; set; } = string.Empty;
         public int Year { get; set; }
 
         public CalendarId()
         {
-            
         }
 
         public CalendarId(CalendarId calendarId)
