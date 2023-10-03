@@ -24,7 +24,9 @@ public class HttpBusinessCalendarClientTests
     public void SetUp()
     {
         _calendarStorageServiceMock = new Mock<ICalendarStorageService>();
-        _calendarStorageServiceMock.Setup(x => x.FindOne(It.IsAny<CalendarId>()))
+        _calendarStorageServiceMock.Setup(x => x.FindOne(
+                It.IsAny<CalendarId>(),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(new CompactCalendar(
                 new CalendarId() { Year = 2023, Type = CalendarType.Custom, Key = "ResponseKey" },
                 new List<DateOnly>
@@ -75,10 +77,12 @@ public class HttpBusinessCalendarClientTests
         var actual = await businessCalendarClient.GetCalendarAsync("Custom_Test", 2023);
 
 
-        _calendarStorageServiceMock.Verify(x => x.FindOne(It.Is<CalendarId>(id =>
-                id.Type == CalendarType.Custom
-                && id.Key == "Test"
-                && id.Year == 2023)),
+        _calendarStorageServiceMock.Verify(x => x.FindOne(
+                It.Is<CalendarId>(id =>
+                    id.Type == CalendarType.Custom
+                    && id.Key == "Test"
+                    && id.Year == 2023),
+                It.IsAny<CancellationToken>()),
             Times.Once);
 
         actual.Should().BeEquivalentTo(expected);
@@ -99,10 +103,12 @@ public class HttpBusinessCalendarClientTests
 
         var actual = await businessCalendarClient.GetDateAsync("Custom_Test", new DateTime(2023, 01, 01));
 
-        _calendarStorageServiceMock.Verify(x => x.FindOne(It.Is<CalendarId>(id =>
-                id.Type == CalendarType.Custom
-                && id.Key == "Test"
-                && id.Year == 2023)),
+        _calendarStorageServiceMock.Verify(x => x.FindOne(
+                It.Is<CalendarId>(id =>
+                    id.Type == CalendarType.Custom
+                    && id.Key == "Test"
+                    && id.Year == 2023), 
+                It.IsAny<CancellationToken>()),
             Times.Once);
 
         actual.Should().BeEquivalentTo(expected);

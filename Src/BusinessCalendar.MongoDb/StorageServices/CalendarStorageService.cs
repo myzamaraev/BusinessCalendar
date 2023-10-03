@@ -22,13 +22,14 @@ namespace BusinessCalendar.MongoDb.StorageServices
             _calendarCollection = database.GetCollection<CompactCalendar>("Calendar");
         }
 
-        public async Task Upsert(CompactCalendar compactCalendar)
+        public async Task Upsert(CompactCalendar compactCalendar, CancellationToken cancellationToken = default)
         {
             //todo: implement equality operator for CalendarId
             var result = await _calendarCollection.ReplaceOneAsync(
                     x => x.Id == compactCalendar.Id,
                     compactCalendar,
-                    new ReplaceOptions { IsUpsert = true });
+                    new ReplaceOptions { IsUpsert = true }, 
+                    cancellationToken: cancellationToken);
             
             if (result.IsAcknowledged == false
                 || (result.MatchedCount == 0 && result.UpsertedId == null))
@@ -36,19 +37,21 @@ namespace BusinessCalendar.MongoDb.StorageServices
                 throw new Exception("Error saving calendar to DB");
             }
         }
-        public async Task<CompactCalendar> FindOne(CalendarId id)
+        public async Task<CompactCalendar> FindOne(CalendarId id, CancellationToken cancellationToken = default)
         {
             //todo: eqality operator + CalendarId as input?
-            var result = await _calendarCollection.FindAsync(x => x.Id.Type == id.Type 
-                && x.Id.Key == id.Key
-                && x.Id.Year == id.Year);
+            var result = await _calendarCollection.FindAsync(x => 
+                    x.Id.Type == id.Type 
+                    && x.Id.Key == id.Key
+                    && x.Id.Year == id.Year, 
+                cancellationToken: cancellationToken);
 
-            return result.SingleOrDefault();
+            return result.SingleOrDefault(cancellationToken: cancellationToken);
         }
 
-        public async Task DeleteMany(CalendarType type, string key)
+        public async Task DeleteMany(CalendarType type, string key, CancellationToken cancellationToken = default)
         {
-            var result = await _calendarCollection.DeleteManyAsync(x => x.Id.Type == type && x.Id.Key == key);
+            var result = await _calendarCollection.DeleteManyAsync(x => x.Id.Type == type && x.Id.Key == key, cancellationToken: cancellationToken);
         }
     }
 }

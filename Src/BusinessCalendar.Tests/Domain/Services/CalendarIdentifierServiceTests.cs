@@ -69,10 +69,12 @@ public class CalendarIdentifierServiceTests
 
         await CreateCalendarIdentifierService().AddCalendarIdentifierAsync(addCalendarIdentifierRequest);
 
-        _calendarIdentifierStorageServiceMock.Verify(x => x.InsertAsync(It.Is<CalendarIdentifier>(calendarIdentifier =>
-            calendarIdentifier.Type == CalendarType.State
-            && calendarIdentifier.Key == "Test"
-            && calendarIdentifier.Id == "State_Test")));
+        _calendarIdentifierStorageServiceMock.Verify(x => x.InsertAsync(
+            It.Is<CalendarIdentifier>(calendarIdentifier =>
+                calendarIdentifier.Type == CalendarType.State
+                && calendarIdentifier.Key == "Test"
+                && calendarIdentifier.Id == "State_Test"), 
+            It.IsAny<CancellationToken>()));
     }
 
     [Test]
@@ -80,13 +82,15 @@ public class CalendarIdentifierServiceTests
     {
         const string id = "TestId";
 
-        _calendarIdentifierStorageServiceMock.Setup(x => x.GetAsync(It.IsAny<string>()))
+        _calendarIdentifierStorageServiceMock.Setup(x => x.GetAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(new CalendarIdentifier(CalendarType.State, "testKey"));
 
         await CreateCalendarIdentifierService().DeleteCalendarIdentifierAsync(id);
 
         _calendarIdentifierStorageServiceMock.Verify(x =>
-                x.GetAsync(It.Is<string>(actualId => actualId == id)),
+                x.GetAsync(It.Is<string>(actualId => actualId == id), It.IsAny<CancellationToken>()),
             Times.Once);
     }
     
@@ -105,20 +109,25 @@ public class CalendarIdentifierServiceTests
     [Test]
     public async Task Should_DeleteCalendarIdentifierAsync_call_storage_DeleteAsync_once()
     {
-        _calendarIdentifierStorageServiceMock.Setup(x => x.GetAsync(It.IsAny<string>()))
+        _calendarIdentifierStorageServiceMock.Setup(x => x.GetAsync(
+                It.IsAny<string>(), 
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(new CalendarIdentifier(CalendarType.State, "Test_FromIdentifier"));
 
         await CreateCalendarIdentifierService().DeleteCalendarIdentifierAsync("FakeTestId");
 
         _calendarIdentifierStorageServiceMock.Verify(x =>
-                x.DeleteAsync(It.Is<string>(actualId => actualId == "State_Test_FromIdentifier")),
+                x.DeleteAsync(It.Is<string>(actualId => actualId == "State_Test_FromIdentifier"),
+                    It.IsAny<CancellationToken>()),
             Times.Once);
     }
     
     [Test]
     public async Task Should_DeleteCalendarIdentifierAsync_call_CalendarStorageService_DeleteMany_once()
     {
-        _calendarIdentifierStorageServiceMock.Setup(x => x.GetAsync(It.IsAny<string>()))
+        _calendarIdentifierStorageServiceMock.Setup(x => x.GetAsync(
+                It.IsAny<string>(), 
+                It.IsAny<CancellationToken>()))
             .ReturnsAsync(new CalendarIdentifier(CalendarType.State, "Test_FromIdentifier"));
 
         await CreateCalendarIdentifierService().DeleteCalendarIdentifierAsync("FakeTestId");
@@ -126,7 +135,8 @@ public class CalendarIdentifierServiceTests
         _calendarStorageServiceMock.Verify(x =>
                 x.DeleteMany(
                     It.Is<CalendarType>(type => type == CalendarType.State), 
-                    It.Is<string>(key => key == "Test_FromIdentifier")),
+                    It.Is<string>(key => key == "Test_FromIdentifier"),
+                    It.IsAny<CancellationToken>()),
             Times.Once);
     }
     
@@ -184,7 +194,8 @@ public class CalendarIdentifierServiceTests
         _calendarIdentifierStorageServiceMock.Verify(x => 
             x.GetAllAsync(
                 It.Is<int>(actualPage => actualPage == page), 
-                It.Is<int>(actualPageSize => actualPageSize == pageSize)),
+                It.Is<int>(actualPageSize => actualPageSize == pageSize),
+                It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
@@ -195,7 +206,10 @@ public class CalendarIdentifierServiceTests
         await CreateCalendarIdentifierService().GetCalendarIdentifiersAsync(0, pageSize);
         
         _calendarIdentifierStorageServiceMock.Verify(x => 
-            x.GetAllAsync(It.IsAny<int>(), It.Is<int>(actualPageSize => actualPageSize == 100)));
+            x.GetAllAsync(
+                It.IsAny<int>(), 
+                It.Is<int>(actualPageSize => actualPageSize == 100),
+                It.IsAny<CancellationToken>()));
     }
     
 

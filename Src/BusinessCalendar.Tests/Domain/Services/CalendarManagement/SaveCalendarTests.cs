@@ -99,6 +99,9 @@ public partial class CalendarManagementServiceTests
         await CreateCalendarManagementService().SaveCalendarAsync(request);
 
         _calendarStorageServiceMock.Verify(x => 
-            x.Upsert(It.Is<CompactCalendar>(c => c == compactCalendar)), Times.Once);
+            x.Upsert(
+                It.Is<CompactCalendar>(c => c == compactCalendar),
+                It.IsAny<CancellationToken>()), 
+            Times.Once);
     }
 }

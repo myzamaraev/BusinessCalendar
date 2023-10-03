@@ -38,7 +38,8 @@ public partial class CalendarManagementServiceTests
         _compactCalendarValidatorMock.Verify(x => 
             x.ValidateAsync(
                 It.Is<ValidationContext<CompactCalendar>>(context => context.InstanceToValidate == compactCalendar && context.ThrowOnFailures == true), 
-                It.IsAny<CancellationToken>()), Times.Once);
+                It.IsAny<CancellationToken>()), 
+            Times.Once);
     }
     
     [Test]
@@ -73,6 +74,9 @@ public partial class CalendarManagementServiceTests
         await CreateCalendarManagementService().SaveCompactCalendarAsync(request);
 
         _calendarStorageServiceMock.Verify(x => 
-            x.Upsert(It.Is<CompactCalendar>(c => c == compactCalendar)), Times.Once);
+            x.Upsert(
+                It.Is<CompactCalendar>(c => c == compactCalendar), 
+                It.IsAny<CancellationToken>()), 
+            Times.Once);
     }
 }

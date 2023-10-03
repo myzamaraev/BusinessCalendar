@@ -22,27 +22,27 @@ namespace BusinessCalendar.WebAPI.Controllers.BffV1
         
         [HttpGet]
         [Route("[action]")]
-        public async Task<ActionResult<Calendar>> GetCalendar([FromQuery]CalendarId calendarId)
+        public async Task<ActionResult<Calendar>> GetCalendar([FromQuery]CalendarId calendarId, CancellationToken cancellationToken = default)
         {
-            var calendar = await _calendarManagementService.GetCalendarAsync(calendarId);
+            var calendar = await _calendarManagementService.GetCalendarAsync(calendarId, cancellationToken);
             return Ok(calendar);
         }
 
         [HttpPut]
         [Route("[action]")]
         [AuthorizeRole(BcRoles.Manager)]
-        public async Task<ActionResult> SaveCalendar([FromBody]SaveCalendarRequest request)
+        public async Task<ActionResult> SaveCalendar([FromBody]SaveCalendarRequest request, CancellationToken cancellationToken = default)
         {
-            await _calendarManagementService.SaveCalendarAsync(request);
+            await _calendarManagementService.SaveCalendarAsync(request, cancellationToken);
             return Ok();
         }
 
         [HttpPut]
         [Route("[action]")]
         [AuthorizeRole(BcRoles.Manager)]
-        public async Task<ActionResult> SaveCompactCalendar([FromBody]SaveCompactCalendarRequest request)
+        public async Task<ActionResult> SaveCompactCalendar([FromBody]SaveCompactCalendarRequest request, CancellationToken cancellationToken = default)
         {
-            await _calendarManagementService.SaveCompactCalendarAsync(request);
+            await _calendarManagementService.SaveCompactCalendarAsync(request, cancellationToken);
             return Ok();
         }
     }

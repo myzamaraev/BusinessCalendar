@@ -10,13 +10,13 @@ namespace BusinessCalendar.Domain.Services
 {
     public interface ICalendarManagementService
     {
-        public Task<Calendar> GetCalendarAsync(CalendarId calendarId);
+        public Task<Calendar> GetCalendarAsync(CalendarId calendarId, CancellationToken cancellationToken = default);
 
-        public Task<CompactCalendar> GetCompactCalendarAsync(CalendarId calendarId);
+        public Task<CompactCalendar> GetCompactCalendarAsync(CalendarId calendarId, CancellationToken cancellationToken = default);
 
-        public Task SaveCalendarAsync(SaveCalendarRequest request);
+        public Task SaveCalendarAsync(SaveCalendarRequest request, CancellationToken cancellationToken = default);
         
-        public Task SaveCompactCalendarAsync(SaveCompactCalendarRequest request);
+        public Task SaveCompactCalendarAsync(SaveCompactCalendarRequest request, CancellationToken cancellationToken = default);
         
     }
 }

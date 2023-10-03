@@ -22,10 +22,10 @@ namespace BusinessCalendar.MongoDb.StorageServices
             _collection = database.GetCollection<CalendarIdentifier>("CalendarIdentifier");
         }
 
-        public async Task InsertAsync(CalendarIdentifier calendarIdentifier)
+        public async Task InsertAsync(CalendarIdentifier calendarIdentifier, CancellationToken cancellationToken = default)
         {
             try {
-                await _collection.InsertOneAsync(calendarIdentifier);
+                await _collection.InsertOneAsync(calendarIdentifier, cancellationToken: cancellationToken);
             }
             catch (MongoWriteException e) when(e.WriteError.Category == ServerErrorCategory.DuplicateKey)
             {
@@ -33,14 +33,14 @@ namespace BusinessCalendar.MongoDb.StorageServices
             }
         }
 
-        public Task<CalendarIdentifier> GetAsync(string id)
+        public Task<CalendarIdentifier> GetAsync(string id, CancellationToken cancellationToken = default)
         {
-            return _collection.AsQueryable().SingleAsync(x => x.Id == id);
+            return _collection.AsQueryable().SingleAsync(x => x.Id == id, cancellationToken);
         }
 
-        public async Task DeleteAsync(string id)
+        public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
         {
-             var result = await _collection.DeleteOneAsync(x => x.Id == id);
+             var result = await _collection.DeleteOneAsync(x => x.Id == id, cancellationToken: cancellationToken);
              
              if (result.IsAcknowledged == false
                  || result.DeletedCount == 0)
@@ -49,14 +49,14 @@ namespace BusinessCalendar.MongoDb.StorageServices
              }
         }
 
-        public Task<List<CalendarIdentifier>> GetAllAsync(int page, int pageSize)
+        public Task<List<CalendarIdentifier>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
         {
             return _collection.AsQueryable()
                 .OrderBy(x => x.Type)
                 .ThenBy(x => x.Key)
                 .Skip(page * pageSize)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
         }
     }
 }
