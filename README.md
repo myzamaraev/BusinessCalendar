@@ -2,7 +2,7 @@
 
 An easy way to store and manage business calendars to provide knowledge about workdays as infrastructure service for enterprise.
 
-[Check out the demo video](https://drive.google.com/file/d/1mEsYvzRFDuzHILnltdKuy6tGv4ZC9rB6/view?usp=sharing)
+[Check out the demo video](https://drive.google.com/file/d/1sCv1SwkJi_u0Arteskc9g5_eV_IAXSd3/view?usp=sharing)
 
 ### Dependencies
 Requires MongoDB as external dependency
