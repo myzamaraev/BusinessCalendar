@@ -22,7 +22,7 @@ public class CalendarIdValidatorTests
     [Test]
     public async Task Should_return_error_when_no_identifier_found()
     {
-        var calendarId = new CalendarId(CalendarType.Custom, "Test", It.IsAny<int>());
+        var calendarId = new CalendarId(CalendarType.Custom, "Test", Constants.CurrentYear);
         var validator = new CalendarIdValidator(_calendarIdentifierServiceMock.Object);
         var result = await validator.ValidateAsync(calendarId);
         
@@ -34,7 +34,7 @@ public class CalendarIdValidatorTests
     [Test]
     public async Task Should_not_return_error_when_identifier_found()
     {
-        var calendarId = new CalendarId(CalendarType.Custom, "Test", It.IsAny<int>());
+        var calendarId = new CalendarId(CalendarType.Custom, "Test", Constants.CurrentYear);
         _calendarIdentifierServiceMock.Setup(x => x.GetAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new CalendarIdentifier(CalendarType.Custom, "Test"));
         

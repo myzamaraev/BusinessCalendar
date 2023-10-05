@@ -14,22 +14,26 @@ namespace BusinessCalendar.Domain.Services
         private readonly ICalendarStorageService _calendarStorageService;
         private readonly IValidator<CompactCalendar> _compactCalendarValidator;
         private readonly IValidator<SaveCalendarRequest> _saveCalendarRequestValidator;
+        private readonly IValidator<CalendarId> _calendarIdValidator;
         private readonly ICalendarMapper _calendarMapper;
 
         public CalendarManagementService(
             ICalendarStorageService calendarStorageService, 
             IValidator<CompactCalendar> compactCalendarValidator, 
             IValidator<SaveCalendarRequest> saveCalendarRequestValidator,
+            IValidator<CalendarId> calendarIdValidator,
             ICalendarMapper calendarMapper)
         {
             _calendarStorageService = calendarStorageService;
             _compactCalendarValidator = compactCalendarValidator;
             _saveCalendarRequestValidator = saveCalendarRequestValidator;
+            _calendarIdValidator = calendarIdValidator;
             _calendarMapper = calendarMapper;
         }
         
         public async Task<Calendar> GetCalendarAsync(CalendarId calendarId, CancellationToken cancellationToken = default)
         {
+            await _calendarIdValidator.ValidateAndThrowAsync(calendarId, cancellationToken);
             var compactCalendar = await _calendarStorageService.FindOneAsync(calendarId, cancellationToken);
             //todo: provide information about persistence of the calendar
             return compactCalendar != null
@@ -39,6 +43,7 @@ namespace BusinessCalendar.Domain.Services
 
         public async Task<CompactCalendar> GetCompactCalendarAsync(CalendarId calendarId, CancellationToken cancellationToken = default)
         {
+            await _calendarIdValidator.ValidateAndThrowAsync(calendarId, cancellationToken);
             var customCalendar = await _calendarStorageService.FindOneAsync(calendarId, cancellationToken);
             return customCalendar ?? new Calendar(calendarId).ToCompact();
         }

@@ -1,5 +1,8 @@
 using BusinessCalendar.Domain.Dto;
+using BusinessCalendar.Domain.Enums;
+using BusinessCalendar.Domain.Validators;
 using FluentAssertions;
+using FluentValidation;
 using Moq;
 
 namespace BusinessCalendar.Tests.Domain.Services.CalendarManagement;
@@ -61,5 +64,35 @@ public partial class CalendarManagementServiceTests
 
         actual.Should().NotBeNull("we expect the default Calendar to be created");
         actual.Should().BeEquivalentTo(expected);
+    }
+    
+    [Test]
+    public async Task Should_GetCalendar_call_CalendarIdValidator_once()
+    {
+        var calendarId = new CalendarId() { Type = CalendarType.Custom, Key = "Test", Year = Constants.CurrentYear};
+        
+        var actual = await CreateCalendarManagementService().GetCalendarAsync(calendarId);
+        
+        _calendarIdValidatorMock.Verify(x => 
+            x.ValidateAsync(
+                It.Is<ValidationContext<CalendarId>>(context => context.InstanceToValidate == calendarId && context.ThrowOnFailures == true), 
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+    
+    [Test]
+    public async Task Should_GetCalendar_throw_when_CalendarIdValidator_failed()
+    {
+        var fakeValidator = TestValidator.Faulty<CalendarId>();
+        var calendarId = new CalendarId() { Type = CalendarType.Custom, Key = "Test", Year = Constants.CurrentYear};
+        
+        var actual = await CreateCalendarManagementService(calendarIdValidator: fakeValidator)
+            .Invoking(x => x.GetCalendarAsync(calendarId))
+            .Should()
+            .ThrowExactlyAsync<ValidationException>();
+
+        actual.Subject.Should().HaveCount(1);
+        actual.Subject.Single().Errors.Should().HaveCount(1);
+        actual.Subject.Single().Errors.Should().Contain(failure => failure.ErrorMessage == "Failure");
     }
 }
