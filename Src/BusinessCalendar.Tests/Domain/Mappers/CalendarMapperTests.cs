@@ -95,12 +95,7 @@ public class CalendarMapperTests
         yield return defaultYearDates;
         
         var invertedYearDates = defaultYearDates
-            .Select(x =>
-                new CalendarDate()
-                {
-                    Date = x.Date,
-                    IsWorkday = !x.IsWorkday
-                })
+            .Select(x => x with { IsWorkday = !x.IsWorkday })
             .ToList();
         yield return invertedYearDates;
     }

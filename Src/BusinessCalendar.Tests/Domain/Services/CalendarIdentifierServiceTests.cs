@@ -30,7 +30,10 @@ public class CalendarIdentifierServiceTests
     [Test]
     public async Task Should_AddCalendarIdentifierAsync_call_AddCalendarIdentifierRequestValidator()
     {
-        var addCalendarIdentifierRequest = new AddCalendarIdentifierRequest();
+        var addCalendarIdentifierRequest = new AddCalendarIdentifierRequest()
+        {
+            Key = "Test"
+        };
 
         await CreateCalendarIdentifierService().AddCalendarIdentifierAsync(addCalendarIdentifierRequest);
 

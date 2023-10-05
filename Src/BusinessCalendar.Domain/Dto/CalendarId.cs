@@ -6,20 +6,21 @@ using BusinessCalendar.Domain.Enums;
 
 namespace BusinessCalendar.Domain.Dto
 {
-    public class CalendarId
+    /// <summary>
+    /// Represents CalendarId as an immutable record
+    /// not a struct to prevent a possibility of initializing Key property with default null value with parameterless constructor
+    /// </summary>
+    /// <param name="Type"></param>
+    /// <param name="Key"></param>
+    /// <param name="Year"></param>
+    public record CalendarId(CalendarType Type, string Key, int Year)
     {
-        public CalendarType Type { get; set; }
-        public string Key { get; set; } = string.Empty;
-        public int Year { get; set; }
-
-        public CalendarId()
+        /// <summary>
+        /// parameterless constructor to allow initializers, but ensuring Key always not null
+        /// </summary>
+        public CalendarId() 
+            : this(default, string.Empty, default) 
         {
         }
-
-        public CalendarId(CalendarType type, string key, int year) => 
-            (Type, Key, Year) = (type, key, year);
-
-        public CalendarId(CalendarId calendarId) =>
-            (Type, Key, Year) = (calendarId.Type, calendarId.Key, calendarId.Year);
     }
 }

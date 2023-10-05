@@ -9,8 +9,9 @@ public class CalendarMapper : ICalendarMapper
 {
     public Calendar Map(CompactCalendar compactCalendar)
     {
-        var dates = DefaultCalendarProvider.DefaultCalendar(compactCalendar.Id.Year).ToList();
-        dates.ForEach(x => x.IsWorkday = compactCalendar.IsWorkDay(x.Date));
+        var dates = DefaultCalendarProvider.DefaultCalendar(compactCalendar.Id.Year)
+            .Select(x => x with { IsWorkday = compactCalendar.IsWorkDay(x.Date) })
+            .ToList();
 
         return new Calendar(compactCalendar.Id, dates);
     }

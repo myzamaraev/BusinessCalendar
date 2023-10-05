@@ -1,4 +1,5 @@
 using BusinessCalendar.Domain.Dto;
+using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Validators;
 using FluentAssertions;
 using FluentValidation;
@@ -15,7 +16,8 @@ public class CompactCalendarValidatorTests
     [SetUp]
     public void SetUp()
     {
-        _calendarIdValidatorMock = new Mock<CalendarIdValidator>();
+        var calendarIdentifierServiceMock = new Mock<ICalendarIdentifierService>();
+        _calendarIdValidatorMock = new Mock<CalendarIdValidator>(calendarIdentifierServiceMock.Object);
     }
 
     [Test]

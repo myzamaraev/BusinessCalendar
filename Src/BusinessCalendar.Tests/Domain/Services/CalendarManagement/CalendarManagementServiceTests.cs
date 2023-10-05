@@ -18,11 +18,14 @@ public partial class CalendarManagementServiceTests
     private Mock<ICalendarMapper> _calendarMapper;
     
     private readonly CalendarId DefaultCalendarId = new () { Year = Constants.CurrentYear };
+    
+
 
     [SetUp]
     public void SetUp()
     {
-        var calendarIdValidatorMock = new Mock<CalendarIdValidator>();
+        var calendarIdentifierServiceMock = new Mock<ICalendarIdentifierService>();
+        var calendarIdValidatorMock = new Mock<CalendarIdValidator>(calendarIdentifierServiceMock.Object);
         
         _calendarStorageServiceMock = new Mock<ICalendarStorageService>();
         _compactCalendarValidatorMock = new Mock<CompactCalendarValidator>(calendarIdValidatorMock.Object);

@@ -6,14 +6,19 @@ using BusinessCalendar.Domain.Enums;
 
 namespace BusinessCalendar.Domain.Dto
 {
-    public class CalendarIdentifier
+    /// <summary>
+    /// represents CalendarIdentifier as immutable record
+    /// </summary>
+    public record CalendarIdentifier
     {
-        public string Id { get; set; }
-        public CalendarType Type { get; set; }
-        public string Key { get; set; }
-
+        public string Id { get; }
+        public CalendarType Type { get; }
+        public string Key { get; }
+        
         public CalendarIdentifier(CalendarType type, string key)
         {
+            ArgumentException.ThrowIfNullOrEmpty(key);
+            
             Type = type;
             Key = key;
             Id = $"{type}_{key}";

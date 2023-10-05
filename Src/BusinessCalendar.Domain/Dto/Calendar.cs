@@ -12,7 +12,7 @@ namespace BusinessCalendar.Domain.Dto
     {
         public CalendarId Id { get; }
 
-        public List<CalendarDate> Dates { get; private set; } = new(); //todo: private set for the sake of Mongo driver
+        public List<CalendarDate> Dates { get; } = new();
 
         public Calendar(CalendarType type, string key, int year)
             : this(new CalendarId { Type = type, Key = key, Year = year })

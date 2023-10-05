@@ -1,6 +1,7 @@
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Enums;
+using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Validators;
 using FluentAssertions;
 using FluentValidation;
@@ -16,7 +17,8 @@ public class SaveCalendarRequestValidatorTests
     [SetUp]
     public void SetUp()
     {
-        _calendarIdValidatorMock = new Mock<CalendarIdValidator>();
+        var calendarIdentifierServiceMock = new Mock<ICalendarIdentifierService>();
+        _calendarIdValidatorMock = new Mock<CalendarIdValidator>(calendarIdentifierServiceMock.Object);
     }
 
     [Test]

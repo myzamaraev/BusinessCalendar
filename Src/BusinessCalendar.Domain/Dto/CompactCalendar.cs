@@ -10,11 +10,18 @@ using BusinessCalendar.Domain.Enums;
 
 namespace BusinessCalendar.Domain.Dto
 {
+    /// <summary>
+    /// Represents compact version of calendar
+    /// </summary>
+    /// <remarks>
+    /// Any derived type should be truly immutable,
+    /// In case it isn't possible all persistent properties should be rewritten to implement at least init setters  to avoid db serialization errors
+    /// </remarks>
     public class CompactCalendar
     {
-        public CalendarId Id { get; set; }
-        public List<DateOnly> Holidays { get; private set; } = new (); //todo: private set for the sake of Mongo driver
-        public List<DateOnly> ExtraWorkDays { get; private set; } = new ();
+        public CalendarId Id { get; }
+        public List<DateOnly> Holidays { get; } = new ();
+        public List<DateOnly> ExtraWorkDays { get; } = new ();
 
         public bool IsDefault => !Holidays.Any() && !ExtraWorkDays.Any();
 
@@ -46,8 +53,7 @@ namespace BusinessCalendar.Domain.Dto
         /// <param name="calendar"></param>
         public CompactCalendar(Calendar calendar)
         {
-            Id = new CalendarId(calendar.Id);
-            
+            Id = calendar.Id;
             foreach (var calendarDate in calendar.Dates)
             {
                 switch (calendarDate.IsWorkday)
@@ -69,7 +75,5 @@ namespace BusinessCalendar.Domain.Dto
             
             return isExtraWorkDay || !isDayOff;
         }
-        
-        
     }
 }

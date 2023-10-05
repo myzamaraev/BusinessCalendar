@@ -6,11 +6,10 @@ using System.Text.Json.Serialization;
 
 namespace BusinessCalendar.Domain.Dto
 {
-    //todo: value type breaks updates in foreach 
-    public class CalendarDate
-    {
-        public DateOnly Date { get; set; }
-
-        public bool IsWorkday { get; set; }
-    }
+    /// <summary>
+    /// represents a calendar date as an immutable record struct
+    /// </summary>
+    /// <param name="Date">specific date of the year</param>
+    /// <param name="IsWorkday">workday or not</param>
+    public readonly record struct CalendarDate(DateOnly Date, bool IsWorkday);
 }
