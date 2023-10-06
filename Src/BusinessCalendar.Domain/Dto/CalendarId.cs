@@ -1,26 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BusinessCalendar.Domain.Enums;
 
-namespace BusinessCalendar.Domain.Dto
+namespace BusinessCalendar.Domain.Dto;
+
+/// <summary>
+/// Represents CalendarId as an immutable record
+/// not a struct to prevent a possibility of initializing Key property with default null value with parameterless constructor
+/// </summary>
+/// <param name="Type"></param>
+/// <param name="Key"></param>
+/// <param name="Year"></param>
+public record CalendarId(CalendarType Type, string Key, int Year)
 {
     /// <summary>
-    /// Represents CalendarId as an immutable record
-    /// not a struct to prevent a possibility of initializing Key property with default null value with parameterless constructor
+    /// parameterless constructor to allow initializers, but ensuring Key always not null
     /// </summary>
-    /// <param name="Type"></param>
-    /// <param name="Key"></param>
-    /// <param name="Year"></param>
-    public record CalendarId(CalendarType Type, string Key, int Year)
+    public CalendarId() 
+        : this(default, string.Empty, default) 
     {
-        /// <summary>
-        /// parameterless constructor to allow initializers, but ensuring Key always not null
-        /// </summary>
-        public CalendarId() 
-            : this(default, string.Empty, default) 
-        {
-        }
     }
 }

@@ -1,5 +1,8 @@
 namespace BusinessCalendar.MongoDb.Options;
 
+/// <summary>
+/// MongoDbOptions to configure MongoClient and database
+/// </summary>
 public class MongoDbOptions
 {
     public const string Section = "MongoDB";

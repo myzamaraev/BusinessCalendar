@@ -5,13 +5,10 @@ using BusinessCalendar.Domain.Exceptions;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.MongoDb.Options;
 using FluentAssertions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Testcontainers.MongoDb;
-using DateTime = System.DateTime;
 
 namespace BusinessCalendar.Client.Tests;
 

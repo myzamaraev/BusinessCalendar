@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.MongoDb.Options;
 using MongoDB.Driver;
-using MongoDB.Bson.Serialization;
-using MongoDB.Bson;
 
 namespace BusinessCalendar.MongoDb.StorageServices
 {
@@ -44,7 +38,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
 
         public async Task DeleteManyAsync(CalendarType type, string key, CancellationToken cancellationToken = default)
         {
-            var result = await _calendarCollection.DeleteManyAsync(x => x.Id.Type == type && x.Id.Key == key, cancellationToken: cancellationToken);
+            await _calendarCollection.DeleteManyAsync(x => x.Id.Type == type && x.Id.Key == key, cancellationToken: cancellationToken);
         }
     }
 }

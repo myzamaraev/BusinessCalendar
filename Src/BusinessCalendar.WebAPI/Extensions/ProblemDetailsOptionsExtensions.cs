@@ -11,6 +11,11 @@ namespace BusinessCalendar.WebAPI.Extensions;
 
 public static class ProblemDetailsOptionsExtensions
 {
+    /// <summary>
+    /// Maps FluentValidation.ValidationException to problem details
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="statusCode">desired http status code</param>
     public static void MapFluentValidationException(this ProblemDetailsOptions options, int? statusCode = null) =>
         options.Map<ValidationException>((ctx, ex) =>
         {
@@ -25,6 +30,11 @@ public static class ProblemDetailsOptionsExtensions
             return factory.CreateValidationProblemDetails(ctx, errors, statusCode);
         });
     
+    /// <summary>
+    /// Maps any exception derived from ClientException to problem details
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="statusCode">desired http status code</param>
     public static void MapClientException(this ProblemDetailsOptions options, int? statusCode = null) =>
         options.Map<ClientException>((ctx, ex) =>
         {

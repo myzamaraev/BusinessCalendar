@@ -3,7 +3,6 @@ using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Validators;
 using FluentAssertions;
 using FluentValidation;
-using FluentValidation.Results;
 using Moq;
 
 namespace BusinessCalendar.Tests.Domain.Validators;

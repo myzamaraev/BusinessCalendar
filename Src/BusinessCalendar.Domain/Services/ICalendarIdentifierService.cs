@@ -1,6 +1,5 @@
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
-using BusinessCalendar.Domain.Enums;
 
 namespace BusinessCalendar.Domain.Services;
 

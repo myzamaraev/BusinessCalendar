@@ -1,4 +1,3 @@
-using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Validators;
 using FluentAssertions;

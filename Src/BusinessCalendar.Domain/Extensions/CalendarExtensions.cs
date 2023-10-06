@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BusinessCalendar.Domain.Dto;
 
-namespace BusinessCalendar.Domain.Extensions
+namespace BusinessCalendar.Domain.Extensions;
+
+public static class CalendarExtensions
 {
-    public static class CalendarExtensions
+    /// <summary>
+    /// Converts full calendar to it's compact version
+    /// </summary>
+    /// <param name="calendar"></param>
+    /// <returns></returns>
+    public static CompactCalendar ToCompact(this Calendar calendar)
     {
-        public static CompactCalendar ToCompact(this Calendar calendar)
-        {
-            return new CompactCalendar(calendar);
-        }
+        return new CompactCalendar(calendar);
     }
 }

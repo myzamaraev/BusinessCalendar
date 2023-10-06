@@ -1,10 +1,7 @@
 using System.Linq.Expressions;
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Extensions;
-using BusinessCalendar.Domain.Providers;
 using FluentValidation;
-using FluentValidation.Internal;
-using FluentValidation.Results;
 
 namespace BusinessCalendar.Domain.Validators;
 

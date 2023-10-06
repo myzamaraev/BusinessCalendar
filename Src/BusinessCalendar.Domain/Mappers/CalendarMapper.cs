@@ -5,6 +5,9 @@ using BusinessCalendar.Domain.Providers;
 
 namespace BusinessCalendar.Domain.Mappers;
 
+/// <summary>
+/// Implementation of ICalendarMapper
+/// </summary>
 public class CalendarMapper : ICalendarMapper
 {
     public Calendar Map(CompactCalendar compactCalendar)

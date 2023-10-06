@@ -1,8 +1,7 @@
-namespace BusinessCalendar.Domain.Enums
+namespace BusinessCalendar.Domain.Enums;
+
+public enum CalendarType
 {
-    public enum CalendarType
-    {
-        State = 0,
-        Custom = 1
-    }
+    State = 0,
+    Custom = 1
 }

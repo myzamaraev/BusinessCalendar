@@ -1,10 +1,14 @@
 using System.ComponentModel;
-using System.Reflection;
 
 namespace BusinessCalendar.Domain.Extensions;
 
 public static class EnumExtensions
 {
+    /// <summary>
+    /// Gets the value from Description attribute
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns>string value from description attribute</returns>
     public static string GetDescription(this Enum value)
     {
         var fieldInfo = value.GetType().GetField(value.ToString());

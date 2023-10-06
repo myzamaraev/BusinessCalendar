@@ -3,8 +3,6 @@ using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Services;
 using BusinessCalendar.WebAPI.Attributes;
 using BusinessCalendar.WebAPI.Constants;
-using BusinessCalendar.WebAPI.Controllers.ApiV1;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BusinessCalendar.WebAPI.Controllers.BffV1

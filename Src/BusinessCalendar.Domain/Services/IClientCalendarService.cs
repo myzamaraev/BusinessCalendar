@@ -1,5 +1,4 @@
 using BusinessCalendar.Domain.Dto.Responses;
-using BusinessCalendar.Domain.Exceptions;
 
 namespace BusinessCalendar.Domain.Services;
 

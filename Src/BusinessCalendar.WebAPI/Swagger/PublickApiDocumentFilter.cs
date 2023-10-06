@@ -1,10 +1,11 @@
-using Microsoft.OpenApi.Extensions;
 using Microsoft.OpenApi.Models;
-using MongoDB.Driver.Linq;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace BusinessCalendar.WebAPI.Swagger;
 
+/// <summary>
+/// Filters out everything but public api endpoints
+/// </summary>
 public class PublicApiDocumentFilter : IDocumentFilter
 {
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)

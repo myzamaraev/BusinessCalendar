@@ -1,24 +1,20 @@
 using BusinessCalendar.Domain.Extensions;
 using BusinessCalendar.MongoDb.Extensions;
 using BusinessCalendar.MongoDb.Options;
+using BusinessCalendar.WebAPI.Constants;
 using BusinessCalendar.WebAPI.Options;
-using CloudPayments.Services.BillingService.WebApi.Constants;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.OAuth.Claims;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Microsoft.IdentityModel.Tokens;
-using MongoDB.Driver;
-using OpenIdConnectOptions = BusinessCalendar.WebAPI.Options.OpenIdConnectOptions;
 
 namespace BusinessCalendar.WebAPI.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds BusinessCalendar domain services, storage and health checks
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
     public static IServiceCollection RegisterServices(
         this IServiceCollection services,
         IConfiguration configuration)

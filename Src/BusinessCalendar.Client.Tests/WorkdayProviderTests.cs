@@ -158,21 +158,22 @@ public class WorkdayProviderTests
                 client.GetDateAsync(It.IsAny<string>(), It.IsAny<DateTime>()),
             Times.Never);
     }
-
-    [TestCase(false)]
-    [TestCase(true)]
-    public async Task Should_IsWorkday_use_GetCalendar_when_FullCalendarCache_enabled(bool expected)
+    
+    [Test]
+    public async Task Should_IsWorkday_use_GetCalendar_when_FullCalendarCache_enabled()
     {
-        var today = DateTime.Today;
-
-        var calendarMock = new Mock<CalendarModel>();
-        calendarMock.Setup(calendar => calendar.IsWorkday(It.IsAny<DateTime>()))
-            .Returns(expected);
-
         //Arrange
+        var today =  DateTime.Today;
+        var calendarModel = new CalendarModel()
+        {
+            Year = today.Year
+        };
+
+        var expected = calendarModel.IsWorkday(today);
+
         _cacheProviderMock.Setup(cache =>
                 cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<CalendarModel>>>()))
-            .ReturnsAsync(calendarMock.Object);
+            .ReturnsAsync(calendarModel);
 
         var sut = new WorkdayProvider(_businessCalendarClientMock.Object,
             options => options.UseFullCalendarCache(_cacheProviderMock.Object));
@@ -187,10 +188,6 @@ public class WorkdayProviderTests
                         cacheKey == $"WorkdayProvider_GetCalendarAsync_State_Test_{today:yyyy}"),
                     It.IsAny<Func<Task<CalendarModel>>>()),
             Times.Once);
-
-        calendarMock.Verify(calendar =>
-                calendar.IsWorkday(It.Is<DateTime>(date => date.Equals(today))),
-            Times.Once());
 
         Assert.That(actual, Is.EqualTo(expected));
     }

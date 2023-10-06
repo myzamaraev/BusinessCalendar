@@ -1,14 +1,34 @@
 using BusinessCalendar.Domain.Enums;
 
-namespace BusinessCalendar.Domain.Dto.Requests
-{
-    public class SaveCompactCalendarRequest
-    {
-        public CalendarType Type { get; set; }
-        public string Key { get; set; } = string.Empty;
-        public int Year { get; set; }
+namespace BusinessCalendar.Domain.Dto.Requests;
 
-         public List<DateOnly> Holidays { get; set;  } = new();
-        public List<DateOnly> ExtraWorkDays { get; set;  } = new();
-    }
+/// <summary>
+/// Contract to save CompactCalendar to DB
+/// </summary>
+public class SaveCompactCalendarRequest
+{
+    /// <summary>
+    /// Calendar Type 
+    /// </summary>
+    public CalendarType Type { get; set; }
+        
+    /// <summary>
+    /// Calendar Key 
+    /// </summary>
+    public string Key { get; set; } = string.Empty;
+        
+    /// <summary>
+    /// Calendar Year 
+    /// </summary>
+    public int Year { get; set; }
+
+    /// <summary>
+    /// The list of holidays
+    /// </summary>
+    public List<DateOnly> Holidays { get; set;  } = new();
+        
+    /// <summary>
+    /// The list of extra work days
+    /// </summary>
+    public List<DateOnly> ExtraWorkDays { get; set;  } = new();
 }

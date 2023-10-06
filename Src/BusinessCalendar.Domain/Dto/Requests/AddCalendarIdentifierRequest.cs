@@ -1,10 +1,19 @@
 using BusinessCalendar.Domain.Enums;
 
-namespace BusinessCalendar.Domain.Dto.Requests
+namespace BusinessCalendar.Domain.Dto.Requests;
+
+/// <summary>
+/// Contract to add new CalendarIdentifier
+/// </summary>
+public class AddCalendarIdentifierRequest
 {
-    public class AddCalendarIdentifierRequest
-    {
-        public CalendarType Type { get; set; }
-        public string Key { get; set; } = string.Empty;
-    }
+    /// <summary>
+    /// Calendar Type 
+    /// </summary>
+    public CalendarType Type { get; set; }
+    
+    /// <summary>
+    /// Calendar Key 
+    /// </summary>
+    public string Key { get; set; } = string.Empty;
 }

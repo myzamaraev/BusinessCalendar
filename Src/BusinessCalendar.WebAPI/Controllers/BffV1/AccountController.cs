@@ -1,5 +1,3 @@
-using BusinessCalendar.Domain.Enums;
-using BusinessCalendar.Domain.Exceptions;
 using BusinessCalendar.WebAPI.Constants;
 using BusinessCalendar.WebAPI.Models;
 using BusinessCalendar.WebAPI.Options;
@@ -15,12 +13,13 @@ namespace BusinessCalendar.WebAPI.Controllers.BffV1;
 public class AccountController : BffV1Controller
 {
     private readonly IOptions<AuthOptions> _authOptions;
+    private const string RootSpaContentUri = "/";
 
     public AccountController(IOptions<AuthOptions> authOptions)
     {
         _authOptions = authOptions;
     }
-    
+
     [HttpGet]
     [Route("[action]")]
     [AllowAnonymous]
@@ -48,19 +47,14 @@ public class AccountController : BffV1Controller
     [AllowAnonymous]
     public IActionResult LogIn([FromQuery] string? redirectUri)
     {
-        redirectUri = string.IsNullOrEmpty(redirectUri) ? "/" : redirectUri;
-
-        if (HttpContext.User.Identity is not { IsAuthenticated: true })
+        redirectUri = string.IsNullOrEmpty(redirectUri) ? RootSpaContentUri : redirectUri;
+        if (HttpContext.User.Identity is { IsAuthenticated: true })
         {
-            var authenticationProperties = new AuthenticationProperties
-            {
-                RedirectUri = redirectUri
-            };
-
-            return Challenge(authenticationProperties, OpenIdConnectDefaults.AuthenticationScheme);
+            return Redirect(redirectUri);
         }
-
-        return Redirect(redirectUri);
+        
+        var authenticationProperties = new AuthenticationProperties { RedirectUri = redirectUri };
+        return Challenge(authenticationProperties, OpenIdConnectDefaults.AuthenticationScheme);
     }
 
     [HttpGet]
@@ -69,26 +63,25 @@ public class AccountController : BffV1Controller
     {
         var authenticationProperties = new AuthenticationProperties
         {
-            RedirectUri = "/"
+            RedirectUri = RootSpaContentUri
         };
 
         //sign out from an app without signing out from SSO session to not affect other apps
         return SignOut(authenticationProperties, CookieAuthenticationDefaults.AuthenticationScheme);
     }
-    
+
     [HttpGet]
     [Route("[action]")]
     public IActionResult SingleLogOut()
     {
         var authenticationProperties = new AuthenticationProperties
         {
-            RedirectUri = "/" //after signing out redirect to root SPA content
+            RedirectUri = RootSpaContentUri
         };
 
-        //sign out from an app without signing out from SSO session to not affect other apps
-        return SignOut(authenticationProperties, CookieAuthenticationDefaults.AuthenticationScheme, OpenIdConnectDefaults.AuthenticationScheme);
+        return SignOut(authenticationProperties, CookieAuthenticationDefaults.AuthenticationScheme,
+            OpenIdConnectDefaults.AuthenticationScheme);
     }
-    
 
     private UserInfo GetUserInfo()
     {
@@ -100,9 +93,9 @@ public class AccountController : BffV1Controller
             .FindAll("role")
             .Select(x => x.Value)
             .Distinct()
-            .Where(role => BcRoles.RoleList.Any(bcRole => role == bcRole))
+            .Intersect(BcRoles.RoleList)
             .ToList();
-        
+
         return new UserInfo
         {
             UserName = userName,

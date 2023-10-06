@@ -1,14 +1,12 @@
-﻿using System;
-using BusinessCalendar.Domain.Enums;
+﻿using BusinessCalendar.Domain.Enums;
 
-namespace BusinessCalendar.Domain.Exceptions
+namespace BusinessCalendar.Domain.Exceptions;
+
+[Serializable]
+public class DuplicateKeyClientException : ClientException
 {
-    [Serializable]
-    public class DuplicateKeyClientException : ClientException
+    public DuplicateKeyClientException(string message) : base(message, ErrorCode.DuplicateKey)
     {
-        public DuplicateKeyClientException(string message) : base(message, ErrorCode.DuplicateKey)
-        {
             
-        }
     }
 }

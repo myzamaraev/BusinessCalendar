@@ -1,4 +1,3 @@
-using BusinessCalendar.Client.Providers;
 using BusinessCalendar.Client.Providers.Dependencies;
 using Microsoft.Extensions.Caching.Memory;
 

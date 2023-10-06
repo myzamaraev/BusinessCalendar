@@ -1,4 +1,4 @@
-﻿namespace CloudPayments.Services.BillingService.WebApi.Constants
+﻿namespace BusinessCalendar.WebAPI.Constants
 {
     internal static class HealthConstants
     {

@@ -3,6 +3,9 @@ using BusinessCalendar.Domain.Dto.Requests;
 
 namespace BusinessCalendar.Domain.Mappers;
 
+/// <summary>
+/// Maps calendars from requests and compact / full representations
+/// </summary>
 public interface ICalendarMapper
 {
     /// <summary>

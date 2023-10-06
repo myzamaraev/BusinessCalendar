@@ -1,4 +1,3 @@
-using System.Security.Authentication;
 using System.Text.Json.Serialization;
 using Microsoft.OpenApi.Models;
 using BusinessCalendar.WebAPI.Extensions;
@@ -6,16 +5,13 @@ using BusinessCalendar.WebAPI.Options;
 using BusinessCalendar.WebAPI.Swagger;
 using Hellang.Middleware.ProblemDetails;
 using Hellang.Middleware.ProblemDetails.Mvc;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
-
 builder.Services.AddProblemDetails(options =>
 {
-    options.IncludeExceptionDetails = (ctx, ex) => false;//builder.Environment.IsDevelopment();
+    options.IncludeExceptionDetails = (ctx, ex) => false;
     options.MapClientException(StatusCodes.Status400BadRequest);
     options.MapFluentValidationException(StatusCodes.Status400BadRequest); 
     options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
@@ -43,14 +39,11 @@ builder.Services.AddSwaggerGen(c => {
 builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
-
 app.UseStaticFiles();
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCookiePolicy(new CookiePolicyOptions() { MinimumSameSitePolicy = SameSiteMode.Lax });
-
+app.UseCookiePolicy(new CookiePolicyOptions() { MinimumSameSitePolicy = SameSiteMode.Lax }); //the only way to get it working with oidc redirects
 app.UseProblemDetails();
 
 var actionEndpointBuilder = app.MapControllers();

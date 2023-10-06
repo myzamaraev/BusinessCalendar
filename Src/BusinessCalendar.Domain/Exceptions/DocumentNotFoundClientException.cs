@@ -1,13 +1,11 @@
-﻿using System;
-using BusinessCalendar.Domain.Enums;
+﻿using BusinessCalendar.Domain.Enums;
 
-namespace BusinessCalendar.Domain.Exceptions
+namespace BusinessCalendar.Domain.Exceptions;
+
+[Serializable]
+public class DocumentNotFoundClientException : ClientException
 {
-    [Serializable]
-    public class DocumentNotFoundClientException : ClientException
+    public DocumentNotFoundClientException(string message) : base(message, ErrorCode.NotFound)
     {
-        public DocumentNotFoundClientException(string message) : base(message, ErrorCode.NotFound)
-        {
-        }
     }
 }

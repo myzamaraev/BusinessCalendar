@@ -2,6 +2,14 @@ namespace BusinessCalendar.Domain.Extensions;
 
 public static class CollectionExtensions
 {
+    /// <summary>
+    /// Enables collection initializers with another collection as an input
+    /// </summary>
+    /// <param name="destination"></param>
+    /// <param name="source"></param>
+    /// <typeparam name="TCollection"></typeparam>
+    /// <typeparam name="TItem"></typeparam>
+    /// <returns></returns>
     public static TCollection Add<TCollection, TItem>(
         this TCollection destination,
         IEnumerable<TItem> source)

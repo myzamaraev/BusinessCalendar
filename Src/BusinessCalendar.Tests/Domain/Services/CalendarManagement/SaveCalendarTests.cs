@@ -3,7 +3,6 @@ using BusinessCalendar.Domain.Dto.Requests;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Extensions;
 using BusinessCalendar.Domain.Services;
-using BusinessCalendar.Domain.Validators;
 using FluentAssertions;
 using FluentValidation;
 using Moq;

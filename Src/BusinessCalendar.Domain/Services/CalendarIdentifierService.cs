@@ -1,6 +1,5 @@
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Dto.Requests;
-using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Exceptions;
 using BusinessCalendar.Domain.Storage;
 using FluentValidation;

@@ -1,4 +1,4 @@
-using CloudPayments.Services.BillingService.WebApi.Constants;
+using BusinessCalendar.WebAPI.Constants;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -6,6 +6,11 @@ namespace BusinessCalendar.WebAPI.Extensions;
 
 public static class ApplicationBuilderExtensions
 {
+    /// <summary>
+    /// Adds health check endpoints
+    /// </summary>
+    /// <param name="applicationBuilder"></param>
+    /// <returns></returns>
     public static IApplicationBuilder UseHealthcheckEndpoints(this IApplicationBuilder applicationBuilder)
     {
         applicationBuilder.UseEndpoints(endpoints =>

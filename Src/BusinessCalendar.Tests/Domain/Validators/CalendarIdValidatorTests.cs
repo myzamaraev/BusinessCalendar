@@ -1,7 +1,6 @@
 using BusinessCalendar.Domain.Dto;
 using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Services;
-using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Validators;
 using FluentAssertions;
 using Moq;

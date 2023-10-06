@@ -1,12 +1,9 @@
-﻿using System.Text.Json;
-using BusinessCalendar.Client;
+﻿using BusinessCalendar.Client;
 using BusinessCalendar.Client.Providers;
 using BusinessCalendar.Client.Providers.Dependencies;
 using BusinessCalendar.Demo;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 
 var builder = Host.CreateApplicationBuilder(args);
 var services = builder.Services;

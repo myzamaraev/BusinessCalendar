@@ -9,6 +9,11 @@ namespace BusinessCalendar.MongoDb.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds storage services to ServiceCollection and registers MongoClassMapper
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     public static IServiceCollection AddMongoDbStorage(this IServiceCollection services)
     {
         services.InitMongoClient();
@@ -20,6 +25,11 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
+    /// <summary>
+    /// Adds mongo Client
+    /// </summary>
+    /// <param name="services"></param>
+    /// <returns></returns>
     private static IServiceCollection InitMongoClient(this IServiceCollection services)
     {
         services.AddSingleton<IMongoClient>(

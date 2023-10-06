@@ -1,8 +1,4 @@
-using Amazon.Runtime.Internal.Endpoints.StandardLibrary;
 using BusinessCalendar.WebAPI.Options;
-
-namespace BusinessCalendar.WebAPI.Extensions;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -10,8 +6,17 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using OpenIdConnectOptions = BusinessCalendar.WebAPI.Options.OpenIdConnectOptions;
 
+namespace BusinessCalendar.WebAPI.Extensions;
+
 public static class ServiceCollectionAuthExtensions
 {
+    /// <summary>
+    /// Adds authorization through oidc provider
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configuration"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception">Throws exception if no configuration section found for OpenIdConnectOptions</exception>
     public static IServiceCollection AddOpenIdConnectAuth(this IServiceCollection services, IConfiguration configuration)
     {
         var authSettings = configuration.GetSection(AuthOptions.Section).Get<AuthOptions>();
@@ -77,7 +82,6 @@ public static class ServiceCollectionAuthExtensions
                 options.Scope.Add("profile");
                 options.Scope.Add("email");
                 options.Scope.Add("offline_access");
-                //options.Scope.Add("roles");
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

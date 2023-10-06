@@ -8,7 +8,6 @@ using BusinessCalendar.Domain.Validators;
 using FluentAssertions;
 using FluentValidation;
 using Moq;
-using NUnit.Framework.Internal;
 
 namespace BusinessCalendar.Tests.Domain.Services;
 
