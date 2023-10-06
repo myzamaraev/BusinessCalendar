@@ -24,7 +24,6 @@ namespace BusinessCalendar.MongoDb.StorageServices
 
         public async Task UpsertAsync(CompactCalendar compactCalendar, CancellationToken cancellationToken = default)
         {
-            //todo: implement equality operator for CalendarId
             var result = await _calendarCollection.ReplaceOneAsync(
                     x => x.Id == compactCalendar.Id,
                     compactCalendar,
@@ -39,14 +38,8 @@ namespace BusinessCalendar.MongoDb.StorageServices
         }
         public async Task<CompactCalendar> FindOneAsync(CalendarId id, CancellationToken cancellationToken = default)
         {
-            //todo: eqality operator + CalendarId as input?
-            var result = await _calendarCollection.FindAsync(x => 
-                    x.Id.Type == id.Type 
-                    && x.Id.Key == id.Key
-                    && x.Id.Year == id.Year, 
-                cancellationToken: cancellationToken);
-
-            return result.SingleOrDefault(cancellationToken: cancellationToken);
+            var cursor = await _calendarCollection.FindAsync(x => x.Id == id, cancellationToken: cancellationToken);
+            return cursor.SingleOrDefault(cancellationToken: cancellationToken);
         }
 
         public async Task DeleteManyAsync(CalendarType type, string key, CancellationToken cancellationToken = default)
