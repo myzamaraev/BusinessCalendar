@@ -3,7 +3,7 @@
     <h5>{{ monthName }}</h5>
     <div class="flex-month">
       <div
-        v-for="weekday in this.localization.weekdaysSymbol"
+        v-for="weekday in this.daysOfWeek.symbol"
         :key="weekday"
         class="days-header"
       >
@@ -43,11 +43,11 @@ export default {
       type: Object,
       required: true,
     },
-    firstWeekday: {
+    firstDayOfWeek: {
       type: String,
       required: true,
     },
-    lastWeekday: {
+    lastDayOfWeek: {
       type: String,
       required: true
     }
@@ -57,12 +57,12 @@ export default {
   },
   computed: {
     stubsBefore() {
-      return this.localization.weekdays.indexOf(this.firstWeekday);
+      return this.daysOfWeek.long.indexOf(this.firstDayOfWeek);
     },
     stubsAfter() {
-      return 7 - this.localization.weekdays.indexOf(this.lastWeekday) - 1;
+      return 7 - this.daysOfWeek.long.indexOf(this.lastDayOfWeek) - 1;
     },
-    ...mapGetters("calendar", ["localization"])
+    ...mapGetters("localization", ["daysOfWeek"])
   },
   methods: {
     toggleDate(id) {

@@ -3,7 +3,7 @@ function getMonthName(date) {
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }
 
-function getWeekday(date) {
+function getDayOfWeek(date) {
   const options = { weekday: "long" };
   return new Intl.DateTimeFormat("en-US", options).format(date);
 }
@@ -21,7 +21,7 @@ export default {
 
       const dayOfMonth = date.getDate();
       if (dayOfMonth === 1) {
-        month.firstWeekday = getWeekday(date);
+        month.firstDayOfWeek = getDayOfWeek(date);
       }
 
       month.dates.push({
@@ -35,9 +35,9 @@ export default {
     mutatedData.forEach((month) => {
       var dates = month.dates.map((x) => x.date);
       const maxDate = new Date(Math.max(...dates));
-      month.lastWeekday = getWeekday(maxDate);
+      month.lastDayOfWeek = getDayOfWeek(maxDate);
     });
-
+``
     state.type = data.id.type;
     state.key = data.id.key;
     state.year = data.id.year;

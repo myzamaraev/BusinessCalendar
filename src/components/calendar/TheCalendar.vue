@@ -130,7 +130,6 @@ export default {
   provide() {
     return {
       activeEvents: this.activeEvents,
-      localization: this.localization,
     };
   },
 };

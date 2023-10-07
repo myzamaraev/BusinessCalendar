@@ -11,21 +11,6 @@ export default {
       months: [],
       hasUnsavedChanges: false,
       isLoading: false,
-      
-      localization: {
-        firstDayOfWeek: "Monday",
-        weekdays: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        weekdaysShort: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        weekdaysSymbol: ['M', "T", "W", "T", "F", "S", "S"]
-      }
     };
   },
   getters: {
@@ -49,9 +34,6 @@ export default {
     {
       return `${state.type}_${state.key}`
     },
-    localization(state) {
-      return state.localization;
-    }
   },
   actions,
   mutations,
