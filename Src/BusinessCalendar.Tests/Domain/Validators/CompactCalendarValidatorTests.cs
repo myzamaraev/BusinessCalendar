@@ -63,10 +63,13 @@ public class CompactCalendarValidatorTests
     [Test]
     public void Should_fail_when_date_out_of_year()
     {
+        var startOfNextYear = new DateOnly(Constants.CurrentYear + 1, 1, 1);
+        var endOfPrevYear = new DateOnly(Constants.CurrentYear - 1, 12, 31);
+        
         var compactCalendar = new CompactCalendar(new CalendarId() { Year = Constants.CurrentYear })
         {
-            Holidays = { new DateOnly(Constants.CurrentYear+1,1,1) },
-            ExtraWorkDays = { new DateOnly(Constants.CurrentYear-1,12,31) }
+            Holidays = { startOfNextYear },
+            ExtraWorkDays = { endOfPrevYear }
         };
 
         var validator = new CompactCalendarValidator(_calendarIdValidatorMock.Object);
@@ -74,17 +77,19 @@ public class CompactCalendarValidatorTests
         var result = validator.Validate(compactCalendar);
 
         result.Should().NotBeNull();
-        result.Errors.Should().Contain(failure => failure.ErrorMessage == $"Holidays: Date 01.01.2024 has year different from {Constants.CurrentYear}");
-        result.Errors.Should().Contain(failure => failure.ErrorMessage == $"ExtraWorkDays: Date 31.12.2022 has year different from {Constants.CurrentYear}");
+        result.Errors.Should().Contain(failure => failure.ErrorMessage == $"Holidays: Date {startOfNextYear} has year different from {Constants.CurrentYear}");
+        result.Errors.Should().Contain(failure => failure.ErrorMessage == $"ExtraWorkDays: Date {endOfPrevYear} has year different from {Constants.CurrentYear}");
     }
     
     [Test]
     public void Should_fail_when_date_has_same_default_value()
     {
+        var firstDayOfYear = new DateOnly(2023, 1, 1);
+        var secondDayOfYear = new DateOnly(2023, 1, 2);
         var compactCalendar = new CompactCalendar(new CalendarId() { Year = Constants.CurrentYear })
         {
-            Holidays = { new DateOnly(2023,1,1) },
-            ExtraWorkDays = { new DateOnly(2023,1,2) }
+            Holidays = { firstDayOfYear },
+            ExtraWorkDays = { secondDayOfYear }
         };
 
         var validator = new CompactCalendarValidator(_calendarIdValidatorMock.Object);
@@ -92,8 +97,8 @@ public class CompactCalendarValidatorTests
         var result = validator.Validate(compactCalendar);
 
         result.Should().NotBeNull();
-        result.Errors.Should().Contain(failure => failure.ErrorMessage == "Holidays: Date 01.01.2023 is weekend by default.");
-        result.Errors.Should().Contain(failure => failure.ErrorMessage == "ExtraWorkDays: Date 02.01.2023 is workday by default.");
+        result.Errors.Should().Contain(failure => failure.ErrorMessage == $"Holidays: Date {firstDayOfYear} is weekend by default.");
+        result.Errors.Should().Contain(failure => failure.ErrorMessage == $"ExtraWorkDays: Date {secondDayOfYear} is workday by default.");
     }
     
     [Test]

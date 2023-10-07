@@ -24,13 +24,16 @@ public class SaveCalendarRequestValidatorTests
     [Test]
     public void Should_fail_when_date_out_of_year()
     {
+        var startOfNextYear = new DateOnly(Constants.CurrentYear + 1, 1, 1);
+        var endOfPrevYear = new DateOnly(Constants.CurrentYear - 1, 12, 31);
+        
         var compactCalendar = new SaveCalendarRequest()
         {
             Year = Constants.CurrentYear,
             Dates =
             {
-                new() { Date = new DateOnly(Constants.CurrentYear + 1, 1, 1) },
-                new() { Date = new DateOnly(Constants.CurrentYear - 1, 12, 31) },
+                new CalendarDate { Date = startOfNextYear },
+                new CalendarDate { Date = endOfPrevYear },
             }
         };
 
@@ -40,9 +43,9 @@ public class SaveCalendarRequestValidatorTests
 
         result.Should().NotBeNull();
         result.Errors.Should().Contain(failure =>
-            failure.ErrorMessage == $"Date 01.01.2024 has year different from {Constants.CurrentYear}");
+            failure.ErrorMessage == $"Date {startOfNextYear} has year different from {Constants.CurrentYear}");
         result.Errors.Should().Contain(failure =>
-            failure.ErrorMessage == $"Date 31.12.2022 has year different from {Constants.CurrentYear}");
+            failure.ErrorMessage == $"Date {endOfPrevYear} has year different from {Constants.CurrentYear}");
     }
     
     [Test]
