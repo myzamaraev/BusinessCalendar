@@ -39,12 +39,13 @@ builder.Services.AddSwaggerGen(c => {
 builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
+app.UseProblemDetails();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCookiePolicy(new CookiePolicyOptions() { MinimumSameSitePolicy = SameSiteMode.Lax }); //the only way to get it working with oidc redirects
-app.UseProblemDetails();
+
 
 var actionEndpointBuilder = app.MapControllers();
 var authSettings = app.Services.GetRequiredService<IOptions<AuthOptions>>().Value;
