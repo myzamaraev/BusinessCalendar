@@ -7,6 +7,7 @@ using Hellang.Middleware.ProblemDetails;
 using Hellang.Middleware.ProblemDetails.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Logging;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails(options =>
@@ -27,8 +28,9 @@ builder.Services.AddControllers()
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c => {
-    c.MapType<DateOnly>(() => new OpenApiSchema { Type = nameof(String).ToLower(), Format = "date"});
+builder.Services.AddSwaggerGen(c =>
+{
+    c.MapType<DateOnly>(() => new OpenApiSchema { Type = nameof(String).ToLower(), Format = "date" });
 
     if (!builder.Environment.IsDevelopment())
     {
@@ -59,12 +61,17 @@ if (authSettings is { UseOpenIdConnectAuth: false })
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseHealthcheckEndpoints();
-app.UseSpa(spa => { }); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
+app.MapHealthcheckEndpoints();
+app.MapMetrics(); //prometheus /metrics endpoint
+app.UseHttpMetrics(); //default asp.net core metrics
+app.UseSpa(spa =>
+{
+}); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
 
 app.Run();
 
-if (app.Environment.IsDevelopment()) {
+if (app.Environment.IsDevelopment())
+{
     IdentityModelEventSource.ShowPII = true; //meaningful personal information (claims) for identity debug purposes
 }
 

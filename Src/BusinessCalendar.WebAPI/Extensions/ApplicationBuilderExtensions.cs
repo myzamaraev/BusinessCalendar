@@ -11,7 +11,7 @@ public static class ApplicationBuilderExtensions
     /// </summary>
     /// <param name="applicationBuilder"></param>
     /// <returns></returns>
-    public static IApplicationBuilder UseHealthcheckEndpoints(this IApplicationBuilder applicationBuilder)
+    public static IApplicationBuilder MapHealthcheckEndpoints(this IApplicationBuilder applicationBuilder)
     {
         applicationBuilder.UseEndpoints(endpoints =>
         {
