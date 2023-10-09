@@ -46,30 +46,33 @@ public class WorkdayProvider : IWorkdayProvider
         if (_options.EnableFullCalendarCache)
         {
             var calendar = await ExecuteWithOptionalCachingAsync(
-                $"{nameof(_businessCalendarClient.GetCalendarAsync)}_{identifier}_{date.Year}",
-                () => _businessCalendarClient.GetCalendarAsync(identifier, date.Year));
+                    $"{nameof(_businessCalendarClient.GetCalendarAsync)}_{identifier}_{date.Year}",
+                    () => _businessCalendarClient.GetCalendarAsync(identifier, date.Year))
+                .ConfigureAwait(false);
 
             return calendar.IsWorkday(date);
         }
             
         var getDateResponse = await ExecuteWithOptionalCachingAsync(
             $"{nameof(_businessCalendarClient.GetDateAsync)}_{identifier}_{date:yyyy-MM-dd}",
-            () => _businessCalendarClient.GetDateAsync(identifier, date));
+            () => _businessCalendarClient.GetDateAsync(identifier, date))
+            .ConfigureAwait(false);
 
         return getDateResponse.IsWorkday;
     }
 
 
-    private async Task<TItem> ExecuteWithOptionalCachingAsync<TItem>(string cacheKey, Func<Task<TItem>> func)
+    private Task<TItem> ExecuteWithOptionalCachingAsync<TItem>(string cacheKey, Func<Task<TItem>> func)
         where TItem: class
     {
         if (_options.IsCacheEnabled)
         {
-            return await _options.CacheProvider.GetOrCreateAsync(
-                $"{nameof(WorkdayProvider)}_{cacheKey}", 
-                func);
+            return _options.CacheProvider
+                .GetOrCreateAsync(
+                    $"{nameof(WorkdayProvider)}_{cacheKey}", 
+                    func);
         }
-            
-        return await func.Invoke();
+
+        return func.Invoke();
     }
 }

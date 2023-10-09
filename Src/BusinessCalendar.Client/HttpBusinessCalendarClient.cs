@@ -35,16 +35,16 @@ public class HttpBusinessCalendarClient : IBusinessCalendarClient
     public async Task<CalendarModel> GetCalendarAsync(string identifier, int year)
     {
         var path = $"/api/v1/Calendar/{HttpUtility.UrlEncode(identifier)}/{year}";
-        var response = await _httpClient.GetAsync(path);
+        var response = await _httpClient.GetAsync(path).ConfigureAwait(false);
 
         if (response.IsSuccessStatusCode)
         {
-            var responseStream = await response.Content.ReadAsStreamAsync();
+            var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             var calendarModel = Deserialize<CalendarModel>(responseStream);
             return calendarModel;
         }
 
-        var content = await response.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         throw new HttpRequestException(content);
     }
 
@@ -63,26 +63,24 @@ public class HttpBusinessCalendarClient : IBusinessCalendarClient
             
         var pathWithParameters = string.Join("?", path, uriParameters);
              
-        var response = await _httpClient.GetAsync(pathWithParameters);
+        var response = await _httpClient.GetAsync(pathWithParameters).ConfigureAwait(false);
 
         if (response.IsSuccessStatusCode)
         {
-            var responseStream = await response.Content.ReadAsStreamAsync();
+            var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 
             var calendarDate = Deserialize<CalendarDateModel>(responseStream);
             return calendarDate;
         }
 
-        var content = await response.Content.ReadAsStringAsync();
+        var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
         throw new HttpRequestException(content);
     }
 
     private static T Deserialize<T>(Stream stream)
     {
-        using (var sr = new StreamReader(stream))
-        using (var reader = new JsonTextReader(sr))
-        {
-            return new JsonSerializer().Deserialize<T>(reader);
-        }
+        using var sr = new StreamReader(stream);
+        using var reader = new JsonTextReader(sr);
+        return new JsonSerializer().Deserialize<T>(reader);
     }
 }
