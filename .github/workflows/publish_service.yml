@@ -18,7 +18,7 @@ jobs:
         
         
     - name: Run BusinessCalendar.Tests
-      run: dotnet test  "./Src/BusinessCalendar.sln" --logger "trx;LogFilePrefix=business-calendar-test-results.trx" --results-directory "TestResults"
+      run: dotnet test  "./Src/BusinessCalendar.sln" --logger "trx;LogFilePrefix=business-calendar-test-results" --results-directory "TestResults"
       working-directory: ./backend
       
     - name: Test Report

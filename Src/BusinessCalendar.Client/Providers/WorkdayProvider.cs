@@ -6,7 +6,7 @@ namespace BusinessCalendar.Client.Providers;
 /// <summary>
 /// WorkdayProvider provides an opportunity to check the date for workday according to specific calendar
 /// </summary>
-public class WorkdayProvider : IWorkdayProvider
+public sealed class WorkdayProvider : IWorkdayProvider
 {
     private readonly IBusinessCalendarClient _businessCalendarClient;
     private readonly WorkdayProviderOptions _options = new WorkdayProviderOptions();

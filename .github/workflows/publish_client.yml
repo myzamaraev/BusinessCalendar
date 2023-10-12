@@ -22,14 +22,28 @@ jobs:
       run: dotnet build --configuration Release /p:Version=${{inputs.version}}
       working-directory: ./Src/BusinessCalendar.Client
 
+    - name: Run BusinessCalendar.Client.Tests
+      run: dotnet test  "./Src/BusinessCalendar.Client.Tests" --logger "trx;LogFilePrefix=business-calendar-client-test-results" --results-directory "TestResults"
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure() # run this step even if previous step failed
+      with:
+        name: BusinessCalendar Client Tests
+        path: ./TestResults/*.trx #path to test results
+        reporter: dotnet-trx
+
     - name: pack
-      run: dotnet pack --configuration Release /p:Version=${{inputs.version}}
+      run: dotnet pack --configuration Release /p:Version=${{inputs.version}} --no-build
       working-directory: ./Src/BusinessCalendar.Client
       
+    # step 1: push to nuget.org
+    # step 2: unlist pushed package from search list to manually check it, and then manually relist it.
     - name: push
       run: |
         FILE_PATH="./bin/Release/BusinessCalendar.Client.${{inputs.version}}.nupkg";
-        dotnet nuget push $FILE_PATH --api-key "${{ secrets.NUGETORG_APIKEY }}" --source https://api.nuget.org/v3/index.json 
+        dotnet nuget push $FILE_PATH --api-key "${{ secrets.NUGETORG_APIKEY }}" --source https://api.nuget.org/v3/index.json
+        dotnet nuget delete BusinessCalendar.Client ${{inputs.version}} --non-interactive --api-key "${{ secrets.NUGETORG_APIKEY }}" --source https://api.nuget.org/v3/index.json
 #         --skip-duplicate     
 #        dotnet nuget push .nupkg --source https://nuget.pkg.github.com/myzamaraev/index.json --api-key ${{secrets.GITHUB_TOKEN}}
       working-directory: ./Src/BusinessCalendar.Client

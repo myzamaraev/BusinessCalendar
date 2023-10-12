@@ -11,7 +11,7 @@ namespace BusinessCalendar.Client;
 /// <summary>
 /// Client realization accessing BusinessCalendar API through HTTP protocol
 /// </summary>
-public class HttpBusinessCalendarClient : IBusinessCalendarClient
+public sealed class HttpBusinessCalendarClient : IBusinessCalendarClient
 {
     private readonly HttpClient _httpClient;
     private const string ContentType = "application/json";

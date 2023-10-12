@@ -5,7 +5,7 @@ namespace BusinessCalendar.Client.Providers;
 /// <summary>
 /// An options class for WorkdayProvider
 /// </summary>
-public class WorkdayProviderOptions
+public sealed class WorkdayProviderOptions
 {
     internal ICacheProvider CacheProvider { get; private set; }
 
