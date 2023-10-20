@@ -29,38 +29,6 @@ jobs:
         working-directory: ./backend
         path: ./TestResults/*.trx #path to test results
         reporter: dotnet-trx
-          
-          
-    - name: Checkout frontend
-      uses: actions/checkout@v3.5.3
-      with:
-        repository: 'myzamaraev/business-calendar.dashboard'
-        ref: 'master'
-        token: ${{ secrets.CHECKOUT_TOKEN }}
-        path: frontend
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: v18.16.0
-        cache: 'npm'
-        cache-dependency-path: 'frontend/package-lock.json'
-
-    - name: Install frontend dependencies
-      run: npm ci
-      working-directory: ./frontend
-
-    - name: Build frontend
-      run: npm run build
-      working-directory: ./frontend
-
-    - name: ls
-      run: ls ./frontend
-
-    - name: Add frontend build to wwwroot
-      run: |
-        rm ./backend/Src/BusinessCalendar.WebAPI/wwwroot/*
-        cp -R ./frontend/dist/* ./backend/Src/BusinessCalendar.WebAPI/wwwroot
         
 
     - name: Set up Docker Buildx
