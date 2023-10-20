@@ -53,8 +53,8 @@ To grant write access to user you should provide `role` claim with `bc-manager` 
     volumes:
       mongo:
     ```
-2. define OpenIdConnect environment variables, the options are:
-   - replace with the appropriate string values, 
+2. define OpenIdConnect environment variables, two options are available:
+   - replace with the appropriate values inside compose itself
    - create `.env` file in the same directory
        ```yaml
       OpenIdConnect_Authority: "http://host.docker.internal:4082/realms/business-calendar-demo"

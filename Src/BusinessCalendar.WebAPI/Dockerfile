@@ -1,4 +1,12 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+﻿FROM node:lts-alpine as front-build
+WORKDIR /app
+COPY /dashboard/package*.json ./
+RUN npm install
+COPY /dashboard/ ./
+RUN npm run build
+
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -19,4 +27,5 @@ RUN dotnet publish "BusinessCalendar.WebAPI.csproj" -c Release -o /app/publish /
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY --from=front-build "app/dist" ./wwwroot
 ENTRYPOINT ["dotnet", "BusinessCalendar.WebAPI.dll"]
