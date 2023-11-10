@@ -8,7 +8,7 @@ public interface ICalendarIdentifierStorageService
 
     public Task<List<CalendarIdentifier>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default);
 
-    public Task<CalendarIdentifier> GetAsync(string id, CancellationToken cancellationToken = default);
+    public Task<CalendarIdentifier?> GetAsync(string id, CancellationToken cancellationToken = default);
         
     public Task DeleteAsync(string id, CancellationToken cancellationToken = default);
 }

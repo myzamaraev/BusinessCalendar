@@ -13,10 +13,14 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
+#Copy only project files and restore before build to allow restored packages caching when no changes in project files
 COPY ["BusinessCalendar.WebAPI/BusinessCalendar.WebAPI.csproj", "BusinessCalendar.WebAPI/"]
 COPY ["BusinessCalendar.Domain/BusinessCalendar.Domain.csproj", "BusinessCalendar.Domain/"]
-COPY ["BusinessCalendar.MongoDb/BusinessCalendar.MongoDb.csproj", "BusinessCalendar.MongoDb/"]
-RUN dotnet restore "BusinessCalendar.WebAPI/BusinessCalendar.WebAPI.csproj"
+COPY ["Storage/BusinessCalendar.MongoDb/BusinessCalendar.MongoDb.csproj", "Storage/BusinessCalendar.MongoDb/"]
+COPY ["Storage/BusinessCalendar.Postgres/BusinessCalendar.Postgres.csproj", "Storage/BusinessCalendar.Postgres/"]
+COPY ["Storage/BusinessCalendar.SqlMigrations/BusinessCalendar.SqlMigrations.csproj", "Storage/BusinessCalendar.SqlMigrations/"]
+RUN dotnet restore "BusinessCalendar.WebAPI/BusinessCalendar.WebAPI.csproj" 
+#Copy all the source files and run build
 COPY . .
 WORKDIR "/src/BusinessCalendar.WebAPI"
 RUN dotnet build "BusinessCalendar.WebAPI.csproj" -c Release -o /app/build

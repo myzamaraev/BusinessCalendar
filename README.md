@@ -5,7 +5,7 @@ An easy way to store and manage business calendars to provide knowledge about wo
 ####  [Check out the demo video](https://drive.google.com/file/d/1sCv1SwkJi_u0Arteskc9g5_eV_IAXSd3/view?usp=sharing)
 
 ### Dependencies
-Requires MongoDB as an external dependency
+Requires MongoDB or Postgres as an external dependency
 
 ## Build and run service with docker-compose
 Publishing ready-to use docker image is really complicated thing in terms of license compliance.
@@ -14,7 +14,7 @@ That's why you have to build the image by yourself. But it's really easy with th
 1. Clone repo
 2. Go to repo directory and run following command. It will create docker containers for both mongodb database and service itself.
    ```console
-   docker compose -f Src/docker-compose.yml up --wait
+   docker compose -f compose-mongo.yml up --wait
    ``` 
 3. Access UI dashboard with the following link http://host.docker.internal:4080, or alternatively http://localhost4080
 
@@ -39,12 +39,14 @@ You can add authentication with the variety of identity providers through **Open
 Read [Configure Identity Provider](Custom_identity_provider.md) for further details and examples.
 
 ### Development configuration with Keycloak
-Clone repo and use [docker-compose-auth.yml](Src/docker-compose-auth.yml) to run development configuration with [Keycloak](https://www.keycloak.org/)
 
-Please note that it may take a little while for keycloak to be properly configured, check container logs in case it's not accessible after a minute at http://host.docker.internal:4082
+1. Clone repo and use [compose-mongo-auth.yml](Src/compose-mongo-auth.yml) to run development configuration with [Keycloak](https://www.keycloak.org/)
+2. Access an app using http://host.docker.internal:4080, as compose uses this domain for auth and CORS are not allowed with provided configuration.
 
-Access an app using http://host.docker.internal:4080, as compose uses this domain for auth and CORS are not allowed with provided configuration.
-
+As authentication imposes some restrictions, it might be challenging to make it working on particular machine, consider the following as possible issues
+- note that it may take a little while for keycloak to be properly configured, check container logs in case it's not accessible after a minute at http://host.docker.internal:4082.
+- make sure you have `host.docker.internal` mapping in your hosts file. 
+- docker host can become inaccessible from time to time, restart of whole docker host might help.
 
 #### preconfigured keycloak users
 | Login       | Password   | application access
@@ -53,3 +55,14 @@ Access an app using http://host.docker.internal:4080, as compose uses this domai
 | bc-user     | bc-user    | BusinessCalendar (read)
 | bc-manager  | bc-manager | BusinessCalendar (write)
 
+## Storage options
+Up to now the following dev configurations are available.
+
+>[!WARNING]  
+>It is not recommended to use this database configurations in production environment, as they are not persistent and all data will be lost after downing the services
+
+| compose file           | description                                   | how to run
+|------------------------|-----------------------------------------------|-------------------------
+| compose-mongo.yml      | WebAPI with MongoDB storage                   |`docker compose -f compose-mongo.yml up --wait`
+| compose-mongo-auth.yml | WebAPI with MongoDB storage and Keycloak auth |`docker compose -f compose-mongo-auth.yml up --wait`
+| compose-postgres.yml   | WebAPI with Postgres storage                  |`docker compose -f compose-postgres.yml up --wait`

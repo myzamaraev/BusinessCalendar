@@ -1,0 +1,7 @@
+{
+  "MongoDB": {
+    "ConnectionURI": "mongodb://localhost:4081",
+    "DatabaseName": "BusinessCalendar",
+    "HealthTimeoutSeconds": 3
+  }
+}

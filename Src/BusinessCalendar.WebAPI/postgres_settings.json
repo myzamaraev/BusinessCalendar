@@ -1,0 +1,6 @@
+{
+  "Postgres": {
+    "ConnectionString": "Server=localhost;Port=4081;User Id=pguser;Password=pguser;Database=BusinessCalendar;",
+    "UseAutoMigrations": true
+  }
+}

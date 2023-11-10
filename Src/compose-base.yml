@@ -7,19 +7,6 @@ services:
       context: .
       dockerfile: BusinessCalendar.WebAPI/Dockerfile
     environment:
-      MongoDB__ConnectionURI: "mongodb://mongodb:27017"
       ASPNETCORE_ENVIRONMENT: Production
     ports:
       - "4080:80"
-    depends_on:
-      - mongodb
-        
-  mongodb:
-    image: mongo:6.0.4
-    ports:
-      - "4081:27017"
-    volumes:
-      - mongo:/data/db 
-        
-volumes:
-  mongo:

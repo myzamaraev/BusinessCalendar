@@ -30,7 +30,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
                 throw new Exception("Error saving calendar to DB");
             }
         }
-        public async Task<CompactCalendar> FindOneAsync(CalendarId id, CancellationToken cancellationToken = default)
+        public async Task<CompactCalendar?> FindOneAsync(CalendarId id, CancellationToken cancellationToken = default)
         {
             var cursor = await _calendarCollection.FindAsync(x => x.Id == id, cancellationToken: cancellationToken);
             return cursor.SingleOrDefault(cancellationToken: cancellationToken);

@@ -72,4 +72,12 @@ public class CompactCalendar
         
         return isExtraWorkDay || !isDayOff;
     }
+    
+    /// <summary>
+    /// private parameterless constructor required for ORMs
+    /// </summary>
+    private CompactCalendar()
+    {
+        Id = new CalendarId();
+    }
 }
