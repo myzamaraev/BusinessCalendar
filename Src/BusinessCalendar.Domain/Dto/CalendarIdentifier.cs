@@ -19,4 +19,13 @@ public record CalendarIdentifier
         Key = key;
         Id = $"{type}_{key}";
     }
+
+    /// <summary>
+    /// private parameterless constructor required for ORMs
+    /// </summary>
+    private CalendarIdentifier()
+    {
+        Id = String.Empty;
+        Key = String.Empty;
+    }
 }

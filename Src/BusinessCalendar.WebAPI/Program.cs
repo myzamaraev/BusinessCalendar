@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using BusinessCalendar.WebAPI.Constants;
 using Microsoft.OpenApi.Models;
 using BusinessCalendar.WebAPI.Extensions;
 using BusinessCalendar.WebAPI.Options;
@@ -10,6 +11,11 @@ using Microsoft.IdentityModel.Logging;
 using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration
+    .AddJsonFile("mongodb_settings.json")
+    .AddJsonFile("postgres_settings.json")
+    .AddEnvironmentVariables();
+
 builder.Services.AddProblemDetails(options =>
 {
     options.IncludeExceptionDetails = (ctx, ex) => false;
@@ -41,6 +47,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.RegisterServices(builder.Configuration);
 
 var app = builder.Build();
+app.ApplyDatabaseMigrations();
 app.UseProblemDetails();
 app.UseStaticFiles();
 app.UseRouting();

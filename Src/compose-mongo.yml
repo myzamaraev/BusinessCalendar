@@ -1,0 +1,22 @@
+version: "3.8"
+name: business-calendar
+services:
+  web-api:
+    extends:
+      file: compose-base.yml
+      service: web-api
+    environment:
+      Storage__DatabaseType: "MongoDb"
+      MongoDB__ConnectionURI: "mongodb://mongodb:27017"
+    depends_on:
+      - mongodb
+  
+  mongodb:
+    image: mongo:6.0.4
+    ports:
+      - "4081:27017"
+    volumes:
+      - mongo:/data/db
+
+volumes:
+  mongo:

@@ -50,5 +50,5 @@ public class CalendarIdentifierService : ICalendarIdentifierService
         return _calendarIdentifierStorageService.GetAllAsync(page, limitedPageSize, cancellationToken);
     }
     
-    public Task<CalendarIdentifier> GetAsync(string id, CancellationToken cancellationToken = default) => _calendarIdentifierStorageService.GetAsync(id, cancellationToken);
+    public Task<CalendarIdentifier?> GetAsync(string id, CancellationToken cancellationToken = default) => _calendarIdentifierStorageService.GetAsync(id, cancellationToken);
 }

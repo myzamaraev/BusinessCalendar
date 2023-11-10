@@ -1,20 +1,19 @@
 version: "3.8"
-name: business-calendar-auth
+
+name: business-calendar
 services:
   web-api:
-    image: ${DOCKER_REGISTRY-}businesscalendar-webapi
-    build:
-      context: .
-      dockerfile: BusinessCalendar.WebAPI/Dockerfile
+    extends:
+      file: compose-base.yml
+      service: web-api
     environment:
+      Storage__DatabaseType: "MongoDb"
       MongoDB__ConnectionURI: "mongodb://mongodb:27017"
       Auth__UseOpenIdConnectAuth: true
       OpenIdConnect__Authority: ${OpenIdConnect_Authority}
       OpenIdConnect__ClientId: ${OpenIdConnect_ClientId}
       OpenIdConnect__ClientSecret: ${OpenIdConnect_ClientSecret}
       ASPNETCORE_ENVIRONMENT: Production
-    ports:
-      - "4080:80"
     depends_on:
       - mongodb
       - keycloak

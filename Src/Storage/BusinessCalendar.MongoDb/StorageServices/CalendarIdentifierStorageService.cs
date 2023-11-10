@@ -29,9 +29,9 @@ namespace BusinessCalendar.MongoDb.StorageServices
             }
         }
 
-        public Task<CalendarIdentifier> GetAsync(string id, CancellationToken cancellationToken = default)
+        public async Task<CalendarIdentifier?> GetAsync(string id, CancellationToken cancellationToken = default)
         {
-            return _collection.AsQueryable().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return await _collection.AsQueryable().SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)

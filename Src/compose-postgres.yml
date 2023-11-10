@@ -1,0 +1,29 @@
+version: "3.8"
+name: business-calendar
+services:
+  web-api:
+    extends:
+      file: compose-base.yml
+      service: web-api
+    environment:
+      Storage__DatabaseType: "Postgres"
+      Storage_AllowAutoMigrations: true
+      Postgres__ConnectionString: "Server=postgres;Port=5432;User Id=pguser;Password=pguser;Database=BusinessCalendar;"
+    depends_on:
+      - postgres
+  
+  postgres:
+    image: postgres:16.0
+    restart: always
+    ports: 
+      - "4081:5432"
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pguser
+      POSTGRES_DB: BusinessCalendar
+    volumes:
+      - postgres:/var/lib/postgresql
+
+volumes:
+  postgres:
+    

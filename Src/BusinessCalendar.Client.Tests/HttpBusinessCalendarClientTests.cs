@@ -4,6 +4,7 @@ using BusinessCalendar.Domain.Enums;
 using BusinessCalendar.Domain.Exceptions;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.MongoDb.Options;
+using BusinessCalendar.WebAPI.Constants;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
@@ -30,6 +31,10 @@ public class HttpBusinessCalendarClientTests
         _webApplicationFactory = new WebApplicationFactory<Program>();
         _webApplicationFactory = _webApplicationFactory.WithWebHostBuilder(builder =>
         {
+            //applies after appsettings.json but before custom providers
+            builder.UseSetting("Storage:DatabaseType", DatabaseTypes.MongoDb);
+            
+            //overrides created services (after service collection population)
             builder.ConfigureTestServices(services =>
             {
                 services.Configure<MongoDbOptions>(options =>
