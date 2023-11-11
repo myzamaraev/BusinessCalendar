@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{E6E0F2
 		compose-mongo.yml = compose-mongo.yml
 		compose-mongo-auth.yml = compose-mongo-auth.yml
 		compose-postgres.yml = compose-postgres.yml
+		README.md = README.md
+		.env = .env
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storage", "Storage", "{A1811128-D03F-4732-9AEE-667264710B07}"
