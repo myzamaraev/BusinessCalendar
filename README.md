@@ -1,3 +1,5 @@
+[![Run backend tests](https://github.com/myzamaraev/BusinessCalendar/actions/workflows/run_backend_tests.yml/badge.svg?branch=master)](https://github.com/myzamaraev/BusinessCalendar/actions/workflows/run_backend_tests.yml)
+
 # BusinessCalendar
 
 An easy way to store and manage business calendars to provide knowledge about workdays as infrastructure service for enterprise.
