@@ -16,6 +16,9 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.10" />
     <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Serilog" Version="3.1.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Serilog.Expressions" Version="4.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
@@ -34,6 +37,9 @@
     </Content>
     <Content Update="appsettings.Development.json">
       <DependentUpon>appsettings.json</DependentUpon>
+    </Content>
+    <Content Update="logger.Development.json">
+      <DependentUpon>logger.json</DependentUpon>
     </Content>
   </ItemGroup>
 

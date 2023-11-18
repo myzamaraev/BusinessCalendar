@@ -2,6 +2,7 @@ using BusinessCalendar.WebAPI.Options;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using OpenIdConnectOptions = BusinessCalendar.WebAPI.Options.OpenIdConnectOptions;
@@ -15,11 +16,15 @@ public static class ServiceCollectionAuthExtensions
     /// </summary>
     /// <param name="services"></param>
     /// <param name="configuration"></param>
+    /// <param name="showPII">show meaningful personal information (claims) for identity debug purposes</param>
     /// <returns></returns>
     /// <exception cref="Exception">Throws exception if no configuration section found for OpenIdConnectOptions</exception>
-    public static IServiceCollection AddOpenIdConnectAuth(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddOpenIdConnectAuth(this IServiceCollection services, IConfiguration configuration, bool showPII = false)
     {
-        var authSettings = configuration.GetSection(AuthOptions.Section).Get<AuthOptions>();
+        var authOptionsSection = configuration.GetSection(AuthOptions.Section);
+        services.Configure<AuthOptions>(authOptionsSection);
+        
+        var authSettings = authOptionsSection.Get<AuthOptions>();
         if (authSettings is not { UseOpenIdConnectAuth: true } )
         {
             return services;
@@ -99,6 +104,11 @@ public static class ServiceCollectionAuthExtensions
             });
 
         services.AddAuthorization();
+        
+        if (showPII)
+        {
+            IdentityModelEventSource.ShowPII = true;
+        }
 
         return services;
     }

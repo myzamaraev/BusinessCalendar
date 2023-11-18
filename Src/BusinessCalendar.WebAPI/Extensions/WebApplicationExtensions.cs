@@ -1,21 +1,49 @@
-using BusinessCalendar.Postgres.Extensions;
 using BusinessCalendar.WebAPI.Constants;
 using BusinessCalendar.WebAPI.Options;
 using FluentMigrator.Runner;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
+using Prometheus;
 
 namespace BusinessCalendar.WebAPI.Extensions;
 
-public static class ApplicationBuilderExtensions
+public static class WebApplicationExtensions
 {
+    /// <summary>
+    /// Maps all API endpoints including SPA, health checks, swagger documentation and metrics
+    /// </summary>
+    /// <param name="app"></param>
+    /// <returns></returns>
+    public static WebApplication MapEndpoints(this WebApplication app)
+    {
+        var actionEndpointBuilder = app.MapControllers();
+        var authSettings = app.Services.GetRequiredService<IOptions<AuthOptions>>().Value;
+        if (authSettings is { UseOpenIdConnectAuth: false })
+        {
+            actionEndpointBuilder.AllowAnonymous(); //Bypassing Auth with AllowAnonymousAttribute according to https://stackoverflow.com/a/62193352
+        }
+
+        //Swagger for public API endpoints is available in production by design.
+        //in this case BFF endpoints are filtered by PublicApiDocumentFilter
+        app.UseSwagger();
+        app.UseSwaggerUI();
+
+        app.MapHealthcheckEndpoints();
+        app.MapMetrics(); //prometheus /metrics endpoint
+        app.UseHttpMetrics(); //default asp.net core metrics
+        app.UseSpa(spa =>
+        {
+        }); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
+        return app;
+    }
+    
     /// <summary>
     /// Adds health check endpoints
     /// </summary>
     /// <param name="applicationBuilder"><see cref="IApplicationBuilder"/></param>
     /// <returns></returns>
-    public static IApplicationBuilder MapHealthcheckEndpoints(this IApplicationBuilder applicationBuilder)
+    private static IApplicationBuilder MapHealthcheckEndpoints(this IApplicationBuilder applicationBuilder)
     {
         applicationBuilder.UseEndpoints(endpoints =>
         {

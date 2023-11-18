@@ -1,0 +1,44 @@
+{
+  "Serilog": {
+    "Using": [ "Serilog.Sinks.Console" ],
+    "MinimumLevel": {
+      "Default": "Information",
+      "Override": {
+        "Microsoft": "Warning",
+        "System": "Warning"
+      }
+    },
+    "WriteTo": [
+      {
+        "Name": "Console",
+        "Args": {
+          "formatter": "Serilog.Formatting.Compact.CompactJsonFormatter, Serilog.Formatting.Compact"
+        }
+      }
+    ],
+    "Filter": [
+      {
+        "Name": "ByExcluding",
+        "Args": {
+          "expression": "Contains(RequestPath, 'health')"
+        }
+      },
+      {
+        "Name": "ByExcluding",
+        "Args": {
+          "expression": "Contains(RequestPath, 'metrics')"
+        }
+      },
+      {
+        "Name": "ByExcluding",
+        "Args": {
+          "expression": "Contains(RequestPath, 'swagger')"
+        }
+      }
+    ],
+    "Enrich": [ "FromLogContext", "WithSpan" ],
+    "Properties": {
+      "Application": "business-calendar"
+    }
+  }
+}
