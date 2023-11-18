@@ -33,7 +33,7 @@ export default {
   async create(context, payload) {
     const url = new URL("/bff/v1/CalendarIdentifier", window.location.origin);
 
-    const result = await restManager.post(url, {
+    const result = await restManager.put(url, {
       type: payload.type,
       key: payload.key,
     });
