@@ -38,9 +38,12 @@ namespace BusinessCalendar.MongoDb.StorageServices
             return cursor.SingleOrDefault(cancellationToken: cancellationToken);
         }
 
-        public async Task DeleteManyAsync(CalendarType type, string key, CancellationToken cancellationToken = default)
+        public async Task<long> DeleteManyAsync(CalendarType type, string key, CancellationToken cancellationToken = default)
         {
-            await _calendarCollection.DeleteManyAsync(x => x.Id.Type == type && x.Id.Key == key, cancellationToken: cancellationToken);
+            var deleteResult = await _calendarCollection.DeleteManyAsync(x => x.Id.Type == type && x.Id.Key == key, cancellationToken: cancellationToken);
+
+            return deleteResult.IsAcknowledged ? deleteResult.DeletedCount : 0;
+
         }
         
         /// <summary>

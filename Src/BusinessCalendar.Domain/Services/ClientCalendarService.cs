@@ -20,7 +20,7 @@ public class ClientCalendarService : IClientCalendarService
         var calendarIdentifier = await _calendarIdentifierService.GetAsync(identifier, cancellationToken);
         if (calendarIdentifier == null)
         {
-            throw new DocumentNotFoundClientException($"No such calendar identifier found: {identifier}");
+            throw new DocumentNotFoundClientException(nameof(CalendarIdentifier), identifier);
         }
         
         var compactCalendar = await _calendarManagementService.GetCompactCalendarAsync(new CalendarId(calendarIdentifier.Type, calendarIdentifier.Key, year), cancellationToken);
@@ -46,7 +46,7 @@ public class ClientCalendarService : IClientCalendarService
         var calendarIdentifier = await _calendarIdentifierService.GetAsync(identifier, cancellationToken);
         if (calendarIdentifier == null)
         {
-            throw new DocumentNotFoundClientException($"No such calendar identifier found: {identifier}");
+            throw new DocumentNotFoundClientException(nameof(CalendarIdentifier), identifier);
         }
         
         var calendar = await _calendarManagementService.GetCalendarAsync(new CalendarId(calendarIdentifier.Type, calendarIdentifier.Key, date.Year), cancellationToken);

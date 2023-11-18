@@ -22,6 +22,7 @@ builder.Services.AddProblemDetails(options =>
     options.MapClientException(StatusCodes.Status400BadRequest);
     options.MapFluentValidationException(StatusCodes.Status400BadRequest); 
     options.MapToStatusCode<Exception>(StatusCodes.Status500InternalServerError);
+    options.ShouldLogUnhandledException = (_, _, _) => true; //log everything (not only Status>=500 by default)
 });
 
 builder.Services.AddOpenIdConnectAuth(builder.Configuration);

@@ -5,6 +5,7 @@ using BusinessCalendar.Domain.Services;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Validators;
 using FluentValidation;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 
 namespace BusinessCalendar.Tests.Domain.Services.CalendarManagement;
@@ -43,7 +44,8 @@ public partial class CalendarManagementServiceTests
             compactCalendarValidator ?? _compactCalendarValidatorMock.Object,
             saveCalendarRequestValidator ??_saveCalendarRequestValidatorMock.Object,
             calendarIdValidator ?? _calendarIdValidatorMock.Object,
-            _calendarMapper.Object
+            _calendarMapper.Object,
+            new NullLogger<CalendarManagementService>()
         );
     }
 }

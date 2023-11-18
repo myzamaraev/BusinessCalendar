@@ -25,7 +25,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
             }
             catch (MongoWriteException e) when(e.WriteError.Category == ServerErrorCategory.DuplicateKey)
             {
-                throw new DuplicateKeyClientException("Calendar identifier already exists");
+                throw new DuplicateKeyClientException(nameof(calendarIdentifier), calendarIdentifier.Id);
             }
         }
 
@@ -41,7 +41,7 @@ namespace BusinessCalendar.MongoDb.StorageServices
              if (result.IsAcknowledged == false
                  || result.DeletedCount == 0)
              {
-                 throw new Exception($"No identifier with id: {id}");
+                 throw new DocumentNotFoundClientException(nameof(CalendarIdentifier), id);
              }
         }
 
