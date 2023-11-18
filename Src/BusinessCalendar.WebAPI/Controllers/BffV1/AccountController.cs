@@ -1,4 +1,5 @@
 using BusinessCalendar.WebAPI.Constants;
+using BusinessCalendar.WebAPI.Extensions;
 using BusinessCalendar.WebAPI.Models;
 using BusinessCalendar.WebAPI.Options;
 using Microsoft.AspNetCore.Authentication;
@@ -86,20 +87,10 @@ public class AccountController : BffV1Controller
     private UserInfo GetUserInfo()
     {
         var principal = HttpContext.User;
-        var userName = principal.Identity?.Name ?? principal
-            .FindFirst("email")?
-            .Value;
-        var roles = principal
-            .FindAll("role")
-            .Select(x => x.Value)
-            .Distinct()
-            .Intersect(BcRoles.RoleList)
-            .ToList();
-
         return new UserInfo
         {
-            UserName = userName,
-            Roles = roles
+            UserName = principal?.GetUserName() ?? principal?.GetEmail(),
+            Roles = principal?.GetRoles()
         };
     }
 }

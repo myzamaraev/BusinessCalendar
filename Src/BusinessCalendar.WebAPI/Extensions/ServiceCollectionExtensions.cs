@@ -5,8 +5,8 @@ using BusinessCalendar.Postgres.Extensions;
 using BusinessCalendar.Postgres.Options;
 using BusinessCalendar.WebAPI.Constants;
 using BusinessCalendar.WebAPI.Options;
-using HealthChecks.MongoDb;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+using BusinessCalendar.WebAPI.Swagger;
+using Microsoft.OpenApi.Models;
 
 namespace BusinessCalendar.WebAPI.Extensions;
 
@@ -22,15 +22,29 @@ public static class ServiceCollectionExtensions
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.InitSettings(configuration);
         services.AddStorage(configuration);
         services.AddBusinessCalendarDomain();
         return services;
     }
 
-    private static IServiceCollection InitSettings(this IServiceCollection services, IConfiguration configuration)
+    /// <summary>
+    /// Adds Swagger/OpenAPI documentation
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="publicApiOnly">show only public API methods (exclude BFF etc.)</param>
+    /// <returns></returns>
+    public static IServiceCollection AddOpenApiDocumentation(this IServiceCollection services, bool publicApiOnly = true)
     {
-        services.Configure<AuthOptions>(configuration.GetSection(AuthOptions.Section));
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(c =>
+        {
+            c.MapType<DateOnly>(() => new OpenApiSchema { Type = nameof(String).ToLower(), Format = "date" });
+            if (publicApiOnly)
+            {
+                c.DocumentFilter<PublicApiDocumentFilter>();
+            }
+        });
 
         return services;
     }
