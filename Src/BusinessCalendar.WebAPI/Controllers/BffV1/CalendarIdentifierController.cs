@@ -16,7 +16,7 @@ namespace BusinessCalendar.WebAPI.Controllers.BffV1
             _calendarIdentifierService = calendarIdentifierService;
         }
 
-        [HttpPost]
+        [HttpPut]
         [AuthorizeRole(BcRoles.Manager)]
         public async Task<ActionResult> CalendarIdentifier([FromBody]AddCalendarIdentifierRequest request, CancellationToken cancellationToken) 
         {
