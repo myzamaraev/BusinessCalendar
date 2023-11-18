@@ -59,7 +59,7 @@ public class PgCalendarRepository : ICalendarStorageService
         return DeserializeCalendar(jsonDocument);
     }
 
-    public async Task DeleteManyAsync(CalendarType type, string key, CancellationToken cancellationToken = default)
+    public async Task<long> DeleteManyAsync(CalendarType type, string key, CancellationToken cancellationToken = default)
     {
         const string query = """DELETE FROM "Calendar" WHERE "Type" = @Type AND "Key" = @Key""";
         
@@ -73,7 +73,7 @@ public class PgCalendarRepository : ICalendarStorageService
             cancellationToken: cancellationToken);
         
         await using var connection = await _dataSource.OpenConnectionAsync(cancellationToken);
-        await connection.ExecuteAsync(cmd);
+        return await connection.ExecuteAsync(cmd);
     }
 
     /// <summary>

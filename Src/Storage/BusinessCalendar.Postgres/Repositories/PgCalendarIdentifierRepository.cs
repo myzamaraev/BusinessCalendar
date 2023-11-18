@@ -1,4 +1,5 @@
 using BusinessCalendar.Domain.Dto;
+using BusinessCalendar.Domain.Exceptions;
 using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Postgres.Options;
 using Dapper;
@@ -29,8 +30,15 @@ public class PgCalendarIdentifierRepository : ICalendarIdentifierStorageService
             }, 
             cancellationToken: cancellationToken);
 
-        await using var connection = await _dataSource.OpenConnectionAsync(cancellationToken);
-        await connection.ExecuteAsync(cmd);
+        try
+        {
+            await using var connection = await _dataSource.OpenConnectionAsync(cancellationToken);
+            await connection.ExecuteAsync(cmd);
+        }
+        catch (PostgresException e) when(e.SqlState == "23505" || e.Message.Contains("duplicate key"))
+        {
+            throw new DuplicateKeyClientException(nameof(calendarIdentifier), calendarIdentifier.Id);
+        }
     }
 
     public async Task<List<CalendarIdentifier>> GetAllAsync(int page, int pageSize, CancellationToken cancellationToken = default)
@@ -65,6 +73,10 @@ public class PgCalendarIdentifierRepository : ICalendarIdentifierStorageService
         const string query = """DELETE FROM "CalendarIdentifier" WHERE "Id" = @Id""";
         var cmd = new CommandDefinition(query, new { Id = id }, cancellationToken: cancellationToken);
         await using var connection = await _dataSource.OpenConnectionAsync(cancellationToken);
-        await connection.ExecuteAsync(cmd);
+        var deleteCount = await connection.ExecuteAsync(cmd);
+        if (deleteCount <= 0)
+        {
+            throw new DocumentNotFoundClientException(nameof(CalendarIdentifier), id);
+        }
     }
 }

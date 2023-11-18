@@ -7,6 +7,7 @@ using BusinessCalendar.Domain.Storage;
 using BusinessCalendar.Domain.Validators;
 using FluentAssertions;
 using FluentValidation;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 
 namespace BusinessCalendar.Tests.Domain.Services;
@@ -105,7 +106,7 @@ public class CalendarIdentifierServiceTests
             .Invoking(x => x.DeleteCalendarIdentifierAsync(id))
             .Should()
             .ThrowExactlyAsync<DocumentNotFoundClientException>()
-            .WithMessage($"Calendar identifier {id} not found");
+            .WithMessage($"No CalendarIdentifier found with id: {id}");
     }
     
     [Test]
@@ -221,6 +222,7 @@ public class CalendarIdentifierServiceTests
         return new CalendarIdentifierService(
             _calendarIdentifierStorageServiceMock.Object,
             _calendarStorageServiceMock.Object,
-            addCalendarIdentifierRequestValidator ?? _addCalendarIdentifierRequestValidator.Object);
+            addCalendarIdentifierRequestValidator ?? _addCalendarIdentifierRequestValidator.Object,
+            new NullLogger<CalendarIdentifierService>());
     }
 }

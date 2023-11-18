@@ -5,7 +5,8 @@ namespace BusinessCalendar.Domain.Exceptions;
 [Serializable]
 public class DuplicateKeyClientException : ClientException
 {
-    public DuplicateKeyClientException(string message) : base(message, ErrorCode.DuplicateKey)
+    public DuplicateKeyClientException(string entityName, string id) 
+        : base($"{entityName} already exists: {id}", ErrorCode.DuplicateKey)
     {
             
     }
