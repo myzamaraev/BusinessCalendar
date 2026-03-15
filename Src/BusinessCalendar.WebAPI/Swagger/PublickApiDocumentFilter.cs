@@ -1,4 +1,4 @@
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace BusinessCalendar.WebAPI.Swagger;
@@ -13,10 +13,10 @@ public class PublicApiDocumentFilter : IDocumentFilter
         var notPublicApiPaths = swaggerDoc.Paths
             .Where(x => !x.Key.ToLower().Contains("api"))
             .ToList();
-        
+
         notPublicApiPaths.ForEach(x =>
         {
-            swaggerDoc.Paths.Remove(x.Key); 
+            swaggerDoc.Paths.Remove(x.Key);
         });
 
         RemoveAbandonedSchemas(swaggerDoc);
@@ -24,29 +24,28 @@ public class PublicApiDocumentFilter : IDocumentFilter
 
     private static void RemoveAbandonedSchemas(OpenApiDocument swaggerDoc)
     {
-        var requiredSchemas = new List<string>();
+        if (swaggerDoc.Components?.Schemas is not { Count: > 0 }) return;
 
-        requiredSchemas.AddRange(
-            swaggerDoc.Paths.SelectMany(x => x.Value.Operations.Values)
-                .SelectMany(x => x.Responses.Values)
-                .SelectMany(x => x.Content.Values)
-                .Select(x => x.Schema.Reference.Id)
-                .Distinct());
+        var operations = swaggerDoc.Paths.Values
+            .OfType<OpenApiPathItem>()
+            .SelectMany(p => (p.Operations ?? []).Values);
 
-        requiredSchemas.AddRange(
-            swaggerDoc.Paths.SelectMany(x => x.Value.Operations.Values)
-                .SelectMany(x => x.Parameters)
-                .Where(x => x.Schema is { Reference: not null })
-                .Select(x => x.Schema.Reference.Id)
-                .Distinct()
-        );
+        var responseSchemaIds = operations
+            .SelectMany(o => o.Responses?.Select(r => r.Value).OfType<OpenApiResponse>() ?? Enumerable.Empty<OpenApiResponse>())
+            .SelectMany(r => r.Content?.Values ?? Enumerable.Empty<OpenApiMediaType>())
+            .Select(m => m.Schema as OpenApiSchemaReference);
 
-        foreach (var schema in swaggerDoc.Components.Schemas)
-        {
-            if (!requiredSchemas.Contains(schema.Key))
-            {
-                swaggerDoc.Components.Schemas.Remove(schema.Key);
-            }
-        }
+        var parameterSchemaIds = operations
+            .SelectMany(o => o.Parameters?.OfType<OpenApiParameter>() ?? Enumerable.Empty<OpenApiParameter>())
+            .Select(p => p.Schema as OpenApiSchemaReference);
+
+        var referencedIds = responseSchemaIds
+            .Concat(parameterSchemaIds)
+            .Select(r => r?.Reference.Id)
+            .OfType<string>()
+            .ToHashSet();
+
+        foreach (var key in swaggerDoc.Components.Schemas.Keys.Except(referencedIds).ToList())
+            swaggerDoc.Components.Schemas.Remove(key);
     }
 }

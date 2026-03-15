@@ -1,4 +1,3 @@
-version: "3.8"
 name: business-calendar
 services:   
   web-api:
@@ -9,4 +8,4 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
     ports:
-      - "4080:80"
+      - "4080:8080"

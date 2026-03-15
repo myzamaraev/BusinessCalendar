@@ -32,9 +32,7 @@ public static class WebApplicationExtensions
         app.MapHealthcheckEndpoints();
         app.MapMetrics(); //prometheus /metrics endpoint
         app.UseHttpMetrics(); //default asp.net core metrics
-        app.UseSpa(spa =>
-        {
-        }); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
+        app.MapFallbackToFile("index.html"); //Handles all requests by returning the default page (wwwroot) for the Single Page Application (SPA).
         return app;
     }
     

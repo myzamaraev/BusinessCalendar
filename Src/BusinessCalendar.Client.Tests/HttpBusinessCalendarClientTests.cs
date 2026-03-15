@@ -25,7 +25,7 @@ public class HttpBusinessCalendarClientTests
     [OneTimeSetUp]
     public async Task OneTimeSetup()
     {
-        _mongoDbContainer = new MongoDbBuilder().WithImage("mongo:6.0.4").Build();
+        _mongoDbContainer = new MongoDbBuilder("mongo:6.0.4").Build();
         await _mongoDbContainer.StartAsync().ConfigureAwait(false);
         
         _webApplicationFactory = new WebApplicationFactory<Program>();
@@ -77,6 +77,9 @@ public class HttpBusinessCalendarClientTests
     public async Task OneTimeTearDown()
     {
         await _mongoDbContainer.StopAsync().ConfigureAwait(false);
+        await _mongoDbContainer.DisposeAsync().ConfigureAwait(false);
+        _httpClient.Dispose();
+        _webApplicationFactory.Dispose();
     }
 
     [Test]

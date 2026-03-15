@@ -6,12 +6,12 @@ COPY /dashboard/ ./
 RUN npm run build
 
 
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 #Copy only project files and restore before build to allow restored packages caching when no changes in project files
 COPY ["BusinessCalendar.WebAPI/BusinessCalendar.WebAPI.csproj", "BusinessCalendar.WebAPI/"]
