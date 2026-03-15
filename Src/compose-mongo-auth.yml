@@ -1,5 +1,3 @@
-version: "3.8"
-
 name: business-calendar
 services:
   web-api:
@@ -15,16 +13,23 @@ services:
       OpenIdConnect__ClientSecret: ${OpenIdConnect_ClientSecret}
       ASPNETCORE_ENVIRONMENT: Production
     depends_on:
-      - mongodb
-      - keycloak
-  
+      mongodb:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+
   mongodb:
-    image: mongo:6.0.4
+    image: mongo:8.0
     ports:
       - "4081:27017"
     volumes:
       - mongo:/data/db
-  
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   keycloak:
     image: quay.io/keycloak/keycloak:22.0.1
     ports:
@@ -37,6 +42,11 @@ services:
       - --import-realm
     volumes:
       - ./Keycloak/business-calendar-demo-realm.json:/opt/keycloak/data/import/business-calendar-demo-realm.json
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/localhost/8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
 
 volumes:
   mongo:

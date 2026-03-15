@@ -141,7 +141,7 @@ public class WorkdayProviderTests
 
         _cacheProviderMock.Setup(cache =>
                 cache.GetOrCreateAsync(It.IsAny<string>(), It.IsAny<Func<Task<CalendarModel>>>()))
-            .ReturnsAsync(new CalendarModel { Year = 2023 });
+            .ReturnsAsync(new CalendarModel { Year = DateTime.Today.Year });
 
         var sut = new WorkdayProvider(_businessCalendarClientMock.Object,
             options => options.UseFullCalendarCache(_cacheProviderMock.Object));

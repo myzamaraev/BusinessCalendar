@@ -6,7 +6,7 @@ using BusinessCalendar.Postgres.Options;
 using BusinessCalendar.WebAPI.Constants;
 using BusinessCalendar.WebAPI.Options;
 using BusinessCalendar.WebAPI.Swagger;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 
 namespace BusinessCalendar.WebAPI.Extensions;
 
@@ -39,7 +39,7 @@ public static class ServiceCollectionExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen(c =>
         {
-            c.MapType<DateOnly>(() => new OpenApiSchema { Type = nameof(String).ToLower(), Format = "date" });
+            c.MapType<DateOnly>(() => new OpenApiSchema { Type = JsonSchemaType.String, Format = "date" });
             if (publicApiOnly)
             {
                 c.DocumentFilter<PublicApiDocumentFilter>();

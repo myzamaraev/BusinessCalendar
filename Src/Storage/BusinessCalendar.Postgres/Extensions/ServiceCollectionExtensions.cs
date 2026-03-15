@@ -62,7 +62,7 @@ public static class ServiceCollectionExtensions
         TimeSpan? timeout = default)
     {
         services.AddHealthChecks()
-            .AddNpgSql(sp => sp.GetRequiredService<IOptions<PostgresOptions>>().Value.ConnectionString,
+            .AddNpgSql(sp => sp.GetRequiredService<NpgsqlDataSource>(),
                 name: name,
                 failureStatus: failureStatus,
                 tags: tags,

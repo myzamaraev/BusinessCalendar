@@ -10,9 +10,9 @@ public class AddCalendarIdentifierRequestValidatorTests
     [TestCase("")]
     [TestCase(" ")]
     [TestCase("  ")]
-    public void Should_return_error_when_key_is_empty(string key)
+    public void Should_return_error_when_key_is_empty(string? key)
     {
-        var calendarId = new AddCalendarIdentifierRequest() { Key = key };
+        var calendarId = new AddCalendarIdentifierRequest() { Key = key! };
         
         var validator = new AddCalendarIdentifierRequestValidator();
         var result = validator.Validate(calendarId);

@@ -47,7 +47,12 @@ public static class ServiceCollectionExtensions
         TimeSpan? timeout = default)
     {
         services.AddHealthChecks()
-            .AddMongoDb(sp => sp.GetRequiredService<IOptions<MongoDbOptions>>().Value.ConnectionUri,
+            .AddMongoDb(sp =>
+                {
+                    var options = sp.GetRequiredService<IOptions<MongoDbOptions>>().Value;
+                    var client = new MongoClient(options.ConnectionUri);
+                    return client.GetDatabase(options.DatabaseName);
+                },
                 name: name,
                 failureStatus: failureStatus,
                 tags: tags,
