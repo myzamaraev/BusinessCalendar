@@ -7,7 +7,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Run (Docker)
 ```bash
 # From Src/
-docker compose -f compose-mongo.yml up --wait        # MongoDB backend
+# Default: use compose-mongo.yml (MongoDB)
+docker compose -f compose-mongo.yml up --wait        # MongoDB backend (default)
 docker compose -f compose-postgres.yml up --wait     # Postgres backend
 docker compose -f compose-mongo-auth.yml up --wait   # MongoDB + Keycloak (users: admin/admin, bc-user/bc-user, bc-manager/bc-manager)
 docker compose -f compose-mongo.yml build --no-cache # Full rebuild
@@ -17,8 +18,12 @@ Service runs at http://localhost:4080.
 ### Run (local backend)
 ```bash
 cd Src
-dotnet run --project BusinessCalendar.WebAPI/BusinessCalendar.WebAPI.csproj
+dotnet build BusinessCalendar.WebAPI/BusinessCalendar.WebAPI.csproj
+dotnet run --project BusinessCalendar.WebAPI/BusinessCalendar.WebAPI.csproj --no-build --launch-profile https
 # Requires a running database — use docker for the DB and run the API locally
+# Runs on http://localhost:5029 and https://localhost:7034 (https profile required for Vite proxy)
+# appsettings.json uses DatabaseType: MongoDb by default
+# appsettings.Development.json: set UseOpenIdConnectAuth: false to skip Keycloak
 ```
 
 ### Frontend dev server
