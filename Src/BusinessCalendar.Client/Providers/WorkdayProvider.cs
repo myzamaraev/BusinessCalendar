@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using BusinessCalendar.Client.Dto;
 
 namespace BusinessCalendar.Client.Providers;
 
@@ -52,7 +53,7 @@ public sealed class WorkdayProvider : IWorkdayProvider
 
             return calendar.IsWorkday(date);
         }
-            
+
         var getDateResponse = await ExecuteWithOptionalCachingAsync(
             $"{nameof(_businessCalendarClient.GetDateAsync)}_{identifier}_{date:yyyy-MM-dd}",
             () => _businessCalendarClient.GetDateAsync(identifier, date))
@@ -61,6 +62,77 @@ public sealed class WorkdayProvider : IWorkdayProvider
         return getDateResponse.IsWorkday;
     }
 
+    /// <inheritdoc/>
+    public Task<DateTime> GetNextWorkday(string identifier, DateTime date, int daysOffset, bool workdaysOnly)
+    {
+        if (workdaysOnly)
+        {
+            return FindWorkdayByWorkdayCount(identifier, date.Date, daysOffset);
+        }
+
+        var targetDate = date.Date.AddDays(daysOffset);
+        return FindFirstWorkdayOnOrAfter(identifier, targetDate);
+    }
+
+    private async Task<DateTime> FindFirstWorkdayOnOrAfter(string identifier, DateTime startDate)
+    {
+        var calendar = await GetCalendarForYear(identifier, startDate.Year).ConfigureAwait(false);
+        var current = startDate;
+        var limit = startDate.AddDays(365);
+
+        while (current <= limit)
+        {
+            if (current.Year != calendar.Year)
+            {
+                calendar = await GetCalendarForYear(identifier, current.Year).ConfigureAwait(false);
+            }
+
+            if (calendar.IsWorkday(current))
+            {
+                return current;
+            }
+
+            current = current.AddDays(1);
+        }
+
+        throw new InvalidOperationException($"No workday found within 365 days from {startDate:yyyy-MM-dd}");
+    }
+
+    private async Task<DateTime> FindWorkdayByWorkdayCount(string identifier, DateTime baseDate, int workdayCount)
+    {
+        var current = baseDate.AddDays(1);
+        var calendar = await GetCalendarForYear(identifier, current.Year).ConfigureAwait(false);
+        var limit = baseDate.AddDays(365);
+        var remaining = workdayCount;
+
+        while (current <= limit)
+        {
+            if (current.Year != calendar.Year)
+            {
+                calendar = await GetCalendarForYear(identifier, current.Year).ConfigureAwait(false);
+            }
+
+            if (calendar.IsWorkday(current))
+            {
+                remaining--;
+                if (remaining == 0)
+                {
+                    return current;
+                }
+            }
+
+            current = current.AddDays(1);
+        }
+
+        throw new InvalidOperationException($"No workday found within 365 days from {baseDate:yyyy-MM-dd}");
+    }
+
+    private Task<CalendarModel> GetCalendarForYear(string identifier, int year)
+    {
+        return ExecuteWithOptionalCachingAsync(
+            $"{nameof(_businessCalendarClient.GetCalendarAsync)}_{identifier}_{year}",
+            () => _businessCalendarClient.GetCalendarAsync(identifier, year));
+    }
 
     private Task<TItem> ExecuteWithOptionalCachingAsync<TItem>(string cacheKey, Func<Task<TItem>> func)
         where TItem: class
@@ -69,7 +141,7 @@ public sealed class WorkdayProvider : IWorkdayProvider
         {
             return _options.CacheProvider
                 .GetOrCreateAsync(
-                    $"{nameof(WorkdayProvider)}_{cacheKey}", 
+                    $"{nameof(WorkdayProvider)}_{cacheKey}",
                     func);
         }
 
